@@ -1,0 +1,14 @@
+SubDir HAIKU_TOP src apps superprefs ;
+
+Application SuperPrefs :
+	App.cpp
+	MainWindow.cpp
+	: be localestub [ TargetLibsupc++ ]
+	: superprefs.rdef
+	;
+
+DoCatalogs SuperPrefs :
+	x-vnd.SuperPrefs
+	:
+	App.cpp
+;
