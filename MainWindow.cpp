@@ -16,22 +16,22 @@ MainWindow::MainWindow()
 	ResizeTo(640, 360);
 	CenterOnScreen();
 
-    fMenuBar = new BMenuBar("MenuBar");
-    fAppMenu = new BMenu("File");
-    fAppMenu->AddItem(new BMenuItem("Close",
-        new BMessage(kMenuAppQuit), 'C', B_COMMAND_KEY));
-    fMenuBar->AddItem(fAppMenu);
+    	fMenuBar = new BMenuBar("MenuBar");
+    	fAppMenu = new BMenu("File");
+    	fAppMenu->AddItem(new BMenuItem("Close",
+        	new BMessage(kMenuAppQuit), 'C', B_COMMAND_KEY));
+    	fMenuBar->AddItem(fAppMenu);
 
-    fAppMenu = new BMenu("Settings");
-    fItem = new BMenuItem("Sort Category wise",
+    	fAppMenu = new BMenu("Settings");
+    	fItem = new BMenuItem("Sort Category wise",
 		new BMessage(kCategorywise));
 	fItem->SetMarked(true);
-    fAppMenu->AddItem(fItem);
-    fItem = new BMenuItem("Sort Alphabetically",
+    	fAppMenu->AddItem(fItem);
+    	fItem = new BMenuItem("Sort Alphabetically",
 		new BMessage(kAlphabeticalwise));
-    fItem->SetMarked(false);
-    fAppMenu->AddItem(fItem);
-    fMenuBar->AddItem(fAppMenu);
+    	fItem->SetMarked(false);
+    	fAppMenu->AddItem(fItem);
+    	fMenuBar->AddItem(fAppMenu);
 
 	fSearch = new BTextControl("SearchBox", "Search:", NULL, NULL);
 	fSearch->MakeFocus(true);
