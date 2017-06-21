@@ -22,6 +22,6 @@ Blog Posts and Discussion regarding the project go at: https://www.haiku-os.org/
 
 **Current preview of the application:**
 
-![Preview.png](img/Preview.png)
+![Preview.png](img/Preview3.png)
 
 Last updated on: June 3, 2017.
