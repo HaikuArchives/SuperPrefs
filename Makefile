@@ -5,7 +5,7 @@
 ## architecture of Haiku.
 
 # The name of the binary.
-NAME = superprefs
+NAME = SuperPrefs
 
 # The type of binary, must be one of:
 #	APP:	Application
@@ -15,7 +15,7 @@ NAME = superprefs
 TYPE = APP
 
 # 	If you plan to use localization, specify the application's MIME signature.
-APP_MIME_SIG = 
+APP_MIME_SIG = x-vnd.SuperPrefs
 
 #	The following lines tell Pe and Eddie where the SRCS, RDEFS, and RSRCS are
 #	so that Pe and Eddie can fill them in for you.
@@ -32,7 +32,7 @@ SRCS =  PadView.cpp MainWindow.cpp LaunchButton.cpp App.cpp
 
 #	Specify the resource definition files to use. Full or relative paths can be
 #	used.
-RDEFS = 
+RDEFS = superprefs.rdef
 
 #	Specify the resource files to use. Full or relative paths can be used.
 #	Both RDEFS and RSRCS can be utilized in the same Makefile.
