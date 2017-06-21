@@ -24,4 +24,4 @@ Blog Posts and Discussion regarding the project go at: https://www.haiku-os.org/
 
 ![Preview.png](img/Preview3.png)
 
-Last updated on: June 3, 2017.
+Last updated on: June 22, 2017.
