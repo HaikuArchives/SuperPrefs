@@ -143,11 +143,12 @@ MainWindow::MainWindow()
 	
 	BButton* bSample = new BButton("RemoteDesktop","Remote Desktop",
 	 new BMessage(MSG_LAUNCH_ICON));
-	BRect bRect(0, 0.0, 15.0, 20.0);
+	BRect bRect(0, 0.0, B_LARGE_ICON - 1, B_LARGE_ICON -1);
 	BBitmap *icon = new BBitmap(bRect, B_CMAP8);	
 	BMimeType mime("application/x-vnd.Haiku-RemoteDesktop");
-	mime.GetIcon(icon, B_MINI_ICON);
+	mime.GetIcon(icon, B_LARGE_ICON);
 	bSample->SetIcon(icon);	
+	
 	BLayoutBuilder::Group<>(fSampleBox, B_VERTICAL, 0)
 		.SetInsets(15)
 		.Add(bSample);
