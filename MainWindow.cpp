@@ -56,19 +56,19 @@ MainWindow::MainWindow()
 	LaunchButton* button = new LaunchButton("launch button", NULL,
 		new BMessage(MSG_LAUNCH));
 	button->SetTo("application/x-vnd.Haiku-Appearance", true);	//1
-	fAppearancePadView->AddButton(button, "Appearance");
+	fAppearancePadView->AddButton(button);
 	//BString work;
 	//work.SetTo("hi");
 	//fAppearancePadView->SendLabel("s");
 	LaunchButton* button2 = new LaunchButton("launch button2", NULL,
 		new BMessage(MSG_LAUNCH));
 	button2->SetTo("application/x-vnd.Haiku-Backgrounds", true);	//2
-	fAppearancePadView->AddButton(button2, "Backgrounds");
+	fAppearancePadView->AddButton(button2);
 
 	LaunchButton* button3 = new LaunchButton("launch button3", NULL,
 		new BMessage(MSG_LAUNCH));
 	button3->SetTo("application/x-vnd.Haiku-Screen", true);	//3
-	fAppearancePadView->AddButton(button3, "Screen");
+	fAppearancePadView->AddButton(button3);
 	
 	fAppearancePadView->SetOrientation((enum orientation)orientation); //orientation-app
 	
@@ -83,17 +83,17 @@ MainWindow::MainWindow()
 	LaunchButton* button4 = new LaunchButton("launch button4", NULL,
 		new BMessage(MSG_LAUNCH));									//4
 	button4->SetTo("application/x-vnd.Haiku-Keyboard", true);
-	fInputPadView->AddButton(button4, "Keyboard");
+	fInputPadView->AddButton(button4);
 
 	LaunchButton* button5 = new LaunchButton("launch button5", NULL,
 		new BMessage(MSG_LAUNCH));									//5
 	button5->SetTo("application/x-vnd.Haiku-Keymap", true);
-	fInputPadView->AddButton(button5, "Keymap");
+	fInputPadView->AddButton(button5);
 
 	LaunchButton* button6 = new LaunchButton("launch button6", NULL,
 		new BMessage(MSG_LAUNCH));									//6
 	button6->SetTo("application/x-vnd.Haiku-Mouse", true);
-	fInputPadView->AddButton(button6, "Mouse");
+	fInputPadView->AddButton(button6);
 
 	fInputPadView->SetOrientation((enum orientation)orientation); //orientation - input
 
@@ -108,26 +108,26 @@ MainWindow::MainWindow()
 	LaunchButton* button7 = new LaunchButton("launch button7", NULL,
 			new BMessage(MSG_LAUNCH));
 	button7->SetTo("application/x-vnd.Haiku-Network", true);	//7
-	fNetworkPadView->AddButton(button7, "Network");
+	fNetworkPadView->AddButton(button7);
 	LaunchButton* button8 = new LaunchButton("launch button8", NULL,
 		new BMessage(MSG_LAUNCH));
 	button8->SetTo("application/x-vnd.Haiku-Locale", true);		//8
-	fNetworkPadView->AddButton(button8, "Locale");
+	fNetworkPadView->AddButton(button8);
 	LaunchButton* button9 = new LaunchButton("launch button9", NULL,
 		new BMessage(MSG_LAUNCH));
 	button9->SetTo("application/x-vnd.Be-PRNT", true);			//9
-	fNetworkPadView->AddButton(button9, "Printer");
+	fNetworkPadView->AddButton(button9);
 
 	//BString labelString = label.String();
 	LaunchButton* button10 = new LaunchButton("launch button10", NULL,
 		 new BMessage(MSG_LAUNCH));
 	button10->SetTo("application/x-vnd.Haiku-RemoteDesktop", true);			//9
-	fNetworkPadView->AddButton(button10, "Remote Desktop");
+	fNetworkPadView->AddButton(button10);
 
 	LaunchButton* button11 = new LaunchButton("launch button11", NULL,
 		 new BMessage(MSG_LAUNCH));
 	button11->SetTo("application/x-vnd.Haiku-BluetoothPrefs", true);			//9
-	fNetworkPadView->AddButton(button11, "Bluetooth");
+	fNetworkPadView->AddButton(button11);
 
 	fNetworkPadView->SetOrientation((enum orientation)orientation); //orientation-net
 	fNetworkBox->SetLabel("Network Preferences:");
@@ -136,15 +136,7 @@ MainWindow::MainWindow()
 		.Add(fNetworkPadView);
 	
 	//End of Network
-	char name[B_FILE_NAME_LENGTH];
-	entry_ref ref;
-	be_roster->FindApp("application/x-vnd.Haiku-RemoteDesktop", &ref);
-	BEntry entry(&ref);
-	entry.GetName(name);
-	BString fString;
-	fString.SetTo(name);
-	BStringView* SampleText = new BStringView("Sample",fString);	
-	
+
 	BLayoutBuilder::Group<>(this, B_HORIZONTAL, 0)
 		.AddGroup(B_VERTICAL, 0)
 			.Add(fMenuBar)
@@ -163,18 +155,7 @@ MainWindow::QuitRequested() {
     return true;
 }
 
-//bool
-//MainWindow::kCall() {
-//
-//char name[B_FILE_NAME_LENGTH];
-//entry_ref ref;
-//be_roster->FindApp("application/x-vnd.Haiku-Locale", &ref);
-//BEntry entry(&ref);
-//entry.GetName(name);
-//
-//return 0;
-//
-//}
+
 void
 MainWindow::MessageReceived(BMessage* message)
 {

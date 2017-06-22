@@ -26,7 +26,6 @@ public:
 
 	// PadView
 			void				AddButton(LaunchButton* button, 
-									const char* fLabel2,
 									LaunchButton* beforeButton = NULL);
 			void				DisplayMenu(BPoint where,
 									LaunchButton* button = NULL) const;
@@ -41,7 +40,7 @@ private:
 			BPoint				fDragOffset;
 			bool				fDragging;
 			bigtime_t			fClickTime;
-			BStringView*		fLabelView;			
+			BStringView*		fLabelView;		
 			BGroupLayout*		fButtonLayout;
 			uint32				fIconSize;
 };

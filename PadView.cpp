@@ -102,11 +102,20 @@ PadView::MouseUp(BPoint where)
 }
 
 void
-PadView::AddButton(LaunchButton* button, const char* fLabel2, 
-	LaunchButton* beforeButton)
-{	
+PadView::AddButton(LaunchButton* button, LaunchButton* beforeButton)
+{
+	
+	char name[B_FILE_NAME_LENGTH];
+	entry_ref ref;	
+	be_roster->FindApp(button->AppSignature(), &ref);
+	BEntry entry(&ref);
+	entry.GetName(name);
+	BString fString;
+	fString.SetTo(name);
+	
 	fLabelView = new BStringView("Label View:",NULL);
-	fLabelView->SetText(fLabel2);
+	fLabelView->SetText(fString);
+	
 	fButtonLayout->AddView(fLabelView);
 	if (beforeButton) {
 		fButtonLayout->AddView(fButtonLayout->IndexOfView(beforeButton), button);
