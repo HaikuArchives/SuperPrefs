@@ -48,23 +48,25 @@
 
 class PadView;
 
+enum {
+	msg_sign					= 'axyz',
+};
+
 class MainWindow : public BWindow {
 public:
                     MainWindow();
     virtual void    MessageReceived(BMessage* message);
 
     virtual bool    QuitRequested();
-    		PadView*			fNetworkPadView;
-    		PadView*			fAppearancePadView;
-            PadView*			fInputPadView;
+   	PadView*		fNetworkPadView;
+    PadView*		fAppearancePadView;
+    PadView*		fInputPadView;
   
 private:
             static const int kMenuAppQuit	= 0000;
             static const int kAlphabeticalwise	= 0001;
             static const int kCategorywise	= 0002;
-            static const int MSG_SETTINGS_CHANGED = 0003;
-			static const int MSG_LAUNCH_ICON = 0004;
-		
+            static const int MSG_SETTINGS_CHANGED = 0003;		
 
             BMenuBar*           fMenuBar;
             BMenuItem*          fItem;
@@ -74,7 +76,7 @@ private:
             BBox*               fNetworkBox;
             BBox*               fSampleBox;
             BTextControl*       fSearch;
-            char*				fAppSig;            
+            char*				fAppSig;           
             bool				fSettingsChanged;
             int32 				orientation;
 };

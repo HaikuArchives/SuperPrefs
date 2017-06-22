@@ -51,7 +51,7 @@ MainWindow::MainWindow()
 	fAppearanceBox->SetLabel("Appearance Preferences:");
 	fNetworkBox->SetLabel("Network Preferences:");
 	fInputBox->SetLabel("Input Preferences:");
-	fSampleBox->SetLabel("Sample Box - BButton");
+	
 	
 	//Appearance
 
@@ -140,12 +140,16 @@ MainWindow::MainWindow()
 	//End of Network
 	
 	//Sample button
+	BMimeType mime("application/x-vnd.Haiku-Locale");
 	
-	BButton* bSample = new BButton("RemoteDesktop","Remote Desktop",
-	 new BMessage(MSG_LAUNCH_ICON));
+	BMessage* msg = new BMessage(msg_sign);
+	msg->AddString("mime_val","application/x-vnd.Haiku-Locale");
+	
+	BButton* bSample = new BButton("Locale","Locale", msg);
+	 
 	BRect bRect(0, 0.0, B_LARGE_ICON - 1, B_LARGE_ICON -1);
 	BBitmap *icon = new BBitmap(bRect, B_CMAP8);	
-	BMimeType mime("application/x-vnd.Haiku-RemoteDesktop");
+	
 	mime.GetIcon(icon, B_LARGE_ICON);
 	bSample->SetIcon(icon);	
 	
@@ -153,7 +157,7 @@ MainWindow::MainWindow()
 		.SetInsets(15)
 		.Add(bSample);
 	
-
+	
 	BLayoutBuilder::Group<>(this, B_HORIZONTAL, 0)
 		.AddGroup(B_VERTICAL, 0)
 			.Add(fMenuBar)
@@ -177,7 +181,10 @@ void
 MainWindow::MessageReceived(BMessage* message)
 {
         switch(message->what) {
-        	case MSG_LAUNCH_ICON: {
+        	case msg_sign: {
+        		 BString AppSign;
+        		 AppSign = message->GetString("mime_val");
+        		 be_roster->Launch(AppSign);        		  
         		break;
         	}        	
 			case MSG_SETTINGS_CHANGED: {
