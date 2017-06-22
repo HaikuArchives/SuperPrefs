@@ -63,7 +63,8 @@ private:
             static const int kAlphabeticalwise	= 0001;
             static const int kCategorywise	= 0002;
             static const int MSG_SETTINGS_CHANGED = 0003;
-
+			static const int MSG_LAUNCH_ICON = 0004;
+		
 
             BMenuBar*           fMenuBar;
             BMenuItem*          fItem;
@@ -71,6 +72,7 @@ private:
             BBox*               fInputBox;
             BBox*               fAppearanceBox;  
             BBox*               fNetworkBox;
+            BBox*               fSampleBox;
             BTextControl*       fSearch;
             char*				fAppSig;            
             bool				fSettingsChanged;

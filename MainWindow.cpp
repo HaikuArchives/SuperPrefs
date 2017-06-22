@@ -46,10 +46,12 @@ MainWindow::MainWindow()
 	fAppearanceBox = new BBox((char*) NULL);
 	fInputBox = new BBox((char*)NULL);
 	fNetworkBox = new BBox((char*)NULL);
+	fSampleBox = new BBox((char*)NULL);
 	
 	fAppearanceBox->SetLabel("Appearance Preferences:");
 	fNetworkBox->SetLabel("Network Preferences:");
 	fInputBox->SetLabel("Input Preferences:");
+	fSampleBox->SetLabel("Sample Box - BButton");
 	
 	//Appearance
 
@@ -136,6 +138,16 @@ MainWindow::MainWindow()
 		.Add(fNetworkPadView);
 	
 	//End of Network
+	
+	BButton* bSample = new BButton("cond","SampleLabel",
+	 new BMessage(MSG_LAUNCH_ICON));
+	 
+	BBitmap* icon = new BBitmap(BRect(0,0,15,15), B_CMAP8);
+	
+	bSample->SetIcon(icon);
+	BLayoutBuilder::Group<>(fSampleBox, B_VERTICAL, 0)
+		.SetInsets(15)
+		.Add(bSample);
 
 	BLayoutBuilder::Group<>(this, B_HORIZONTAL, 0)
 		.AddGroup(B_VERTICAL, 0)
@@ -145,7 +157,7 @@ MainWindow::MainWindow()
 			.Add(fAppearanceBox)
 			.Add(fInputBox)
 			.Add(fNetworkBox)
-			//.Add(SampleText)
+			.Add(fSampleBox)
 	.End();
 }
 
@@ -160,6 +172,9 @@ void
 MainWindow::MessageReceived(BMessage* message)
 {
         switch(message->what) {
+        	case MSG_LAUNCH_ICON: {
+        		break;
+        	}        	
 			case MSG_SETTINGS_CHANGED: {
 				fSettingsChanged = true;
 				break;}
