@@ -71,6 +71,9 @@ private:
             static const int MSG_SETTINGS_CHANGED = 0003;		
 			
 			BMessage* 			msg;
+			BGroupLayout*		AppearanceLayout;
+			BGroupLayout*		InputLayout;
+			BGroupLayout*		NetworkLayout;
 			BString				fAppName;
             BMenuBar*           fMenuBar;
             BMenuItem*          fItem;

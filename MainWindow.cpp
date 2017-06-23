@@ -51,104 +51,69 @@ MainWindow::MainWindow()
 	fAppearanceBox->SetLabel("Appearance Preferences:");
 	fNetworkBox->SetLabel("Network Preferences:");
 	fInputBox->SetLabel("Input Preferences:");
+	fSampleBox->SetLabel("Sample Box - Test Area");
 	
-	
-	//Appearance
-
-	LaunchButton* button = new LaunchButton("launch button", NULL,
-		new BMessage(MSG_LAUNCH));
-	button->SetTo("application/x-vnd.Haiku-Appearance", true);	//1
-	fAppearancePadView->AddButton(button);
-	//BString work;
-	//work.SetTo("hi");
-	//fAppearancePadView->SendLabel("s");
-	LaunchButton* button2 = new LaunchButton("launch button2", NULL,
-		new BMessage(MSG_LAUNCH));
-	button2->SetTo("application/x-vnd.Haiku-Backgrounds", true);	//2
-	fAppearancePadView->AddButton(button2);
-
-	LaunchButton* button3 = new LaunchButton("launch button3", NULL,
-		new BMessage(MSG_LAUNCH));
-	button3->SetTo("application/x-vnd.Haiku-Screen", true);	//3
-	fAppearancePadView->AddButton(button3);
-	
-	fAppearancePadView->SetOrientation((enum orientation)orientation); //orientation-app
-	
-	BLayoutBuilder::Group<>(fAppearanceBox, B_VERTICAL, 0)
+	BString AppearanceSign[3] = {"application/x-vnd.Haiku-Appearance",
+	 "application/x-vnd.Haiku-Backgrounds", "application/x-vnd.Haiku-Screen" };
+	 
+	AppearanceLayout = BLayoutBuilder::Group<>
+		(fAppearanceBox, B_HORIZONTAL, 0)
 		.SetInsets(15)
-		.Add(fAppearancePadView);
+	.Layout();
+	
+	for(int i=0; i<3; i++) {
+		msg = new BMessage(msg_sign);
+		msg->AddString("mime_val", AppearanceSign[i]);
+	
+		bGetName(AppearanceSign[i], &fAppName);		
+		BButton* bSample = new BButton(fAppName, fAppName, msg);
+		bSetIcon(bSample, AppearanceSign[i]);	
+		BLayoutItem* layout = AppearanceLayout->AddView(bSample);
+	}
+	
+	BString InputSign[3] = {"application/x-vnd.Haiku-Keyboard",
+	 "application/x-vnd.Haiku-Keymap", "application/x-vnd.Haiku-Mouse" };
+	 
+	InputLayout = BLayoutBuilder::Group<>
+		(fInputBox, B_HORIZONTAL, 0)
+		.SetInsets(15)
+	.Layout();
+	
+	for(int i=0; i<3; i++) {
+		msg = new BMessage(msg_sign);
+		msg->AddString("mime_val", InputSign[i]);
+	
+		bGetName(InputSign[i], &fAppName);		
+		BButton* bSample = new BButton(fAppName, fAppName, msg);
+		bSetIcon(bSample, InputSign[i]);	
+		BLayoutItem* layout = InputLayout->AddView(bSample);
+	}
 		
-	//End of appearance
-	
-	//Input 
-	
-	LaunchButton* button4 = new LaunchButton("launch button4", NULL,
-		new BMessage(MSG_LAUNCH));									//4
-	button4->SetTo("application/x-vnd.Haiku-Keyboard", true);
-	fInputPadView->AddButton(button4);
-
-	LaunchButton* button5 = new LaunchButton("launch button5", NULL,
-		new BMessage(MSG_LAUNCH));									//5
-	button5->SetTo("application/x-vnd.Haiku-Keymap", true);
-	fInputPadView->AddButton(button5);
-
-	LaunchButton* button6 = new LaunchButton("launch button6", NULL,
-		new BMessage(MSG_LAUNCH));									//6
-	button6->SetTo("application/x-vnd.Haiku-Mouse", true);
-	fInputPadView->AddButton(button6);
-
-	fInputPadView->SetOrientation((enum orientation)orientation); //orientation - input
-
-	BLayoutBuilder::Group<>(fInputBox, B_VERTICAL, 0)
+	BString NetworkSign[3] = {"application/x-vnd.Be-MAIL",
+	 "application/x-vnd.Haiku-Network", "application/x-vnd.Haiku-RemoteDesktop" };
+	 
+	NetworkLayout = BLayoutBuilder::Group<>
+		(fNetworkBox, B_HORIZONTAL, 0)
 		.SetInsets(15)
-		.Add(fInputPadView);
+	.Layout();
 	
-	//End of Input
-
-	//Network
+	for(int i=0; i<3; i++) {
+		msg = new BMessage(msg_sign);
+		msg->AddString("mime_val", NetworkSign[i]);
 	
-	LaunchButton* button7 = new LaunchButton("launch button7", NULL,
-			new BMessage(MSG_LAUNCH));
-	button7->SetTo("application/x-vnd.Haiku-Network", true);	//7
-	fNetworkPadView->AddButton(button7);
-	LaunchButton* button8 = new LaunchButton("launch button8", NULL,
-		new BMessage(MSG_LAUNCH));
-	button8->SetTo("application/x-vnd.Haiku-Locale", true);		//8
-	fNetworkPadView->AddButton(button8);
-	LaunchButton* button9 = new LaunchButton("launch button9", NULL,
-		new BMessage(MSG_LAUNCH));
-	button9->SetTo("application/x-vnd.Be-PRNT", true);			//9
-	fNetworkPadView->AddButton(button9);
-
-	//BString labelString = label.String();
-	LaunchButton* button10 = new LaunchButton("launch button10", NULL,
-		 new BMessage(MSG_LAUNCH));
-	button10->SetTo("application/x-vnd.Haiku-RemoteDesktop", true);			//9
-	fNetworkPadView->AddButton(button10);
-
-	LaunchButton* button11 = new LaunchButton("launch button11", NULL,
-		 new BMessage(MSG_LAUNCH));
-	button11->SetTo("application/x-vnd.Haiku-BluetoothPrefs", true);			//9
-	fNetworkPadView->AddButton(button11);
-
-	fNetworkPadView->SetOrientation((enum orientation)orientation); //orientation-net
-	fNetworkBox->SetLabel("Network Preferences:");
-	BLayoutBuilder::Group<>(fNetworkBox, B_VERTICAL, 0)
-		.SetInsets(15)
-		.Add(fNetworkPadView);
+		bGetName(NetworkSign[i], &fAppName);		
+		BButton* bSample = new BButton(fAppName, fAppName, msg);
+		bSetIcon(bSample, NetworkSign[i]);	
+		BLayoutItem* layout = NetworkLayout->AddView(bSample);
+	}
 	
-	//End of Network
-	
-	//Sample Box
+	BString AppSign[2] = {"application/x-vnd.Haiku-Locale",
+	 "application/x-vnd.Haiku-BluetoothPrefs"};
+
 	BGroupLayout* GroupLayout =	BLayoutBuilder::Group<>
 		(fSampleBox, B_HORIZONTAL, 0)
 			.SetInsets(10)
 	.Layout();
-	
-	//Sample button
-	
-	BString AppSign[2] = {"application/x-vnd.Haiku-Locale",
-	 "application/x-vnd.Haiku-BluetoothPrefs"};
 	
 	for(int i=0; i<2; i++) {
 		msg = new BMessage(msg_sign);
@@ -160,7 +125,6 @@ MainWindow::MainWindow()
 		BLayoutItem* layout = GroupLayout->AddView(bSample);
 	}
 	
-	//End of Sample
 	BLayoutBuilder::Group<>(this, B_HORIZONTAL, 0)
 		.AddGroup(B_VERTICAL, 0)
 			.Add(fMenuBar)
