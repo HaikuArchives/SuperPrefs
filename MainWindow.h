@@ -56,7 +56,7 @@ class MainWindow : public BWindow {
 public:
                     MainWindow();
     virtual void    MessageReceived(BMessage* message);
-
+			void	bSetIcon(BButton* button);
     virtual bool    QuitRequested();
    	PadView*		fNetworkPadView;
     PadView*		fAppearancePadView;

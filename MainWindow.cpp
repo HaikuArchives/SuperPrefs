@@ -140,23 +140,16 @@ MainWindow::MainWindow()
 	//End of Network
 	
 	//Sample button
-	BMimeType mime("application/x-vnd.Haiku-Locale");
-	
 	BMessage* msg = new BMessage(msg_sign);
-	msg->AddString("mime_val","application/x-vnd.Haiku-Locale");
-	
 	BButton* bSample = new BButton("Locale","Locale", msg);
-	 
-	BRect bRect(0, 0.0, B_LARGE_ICON - 1, B_LARGE_ICON -1);
-	BBitmap *icon = new BBitmap(bRect, B_CMAP8);	
+	bSetIcon(bSample);
 	
-	mime.GetIcon(icon, B_LARGE_ICON);
-	bSample->SetIcon(icon);	
+	
+	msg->AddString("mime_val","application/x-vnd.Haiku-Locale");	
 	
 	BLayoutBuilder::Group<>(fSampleBox, B_VERTICAL, 0)
 		.SetInsets(15)
-		.Add(bSample);
-	
+		.Add(bSample);	
 	
 	BLayoutBuilder::Group<>(this, B_HORIZONTAL, 0)
 		.AddGroup(B_VERTICAL, 0)
@@ -170,6 +163,16 @@ MainWindow::MainWindow()
 	.End();
 }
 
+void 
+MainWindow::bSetIcon(BButton* button) {
+	
+	BMimeType mime("application/x-vnd.Haiku-Locale"); 
+	BRect bRect(0, 0.0, B_LARGE_ICON - 1, B_LARGE_ICON -1);
+	BBitmap *icon = new BBitmap(bRect, B_CMAP8);	
+	
+	mime.GetIcon(icon, B_LARGE_ICON);
+	button->SetIcon(icon);	
+}
 
 bool
 MainWindow::QuitRequested() {
