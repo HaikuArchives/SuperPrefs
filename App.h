@@ -21,7 +21,7 @@ class App: public BApplication
 public:
                         App();
 		void			AboutRequested();
-		//void 			MessageReceived(BMessage* message);
+
 private:
             MainWindow* fMainWindow;
 };

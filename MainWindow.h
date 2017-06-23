@@ -9,8 +9,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "PadView.h"
-#include "LaunchButton.h"
 #include <new>
 #include <stdio.h>
 #include <string.h>
@@ -47,10 +45,8 @@
 #include <Roster.h>
 #include <IconButton.h>
 
-class PadView;
-
 enum {
-	msg_sign					= 'axyz',
+	MSG_SIGN					= 'axyz',
 };
 
 class MainWindow : public BWindow {
@@ -60,17 +56,13 @@ public:
 			void	bSetIcon(BButton* button, BString AppSign);
 			void	bGetName(BString AppSign, BString* fAppName);
     virtual bool    QuitRequested();
-   	PadView*		fNetworkPadView;
-    PadView*		fAppearancePadView;
-    PadView*		fInputPadView;
-  
+ 
 private:
             static const int kMenuAppQuit	= 0000;
             static const int kAlphabeticalwise	= 0001;
             static const int kCategorywise	= 0002;
-            static const int MSG_SETTINGS_CHANGED = 0003;		
 			
-			BMessage* 			msg;
+			BMessage* 			mButton;
 			BGroupLayout*		AppearanceLayout;
 			BGroupLayout*		InputLayout;
 			BGroupLayout*		NetworkLayout;
@@ -84,8 +76,6 @@ private:
             BBox*               fSampleBox;
             BTextControl*       fSearch;
             char*				fAppSig;           
-            bool				fSettingsChanged;
-            int32 				orientation;
 };
 
 #endif
