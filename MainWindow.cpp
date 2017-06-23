@@ -139,23 +139,28 @@ MainWindow::MainWindow()
 	
 	//End of Network
 	
+	//Sample Box
+	BGroupLayout* GroupLayout =	BLayoutBuilder::Group<>
+		(fSampleBox, B_HORIZONTAL, 0)
+			.SetInsets(10)
+	.Layout();
+	
 	//Sample button
 	
-	BString AppSign = "application/x-vnd.Haiku-Locale";
+	BString AppSign[2] = {"application/x-vnd.Haiku-Locale",
+	 "application/x-vnd.Haiku-BluetoothPrefs"};
 	
-	msg = new BMessage(msg_sign);
-	msg->AddString("mime_val", AppSign);
+	for(int i=0; i<2; i++) {
+		msg = new BMessage(msg_sign);
+		msg->AddString("mime_val", AppSign[i]);
 	
-	bGetName(AppSign, &fAppName);		
-	BButton* bSample = new BButton(fAppName, fAppName, msg);
-	bSetIcon(bSample, AppSign);	
-	
-	BLayoutBuilder::Group<>(fSampleBox, B_VERTICAL, 0)
-		.SetInsets(15)
-		.Add(bSample);	
+		bGetName(AppSign[i], &fAppName);		
+		BButton* bSample = new BButton(fAppName, fAppName, msg);
+		bSetIcon(bSample, AppSign[i]);	
+		BLayoutItem* layout = GroupLayout->AddView(bSample);
+	}
 	
 	//End of Sample
-	
 	BLayoutBuilder::Group<>(this, B_HORIZONTAL, 0)
 		.AddGroup(B_VERTICAL, 0)
 			.Add(fMenuBar)
@@ -193,7 +198,6 @@ bool
 MainWindow::QuitRequested() {
     return true;
 }
-
 
 void
 MainWindow::MessageReceived(BMessage* message)
@@ -277,7 +281,7 @@ MainWindow::MessageReceived(BMessage* message)
 				alert->Go(NULL);
 			}
 			break;
-		}
+			}
             case kMenuAppQuit:
             {
                 be_app->PostMessage(B_QUIT_REQUESTED);
