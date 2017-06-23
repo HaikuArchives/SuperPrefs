@@ -56,7 +56,8 @@ class MainWindow : public BWindow {
 public:
                     MainWindow();
     virtual void    MessageReceived(BMessage* message);
-			void	bSetIcon(BButton* button);
+			void	bSetIcon(BButton* button, BString AppSign);
+			void	bGetName(BString AppSign, BString* fAppName);
     virtual bool    QuitRequested();
    	PadView*		fNetworkPadView;
     PadView*		fAppearancePadView;
@@ -67,7 +68,9 @@ private:
             static const int kAlphabeticalwise	= 0001;
             static const int kCategorywise	= 0002;
             static const int MSG_SETTINGS_CHANGED = 0003;		
-
+			
+			BMessage* 			msg;
+			BString				fAppName;
             BMenuBar*           fMenuBar;
             BMenuItem*          fItem;
             BMenu*              fAppMenu;

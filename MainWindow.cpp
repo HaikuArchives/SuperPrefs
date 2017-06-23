@@ -140,16 +140,21 @@ MainWindow::MainWindow()
 	//End of Network
 	
 	//Sample button
-	BMessage* msg = new BMessage(msg_sign);
-	BButton* bSample = new BButton("Locale","Locale", msg);
-	bSetIcon(bSample);
 	
+	BString AppSign = "application/x-vnd.Haiku-Locale";
 	
-	msg->AddString("mime_val","application/x-vnd.Haiku-Locale");	
+	msg = new BMessage(msg_sign);
+	msg->AddString("mime_val", AppSign);
+	
+	bGetName(AppSign, &fAppName);		
+	BButton* bSample = new BButton(fAppName, fAppName, msg);
+	bSetIcon(bSample, AppSign);	
 	
 	BLayoutBuilder::Group<>(fSampleBox, B_VERTICAL, 0)
 		.SetInsets(15)
 		.Add(bSample);	
+	
+	//End of Sample
 	
 	BLayoutBuilder::Group<>(this, B_HORIZONTAL, 0)
 		.AddGroup(B_VERTICAL, 0)
@@ -163,10 +168,20 @@ MainWindow::MainWindow()
 	.End();
 }
 
-void 
-MainWindow::bSetIcon(BButton* button) {
+void
+MainWindow::bGetName(BString AppSign, BString* fAppName) {
+	char name[B_FILE_NAME_LENGTH];
+	entry_ref ref;	
+	be_roster->FindApp(AppSign, &ref);
+	BEntry entry(&ref);
+	entry.GetName(name);
+	fAppName->SetTo(name);
+}
 	
-	BMimeType mime("application/x-vnd.Haiku-Locale"); 
+void 
+MainWindow::bSetIcon(BButton* button, BString AppSign) {
+	
+	BMimeType mime(AppSign); 
 	BRect bRect(0, 0.0, B_LARGE_ICON - 1, B_LARGE_ICON -1);
 	BBitmap *icon = new BBitmap(bRect, B_CMAP8);	
 	

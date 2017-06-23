@@ -110,11 +110,9 @@ PadView::AddButton(LaunchButton* button, LaunchButton* beforeButton)
 	be_roster->FindApp(button->AppSignature(), &ref);
 	BEntry entry(&ref);
 	entry.GetName(name);
-	BString fString;
-	fString.SetTo(name);
-	
+
 	fLabelView = new BStringView("Label View:",NULL);
-	fLabelView->SetText(fString);
+	fLabelView->SetText(name);
 	
 	fButtonLayout->AddView(fLabelView);
 	if (beforeButton) {
