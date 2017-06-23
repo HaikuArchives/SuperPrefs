@@ -7,6 +7,7 @@
  */
 
 #include "App.h"
+#include <private/interface/AboutWindow.h>
 
 const char* kAppName = "SuperPrefs";
 const char* kSignature = "application/x-vnd.SuperPrefs";
@@ -17,6 +18,16 @@ App::App()
 {
 	fMainWindow = new MainWindow();
 	fMainWindow->Show();
+}
+
+void
+App::AboutRequested() {
+	BAboutWindow* about = new BAboutWindow(kAppName, kSignature);
+	about->AddDescription("Control Panel with Search for Haiku");
+	about->AddCopyright(2017, 
+		"\nAnirudh M\n(m.anirudh18@gmail.com)\nhttp://www.anirudhmurali.com");
+	about->SetVersion("1.0");
+	about->Show();
 }
 
 int

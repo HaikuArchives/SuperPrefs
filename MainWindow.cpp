@@ -34,8 +34,14 @@ MainWindow::MainWindow()
     fAppMenu->AddItem(fItem);
     fItem = new BMenuItem("Sort Alphabetically", new BMessage(kAlphabeticalwise));
 	fItem->SetMarked(false);
-    fAppMenu->AddItem(fItem);fMenuBar->AddItem(fAppMenu);
-
+    fAppMenu->AddItem(fItem);
+    fMenuBar->AddItem(fAppMenu);
+    fAppMenu = new BMenu("Help..");
+    BMenuItem* item = new BMenuItem("About..", new BMessage(B_ABOUT_REQUESTED));
+	item->SetTarget(be_app);
+	fAppMenu->AddItem(item);
+	fMenuBar->AddItem(fAppMenu);
+	
     //Search Bar
 
 	fSearch = new BTextControl("SearchBox", "Search:", NULL, NULL);
@@ -172,7 +178,7 @@ MainWindow::MessageReceived(BMessage* message)
         		 AppSign = message->GetString("mime_val");
         		 be_roster->Launch(AppSign);        		  
         		break;
-        	}        	
+        	}       
 			case MSG_SETTINGS_CHANGED: {
 				fSettingsChanged = true;
 				break;}
