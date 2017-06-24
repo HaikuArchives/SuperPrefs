@@ -15,7 +15,7 @@ MainWindow::MainWindow()
 	 B_QUIT_ON_WINDOW_CLOSE)
 {
 
-	ResizeTo(720, 720);
+	ResizeTo(720, 420);
 	CenterOnScreen();
 	
 	//Menubar items
@@ -92,8 +92,8 @@ MainWindow::MainWindow()
 		layout = InputLayout->AddView(button);
 	}
 		
-	BString NetworkSign[3] = {"application/x-vnd.Be-MAIL",
-	 "application/x-vnd.Haiku-Network", "application/x-vnd.Haiku-RemoteDesktop" };
+	BString NetworkSign[3] = {"application/x-vnd.Haiku-Mail",
+	 "application/x-vnd.Haiku-Network", "application/x-vnd.Haiku-BluetoothPrefs" };
 	 
 	NetworkLayout = BLayoutBuilder::Group<>
 		(fNetworkBox, B_HORIZONTAL, 0)
@@ -150,22 +150,6 @@ MainWindow::MainWindow()
 		NameSign[fAppName]=sign;
 	}	
 	
-	map<BString,BString>::iterator 
-		it = NameSign.begin();				//Iterator to mymap
-	
-
-	
-	for(int i = 0 ; i < 24 ; ++i) {
-		BStringView* NameView = new BStringView("Name:", it->first);
-		if(i!=23) ++it;
-		layout = GroupLayout->AddView(NameView);
-	}
-			
-
-	BStringView* SignView = new BStringView("Sign:", it->first);
-	//	std::sort(vPath.begin(),vPath.begin()+vPath.size());
-	//	std::sort(vSign.begin(),vSign.begin()+vSign.size());
-	
 	BLayoutBuilder::Group<>(this, B_HORIZONTAL, 0)
 		.AddGroup(B_VERTICAL, 0)
 			.Add(fMenuBar)
@@ -180,12 +164,11 @@ MainWindow::MainWindow()
 
 void
 MainWindow::bGetName(BString AppSign, BString* fAppName) {
-	char name[B_FILE_NAME_LENGTH];
 	entry_ref ref;	
 	be_roster->FindApp(AppSign, &ref);
-	BEntry entry(&ref);
-	entry.GetName(name);
-	fAppName->SetTo(name);
+	BString name;
+	BLocaleRoster::Default()->GetLocalizedFileName(name, ref);
+	*fAppName = name;
 }
 	
 void 
@@ -225,3 +208,14 @@ MainWindow::MessageReceived(BMessage* message)
                 break;
         }
 }
+
+//	map<BString,BString>::iterator 
+//		it = NameSign.begin();				//Iterator to NameSign
+//	
+//	for(int i = 0 ; i < 24 ; ++i) {
+//		BStringView* NameView = new BStringView("Name:", it->first);
+//		if(i!=23) ++it;
+//		layout = GroupLayout->AddView(NameView);
+//	}			
+//
+//	BStringView* SignView = new BStringView("Sign:", it->first);

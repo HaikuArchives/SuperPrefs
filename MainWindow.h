@@ -36,6 +36,7 @@
 #include <GroupLayoutBuilder.h>
 #include <LayoutBuilder.h>
 #include <LayoutItem.h>
+#include <LocaleRoster.h>
 #include <InterfaceKit.h>
 #include <MenuBar.h>
 #include <Path.h>
