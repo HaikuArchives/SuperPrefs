@@ -70,6 +70,7 @@ private:
 			BGroupLayout*		AppearanceLayout;
 			BGroupLayout*		InputLayout;
 			BGroupLayout*		NetworkLayout;
+			BLayoutItem* 		layout;
 			BString				fAppName;
             BMenuBar*           fMenuBar;
             BMenuItem*          fItem;
@@ -79,7 +80,7 @@ private:
             BBox*               fNetworkBox;
             BBox*               fSampleBox;
             BTextControl*       fSearch;
-            char*				fAppSig;           
+            char*				fAppSig;                      
 };
 
 #endif

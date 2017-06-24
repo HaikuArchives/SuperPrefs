@@ -69,9 +69,9 @@ MainWindow::MainWindow()
 		mButton->AddString("mime_val", AppearanceSign[i]);
 	
 		bGetName(AppearanceSign[i], &fAppName);		
-		BButton* bSample = new BButton(fAppName, fAppName, mButton);
-		bSetIcon(bSample, AppearanceSign[i]);	
-		BLayoutItem* layout = AppearanceLayout->AddView(bSample);
+		BButton* button = new BButton(fAppName, fAppName, mButton);
+		bSetIcon(button, AppearanceSign[i]);	
+		layout = AppearanceLayout->AddView(button);
 	}
 	
 	BString InputSign[3] = {"application/x-vnd.Haiku-Keyboard",
@@ -87,9 +87,9 @@ MainWindow::MainWindow()
 		mButton->AddString("mime_val", InputSign[i]);
 	
 		bGetName(InputSign[i], &fAppName);		
-		BButton* bSample = new BButton(fAppName, fAppName, mButton);
-		bSetIcon(bSample, InputSign[i]);	
-		BLayoutItem* layout = InputLayout->AddView(bSample);
+		BButton* button = new BButton(fAppName, fAppName, mButton);
+		bSetIcon(button, InputSign[i]);	
+		layout = InputLayout->AddView(button);
 	}
 		
 	BString NetworkSign[3] = {"application/x-vnd.Be-MAIL",
@@ -105,29 +105,20 @@ MainWindow::MainWindow()
 		mButton->AddString("mime_val", NetworkSign[i]);
 	
 		bGetName(NetworkSign[i], &fAppName);		
-		BButton* bSample = new BButton(fAppName, fAppName, mButton);
-		bSetIcon(bSample, NetworkSign[i]);	
-		BLayoutItem* layout = NetworkLayout->AddView(bSample);
+		BButton* button = new BButton(fAppName, fAppName, mButton);
+		bSetIcon(button, NetworkSign[i]);	
+		layout = NetworkLayout->AddView(button);
 	}
 	
-	BString AppSign[2] = {"application/x-vnd.Haiku-Locale",
-	 "application/x-vnd.Haiku-BluetoothPrefs"};
-
 	BGroupLayout* GroupLayout =	BLayoutBuilder::Group<>
-		(fSampleBox, B_HORIZONTAL, 0)
-			.SetInsets(10)
+		(fSampleBox, B_VERTICAL, 0)
+		.SetInsets(15)
 	.Layout();
+
+	//End of layout
 	
-	for(int i=0; i<2; i++) {
-		mButton = new BMessage(MSG_SIGN);
-		mButton->AddString("mime_val", AppSign[i]);
-	
-		bGetName(AppSign[i], &fAppName);		
-		BButton* bSample = new BButton(fAppName, fAppName, mButton);
-		bSetIcon(bSample, AppSign[i]);	
-		BLayoutItem* layout = GroupLayout->AddView(bSample);
-	}
-	
+	// Code to fetch Directory listings
+			
 	BPath path;	
 	find_directory(B_SYSTEM_PREFERENCES_DIRECTORY, &path, true);
 	BDirectory directory;
@@ -139,24 +130,35 @@ MainWindow::MainWindow()
 //	size_t path_count;
 //	find_paths(B_FIND_PATH_PREFERENCES_DIRECTORY, NULL, &paths, path_count);
 
-	vector<BString> vSign;
-	vector<BString> vPath;
-	map<BString,BString> mymap;
+	vector<BString> vSign;				//To hold Signature of all Prefs
+	vector<BString> vPath;				//To hold Path of all Prefs
+	vector<BString> vName; 				//To hold Name of all Prefs
+				
+	map<BString,BString> NameSign;			//To map Name, Signature
+	
 	while(directory.GetNextRef(&ref)==B_OK) {
 		char sign[B_MIME_TYPE_LENGTH];
 		entry.SetTo(&ref, false);		
 		entry.GetPath(&path);	
-		vPath.push_back(path.Path());
 		BFile file(&entry, B_READ_ONLY);
 		BAppFileInfo fileinfo(&file);
 		fileinfo.GetSignature(sign);
-		vSign.push_back(sign);
+		vPath.push_back(path.Path());	//Pushing path
+		vSign.push_back(sign);			//Pushing sign
+		bGetName(sign, &fAppName);
+		vName.push_back(fAppName);		//Pushing name
 	}
 	
-	mymap[vSign[0]]=vPath[0];
-	map<BString,BString>::iterator it = mymap.begin();
-	BStringView* sv = new BStringView("Path", it->second);	
-	BLayoutItem* layout = GroupLayout->AddView(sv);	
+	NameSign[vName[0]]=vSign[0];
+	
+	map<BString,BString>::iterator 
+		it = NameSign.begin();				//Iterator to mymap
+	
+	BStringView* NameView = new BStringView("Name:", it->first);
+	BStringView* SignView = new BStringView("Sign:", it->second);	
+	
+	layout = GroupLayout->AddView(NameView);	
+	layout = GroupLayout->AddView(SignView);	
 	
 	//	std::sort(vPath.begin(),vPath.begin()+vPath.size());
 	//	std::sort(vSign.begin(),vSign.begin()+vSign.size());
