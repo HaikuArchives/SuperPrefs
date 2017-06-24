@@ -147,10 +147,12 @@ MainWindow::MainWindow()
 		entry.GetPath(&path1);	
 		vPath.push_back(path1.Path());
 	}
-
-		BStringView* sv = new BStringView("Path", vPath[0]);
-	BLayoutItem* layout = GroupLayout->AddView(sv);
 	
+	char size[100];
+	sprintf(size, "%d", vPath.size());
+	
+	BStringView* sv = new BStringView("Path", size);
+	BLayoutItem* layout = GroupLayout->AddView(sv);	
 	
 	BLayoutBuilder::Group<>(this, B_HORIZONTAL, 0)
 		.AddGroup(B_VERTICAL, 0)
