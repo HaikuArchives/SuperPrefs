@@ -128,6 +128,17 @@ MainWindow::MainWindow()
 		BLayoutItem* layout = GroupLayout->AddView(bSample);
 	}
 	
+	BPath path;
+	find_directory(B_SYSTEM_PREFERENCES_DIRECTORY, &path, true);
+	BDirectory directory;
+	entry_ref ref;
+	BEntry entry;
+	directory.SetTo(path.Path());
+		
+//	BSymLink link("/boot/system/preferences/");
+//	char buf[100];
+//	link.ReadLink(buf, 100);
+
 	BLayoutBuilder::Group<>(this, B_HORIZONTAL, 0)
 		.AddGroup(B_VERTICAL, 0)
 			.Add(fMenuBar)

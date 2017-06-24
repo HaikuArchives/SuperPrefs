@@ -10,6 +10,9 @@
 #define MAINWINDOW_H
 
 #include <new>
+#include <Directory.h>
+#include <FindDirectory.h>
+#include <SymLink.h>
 #include <stdio.h>
 #include <string.h>
 #include <View.h>
