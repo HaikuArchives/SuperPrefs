@@ -138,7 +138,20 @@ MainWindow::MainWindow()
 //	BSymLink link("/boot/system/preferences/");
 //	char buf[100];
 //	link.ReadLink(buf, 100);
+	
+	vector<BString> vPath;
+	
+	while(directory.GetNextRef(&ref)==B_OK) {
+		entry.SetTo(&ref, false);
+		BPath path1;
+		entry.GetPath(&path1);	
+		vPath.push_back(path1.Path());
+	}
 
+		BStringView* sv = new BStringView("Path", vPath[0]);
+	BLayoutItem* layout = GroupLayout->AddView(sv);
+	
+	
 	BLayoutBuilder::Group<>(this, B_HORIZONTAL, 0)
 		.AddGroup(B_VERTICAL, 0)
 			.Add(fMenuBar)
