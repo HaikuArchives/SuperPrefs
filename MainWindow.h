@@ -12,7 +12,8 @@
 #include <new>
 #include <Directory.h>
 #include <FindDirectory.h>
-#include <SymLink.h>
+#include <algorithm>
+#include <map>
 #include <stdio.h>
 #include <string.h>
 #include <View.h>

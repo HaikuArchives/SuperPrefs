@@ -128,31 +128,38 @@ MainWindow::MainWindow()
 		BLayoutItem* layout = GroupLayout->AddView(bSample);
 	}
 	
-	BPath path;
+	BPath path;	
 	find_directory(B_SYSTEM_PREFERENCES_DIRECTORY, &path, true);
 	BDirectory directory;
 	entry_ref ref;
 	BEntry entry;
 	directory.SetTo(path.Path());
-		
-//	BSymLink link("/boot/system/preferences/");
-//	char buf[100];
-//	link.ReadLink(buf, 100);
-	
+
+//	char **paths=0;
+//	size_t path_count;
+//	find_paths(B_FIND_PATH_PREFERENCES_DIRECTORY, NULL, &paths, path_count);
+
+	vector<BString> vSign;
 	vector<BString> vPath;
-	
+	map<BString,BString> mymap;
 	while(directory.GetNextRef(&ref)==B_OK) {
-		entry.SetTo(&ref, false);
-		BPath path1;
-		entry.GetPath(&path1);	
-		vPath.push_back(path1.Path());
+		char sign[B_MIME_TYPE_LENGTH];
+		entry.SetTo(&ref, false);		
+		entry.GetPath(&path);	
+		vPath.push_back(path.Path());
+		BFile file(&entry, B_READ_ONLY);
+		BAppFileInfo fileinfo(&file);
+		fileinfo.GetSignature(sign);
+		vSign.push_back(sign);
 	}
 	
-	char size[100];
-	sprintf(size, "%d", vPath.size());
-	
-	BStringView* sv = new BStringView("Path", size);
+	mymap[vSign[0]]=vPath[0];
+	map<BString,BString>::iterator it = mymap.begin();
+	BStringView* sv = new BStringView("Path", it->second);	
 	BLayoutItem* layout = GroupLayout->AddView(sv);	
+	
+	//	std::sort(vPath.begin(),vPath.begin()+vPath.size());
+	//	std::sort(vSign.begin(),vSign.begin()+vSign.size());
 	
 	BLayoutBuilder::Group<>(this, B_HORIZONTAL, 0)
 		.AddGroup(B_VERTICAL, 0)
