@@ -15,7 +15,7 @@ MainWindow::MainWindow()
 	 B_QUIT_ON_WINDOW_CLOSE)
 {
 
-	ResizeTo(720, 420);
+	ResizeTo(720, 720);
 	CenterOnScreen();
 	
 	//Menubar items
@@ -147,19 +147,22 @@ MainWindow::MainWindow()
 		vSign.push_back(sign);			//Pushing sign
 		bGetName(sign, &fAppName);
 		vName.push_back(fAppName);		//Pushing name
-	}
-	
-	NameSign[vName[0]]=vSign[0];
+		NameSign[fAppName]=sign;
+	}	
 	
 	map<BString,BString>::iterator 
 		it = NameSign.begin();				//Iterator to mymap
 	
-	BStringView* NameView = new BStringView("Name:", it->first);
-	BStringView* SignView = new BStringView("Sign:", it->second);	
+
 	
-	layout = GroupLayout->AddView(NameView);	
-	layout = GroupLayout->AddView(SignView);	
-	
+	for(int i = 0 ; i < 24 ; ++i) {
+		BStringView* NameView = new BStringView("Name:", it->first);
+		if(i!=23) ++it;
+		layout = GroupLayout->AddView(NameView);
+	}
+			
+
+	BStringView* SignView = new BStringView("Sign:", it->first);
 	//	std::sort(vPath.begin(),vPath.begin()+vPath.size());
 	//	std::sort(vSign.begin(),vSign.begin()+vSign.size());
 	
