@@ -166,9 +166,17 @@ void
 MainWindow::bGetName(BString AppSign, BString* fAppName) {
 	entry_ref ref;	
 	be_roster->FindApp(AppSign, &ref);
-	BString name;
-	BLocaleRoster::Default()->GetLocalizedFileName(name, ref);
-	*fAppName = name;
+	BEntry entry(&ref);
+	BString LOCALIZED_APP;
+	char EN_APP[B_FILE_NAME_LENGTH];
+	entry.GetName(EN_APP);
+	if(BLocaleRoster::Default()->GetLocalizedFileName(LOCALIZED_APP, ref)
+			==B_OK) {
+		*fAppName = LOCALIZED_APP;
+	}
+	else {				
+		*fAppName = EN_APP;
+	}
 }
 	
 void 
