@@ -69,17 +69,20 @@ private:
 			
 			BMessage* 			mButton;
 			BGroupLayout*		AppearanceLayout;
-			BGroupLayout*		InputLayout;
-			BGroupLayout*		NetworkLayout;
+			BGroupLayout*		IOLayout;
+			BGroupLayout*		ConnectivityLayout;
+			BGroupLayout*		SystemLayout;
+			BGroupLayout*		UncategorizedLayout;
 			BLayoutItem* 		layout;
 			BString				fAppName;
             BMenuBar*           fMenuBar;
             BMenuItem*          fItem;
             BMenu*              fAppMenu;
-            BBox*               fInputBox;
             BBox*               fAppearanceBox;  
-            BBox*               fNetworkBox;
-            BBox*               fSampleBox;
+            BBox*               fConnectivityBox;
+            BBox*               fSystemBox;
+            BBox*               fUncategorizedBox;
+            BBox*               fIOBox;
             BTextControl*       fSearch;
             char*				fAppSig;                      
 };
