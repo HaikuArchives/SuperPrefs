@@ -2,7 +2,7 @@ Appearance
 
 application/x-vnd.Haiku-Appearance
 application/x-vnd.Haiku-Backgrounds
-application/x-vnd.Be-TSKB
+application/x-vnd.Haiku-DeskbarPreferences (instead of application/x-vnd.Be-TSKB)
 application/x-vnd.Haiku-ScreenSaver
 
 Connectivity
@@ -16,7 +16,7 @@ application/x-vnd.Haiku-Touchpad
 application/x-vnd.Haiku-Keyboard
 application/x-vnd.Haiku-Keymap
 application/x-vnd.Be-PRNT
-application/x-vnd.Haiku-Sounds
+application/x-vnd.Haiku-Mouse
 application/x-vnd.Haiku-Media
 
 Uncategorized
@@ -31,3 +31,4 @@ application/x-vnd.Haiku-Time
 application/x-vnd.Haiku-TrackerPreferences
 application/x-vnd.Haiku-FileTypes
 application/x-vnd.Haiku-Locale
+application/x-vnd.Haiku-Sounds

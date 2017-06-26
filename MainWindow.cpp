@@ -59,7 +59,7 @@ MainWindow::MainWindow()
 	fUncategorizedBox->SetLabel("Uncategorized");
 	
 	BString AppearanceSign[4] = {"application/x-vnd.Haiku-Appearance",
-	 "application/x-vnd.Haiku-Backgrounds", "application/x-vnd.Be-TSKB", 
+	 "application/x-vnd.Haiku-Backgrounds", "application/x-vnd.Haiku-DeskbarPreferences", 
 	 "application/x-vnd.Haiku-ScreenSaver" };
 	 
 	AppearanceLayout = BLayoutBuilder::Group<>
