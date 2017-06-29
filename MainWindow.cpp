@@ -73,6 +73,7 @@ MainWindow::MainWindow()
 	
 		bGetName(AppearanceSign[i], &fAppName);		
 		BButton* button = new BButton(fAppName, fAppName, mButton);
+		button->SetFlat(true);
 		bSetIcon(button, AppearanceSign[i]);	
 		layout = AppearanceLayout->AddView(button);
 	}
@@ -91,6 +92,7 @@ MainWindow::MainWindow()
 	
 		bGetName(ConnectivitySign[i], &fAppName);		
 		BButton* button = new BButton(fAppName, fAppName, mButton);
+		button->SetFlat(true);
 		bSetIcon(button, ConnectivitySign[i]);	
 		layout = ConnectivityLayout->AddView(button);
 	}
@@ -111,6 +113,7 @@ MainWindow::MainWindow()
 	
 		bGetName(IOSign[i], &fAppName);		
 		BButton* button = new BButton(fAppName, fAppName, mButton);
+		button->SetFlat(true);
 		bSetIcon(button, IOSign[i]);	
 		layout = IOLayout->AddView(button);
 	}
@@ -131,6 +134,7 @@ MainWindow::MainWindow()
 	
 		bGetName(SystemSign[i], &fAppName);		
 		BButton* button = new BButton(fAppName, fAppName, mButton);
+		button->SetFlat(true);
 		bSetIcon(button, SystemSign[i]);	
 		layout = SystemLayout->AddView(button);
 	}
@@ -149,6 +153,7 @@ MainWindow::MainWindow()
 	
 		bGetName(UncategorizedSign[i], &fAppName);		
 		BButton* button = new BButton(fAppName, fAppName, mButton);
+		button->SetFlat(true);
 		bSetIcon(button, UncategorizedSign[i]);	
 		layout = UncategorizedLayout->AddView(button);
 	}
