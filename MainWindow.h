@@ -57,39 +57,39 @@ enum {
 
 class MainWindow : public BWindow {
 public:
-                    MainWindow();
-    virtual void    MessageReceived(BMessage* message);
-			void	bSetIcon(BButton* button, BString AppSign);
-			void	bGetName(BString AppSign, BString* fAppName);
-    virtual bool    QuitRequested();
+                    	MainWindow();
+	virtual	void    MessageReceived(BMessage* message);
+		void	bSetIcon(BButton* button, BString AppSign);
+		void	bGetName(BString AppSign, BString* fAppName);
+	virtual bool    QuitRequested();
     		void	Search();
  
 private:
-            static const int kMenuAppQuit	= 0000;
-            static const int kAlphabeticalwise	= 0001;
-            static const int kCategorywise	= 0002;
+            	static const int kMenuAppQuit	= 0000;
+            	static const int kAlphabeticalwise	= 0001;
+            	static const int kCategorywise	= 0002;
 			
-			BMessage* 			mButton;
-			BGroupLayout*		AppearanceLayout;
-			BGroupLayout*		IOLayout;
-			BGroupLayout*		ConnectivityLayout;
-			BGroupLayout*		SystemLayout;
-			BGroupLayout*		UncategorizedLayout;
-			BGroupLayout*		MainLayout;
-			BGroupLayout*		SampleLayout;
-			BLayoutItem* 		layout;
-			BString				fAppName;
-            BMenuBar*           fMenuBar;
-            BMenuItem*          fItem;
-            BMenu*              fAppMenu;
-            BBox*               fAppearanceBox;  
-            BBox*               fConnectivityBox;
-            BBox*               fSystemBox;
-            BBox*				fSampleBox;
-            BBox*               fUncategorizedBox;
-            BBox*               fIOBox;
-            BTextControl*       fSearch;
-            char*				fAppSig;                      
+		BMessage* 		mButton;
+		BGroupLayout*		AppearanceLayout;
+		BGroupLayout*		IOLayout;
+		BGroupLayout*		ConnectivityLayout;
+		BGroupLayout*		SystemLayout;
+		BGroupLayout*		UncategorizedLayout;
+		BGroupLayout*		MainLayout;
+		BGroupLayout*		SampleLayout;
+		BLayoutItem* 		layout;
+		BString			fAppName;
+          	BMenuBar*           	fMenuBar;
+          	BMenuItem*          	fItem;
+         	BMenu*              	fAppMenu;
+        	BBox*               	fAppearanceBox;  
+         	BBox*               	fConnectivityBox;
+         	BBox*               	fSystemBox;
+         	BBox*			fSampleBox;
+         	BBox*           	fUncategorizedBox;
+         	BBox*               	fIOBox;
+         	BTextControl*       	fSearch;
+         	char*			fAppSig;                      
 };
 
 #endif
