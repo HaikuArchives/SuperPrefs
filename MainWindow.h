@@ -52,6 +52,7 @@
 
 enum {
 	MSG_SIGN					= 'axyz',
+	QUERY						= 'srch',
 };
 
 class MainWindow : public BWindow {
@@ -61,6 +62,7 @@ public:
 			void	bSetIcon(BButton* button, BString AppSign);
 			void	bGetName(BString AppSign, BString* fAppName);
     virtual bool    QuitRequested();
+    		void	Search();
  
 private:
             static const int kMenuAppQuit	= 0000;
@@ -73,6 +75,8 @@ private:
 			BGroupLayout*		ConnectivityLayout;
 			BGroupLayout*		SystemLayout;
 			BGroupLayout*		UncategorizedLayout;
+			BGroupLayout*		MainLayout;
+			BGroupLayout*		SampleLayout;
 			BLayoutItem* 		layout;
 			BString				fAppName;
             BMenuBar*           fMenuBar;
@@ -81,6 +85,7 @@ private:
             BBox*               fAppearanceBox;  
             BBox*               fConnectivityBox;
             BBox*               fSystemBox;
+            BBox*				fSampleBox;
             BBox*               fUncategorizedBox;
             BBox*               fIOBox;
             BTextControl*       fSearch;

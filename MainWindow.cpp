@@ -41,7 +41,7 @@ MainWindow::MainWindow()
 	
     //Search Bar
 
-	fSearch = new BTextControl("SearchBox", "Search:", NULL, NULL);
+	fSearch = new BTextControl("Search:","", new BMessage(QUERY));
 	fSearch->MakeFocus(true);
 	
 	//Box Layouts
@@ -51,12 +51,19 @@ MainWindow::MainWindow()
 	fConnectivityBox = new BBox((char*)NULL);
 	fSystemBox = new BBox((char*)NULL);
 	fUncategorizedBox = new BBox((char*)NULL);
+	fSampleBox = new BBox((char*)NULL);
 	
 	fAppearanceBox->SetLabel("Appearance Preferences:");
 	fConnectivityBox->SetLabel("Connectivity Preferences:");
 	fIOBox->SetLabel("Input/Output Preferences:");
 	fSystemBox->SetLabel("System Preferences:");
 	fUncategorizedBox->SetLabel("Uncategorized");
+	fSampleBox->SetLabel("Sample Area - Search Text");
+	
+	SampleLayout = BLayoutBuilder::Group<>
+		(fSampleBox, B_HORIZONTAL, 0)
+		.SetInsets(15)
+	.Layout();
 	
 	BString AppearanceSign[4] = {"application/x-vnd.Haiku-Appearance",
 	 "application/x-vnd.Haiku-Backgrounds", "application/x-vnd.Haiku-DeskbarPreferences", 
@@ -146,13 +153,14 @@ MainWindow::MainWindow()
 		(fUncategorizedBox, B_HORIZONTAL, 0)
 		.SetInsets(15)
 	.Layout();
-	
+
 	for(int i=0; i<3; i++) {
 		mButton = new BMessage(MSG_SIGN);
 		mButton->AddString("mime_val", UncategorizedSign[i]);
 	
 		bGetName(UncategorizedSign[i], &fAppName);		
 		BButton* button = new BButton(fAppName, fAppName, mButton);
+		
 		button->SetFlat(true);
 		bSetIcon(button, UncategorizedSign[i]);	
 		layout = UncategorizedLayout->AddView(button);
@@ -168,10 +176,6 @@ MainWindow::MainWindow()
 	entry_ref ref;
 	BEntry entry;
 	directory.SetTo(path.Path());
-
-//	char **paths=0;
-//	size_t path_count;
-//	find_paths(B_FIND_PATH_PREFERENCES_DIRECTORY, NULL, &paths, path_count);
 
 	vector<BString> vSign;				//To hold Signature of all Prefs
 	vector<BString> vPath;				//To hold Path of all Prefs
@@ -192,8 +196,8 @@ MainWindow::MainWindow()
 		vName.push_back(fAppName);		//Pushing name
 		NameSign[fAppName]=sign;
 	}	
-	
-	BLayoutBuilder::Group<>(this, B_HORIZONTAL, 0)
+
+	MainLayout = BLayoutBuilder::Group<>(this, B_HORIZONTAL, 0)
 		.AddGroup(B_VERTICAL, 0)
 			.Add(fMenuBar)
 			.Add(fSearch)
@@ -205,7 +209,9 @@ MainWindow::MainWindow()
 				.Add(fConnectivityBox)	
 				.Add(fUncategorizedBox)
 			.End()
-	.End();
+			.Add(fSampleBox)
+	.End()
+	.Layout();
 }
 
 void
@@ -245,10 +251,17 @@ void
 MainWindow::MessageReceived(BMessage* message)
 {
         switch(message->what) {
-        	case MSG_SIGN: {
-        		 BString AppSign;
-        		 AppSign = message->GetString("mime_val");
-        		 be_roster->Launch(AppSign);        		  
+        	case QUERY:
+        	{
+        		BStringView* SearchQuery = new BStringView("Query", fSearch->Text());
+        		layout = SampleLayout->AddView(SearchQuery);
+        		break;
+        	}        		
+        	case MSG_SIGN: 
+        	{        		
+        		BString AppSign;
+        		AppSign = message->GetString("mime_val");
+        		be_roster->Launch(AppSign);        		  
         		break;
         	}       
             case kMenuAppQuit:
