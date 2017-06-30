@@ -39,11 +39,6 @@ MainWindow::MainWindow()
 	fAppMenu->AddItem(item);
 	fMenuBar->AddItem(fAppMenu);
 	
-    //Search Bar
-
-	fSearch = new BTextControl("Search:","", new BMessage(QUERY));
-	fSearch->MakeFocus(true);
-	
 	//Box Layouts
 
 	fAppearanceBox = new BBox((char*) NULL);
@@ -61,7 +56,7 @@ MainWindow::MainWindow()
 	fSampleBox->SetLabel("Sample Area - Search Text");
 	
 	SampleLayout = BLayoutBuilder::Group<>
-		(fSampleBox, B_HORIZONTAL, 0)
+		(fSampleBox, B_VERTICAL, 0)
 		.SetInsets(15)
 	.Layout();
 	
@@ -177,12 +172,6 @@ MainWindow::MainWindow()
 	BEntry entry;
 	directory.SetTo(path.Path());
 
-	vector<BString> vSign;				//To hold Signature of all Prefs
-	vector<BString> vPath;				//To hold Path of all Prefs
-	vector<BString> vName; 				//To hold Name of all Prefs
-				
-	map<BString,BString> NameSign;			//To map Name, Signature
-	
 	while(directory.GetNextRef(&ref)==B_OK) {
 		char sign[B_MIME_TYPE_LENGTH];
 		entry.SetTo(&ref, false);		
@@ -196,6 +185,11 @@ MainWindow::MainWindow()
 		vName.push_back(fAppName);		//Pushing name
 		NameSign[fAppName]=sign;
 	}	
+	
+	//Search Bar
+
+	fSearch = new BTextControl("Search:","", new BMessage(QUERY));
+	fSearch->MakeFocus(true);
 
 	MainLayout = BLayoutBuilder::Group<>(this, B_HORIZONTAL, 0)
 		.AddGroup(B_VERTICAL, 0)
@@ -248,13 +242,31 @@ MainWindow::QuitRequested() {
 }
 
 void
+MainWindow::Search() {
+	
+	sort(vName.begin(), vName.begin()+vName.size());	//Not necessary, done for better understanding
+	BString* Query = new BString(fSearch->Text());
+	
+	BStringView* SearchQuery = new BStringView("Search","Search");
+	layout = SampleLayout->AddView(SearchQuery);
+	
+  	if(*Query==vName[0]) {
+		Query->Append(": Found");
+		SearchQuery->SetText(Query->String());
+  	}
+  	else {
+  		Query->Append(": Not Found");
+  		SearchQuery->SetText(Query->String());
+  	}
+}	
+	
+void
 MainWindow::MessageReceived(BMessage* message)
 {
         switch(message->what) {
         	case QUERY:
         	{
-        		BStringView* SearchQuery = new BStringView("Query", fSearch->Text());
-        		layout = SampleLayout->AddView(SearchQuery);
+        		Search();
         		break;
         	}        		
         	case MSG_SIGN: 

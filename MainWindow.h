@@ -51,45 +51,48 @@
 #include <IconButton.h>
 
 enum {
-	MSG_SIGN					= 'axyz',
-	QUERY						= 'srch',
+	MSG_SIGN					=  'axyz',
+	QUERY						=  'srch',
+	kMenuAppQuit				=	0000,
+	kAlphabeticalwise			=	0001,
+	kCategorywise				=	0002,
 };
 
 class MainWindow : public BWindow {
 public:
-                    	MainWindow();
+                    MainWindow();
 	virtual	void    MessageReceived(BMessage* message);
-		void	bSetIcon(BButton* button, BString AppSign);
-		void	bGetName(BString AppSign, BString* fAppName);
+			void	bSetIcon(BButton* button, BString AppSign);
+			void	bGetName(BString AppSign, BString* fAppName);
 	virtual bool    QuitRequested();
     		void	Search();
  
 private:
-            	static const int kMenuAppQuit	= 0000;
-            	static const int kAlphabeticalwise	= 0001;
-            	static const int kCategorywise	= 0002;
-			
-		BMessage* 		mButton;
-		BGroupLayout*		AppearanceLayout;
-		BGroupLayout*		IOLayout;
-		BGroupLayout*		ConnectivityLayout;
-		BGroupLayout*		SystemLayout;
-		BGroupLayout*		UncategorizedLayout;
-		BGroupLayout*		MainLayout;
-		BGroupLayout*		SampleLayout;
-		BLayoutItem* 		layout;
-		BString			fAppName;
-          	BMenuBar*           	fMenuBar;
-          	BMenuItem*          	fItem;
-         	BMenu*              	fAppMenu;
-        	BBox*               	fAppearanceBox;  
-         	BBox*               	fConnectivityBox;
-         	BBox*               	fSystemBox;
-         	BBox*			fSampleBox;
+			BMessage* 			mButton;
+			BGroupLayout*		AppearanceLayout;
+			BGroupLayout*		IOLayout;
+			BGroupLayout*		ConnectivityLayout;
+			BGroupLayout*		SystemLayout;
+			BGroupLayout*		UncategorizedLayout;
+			BGroupLayout*		MainLayout;
+			BGroupLayout*		SampleLayout;
+			BLayoutItem* 		layout;
+			BString				fAppName;
+          	BMenuBar*           fMenuBar;
+          	BMenuItem*          fItem;
+         	BMenu*              fAppMenu;
+        	BBox*               fAppearanceBox;  
+         	BBox*               fConnectivityBox;
+         	BBox*               fSystemBox;
+         	BBox*				fSampleBox;
          	BBox*           	fUncategorizedBox;
-         	BBox*               	fIOBox;
-         	BTextControl*       	fSearch;
-         	char*			fAppSig;                      
+         	BBox*               fIOBox;
+         	BTextControl*       fSearch;
+         	vector<BString> 	vSign;				
+			vector<BString> 	vPath;				
+			vector<BString> 	vName; 				
+			map<BString,BString>NameSign;	
+         	char*				fAppSig;                      
 };
 
 #endif
