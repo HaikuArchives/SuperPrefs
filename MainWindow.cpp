@@ -246,18 +246,24 @@ MainWindow::Search() {
 	
 	sort(vName.begin(), vName.begin()+vName.size());	//Not necessary, done for better understanding
 	BString* Query = new BString(fSearch->Text());
-	
-	BStringView* SearchQuery = new BStringView("Search","Search");
+	BStringView* SearchQuery = new BStringView("Search","");
 	layout = SampleLayout->AddView(SearchQuery);
 	
-  	if(*Query==vName[0]) {
-		Query->Append(": Found");
-		SearchQuery->SetText(Query->String());
-  	}
-  	else {
-  		Query->Append(": Not Found");
-  		SearchQuery->SetText(Query->String());
-  	}
+	for(int i = 0 ; i < vName.size() ; i++) {
+  		if(*Query==vName[i]) {
+			Query->Append(": Found");
+			SearchQuery->SetText(Query->String());
+			break;
+  		}
+  		else {
+  			if(i==vName.size()-1) {
+  				
+  				Query->Append(": Not Found");
+  				SearchQuery->SetText(Query->String());
+  				break;
+  			}
+  		}
+	}
 }	
 	
 void
