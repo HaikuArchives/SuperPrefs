@@ -1,8 +1,8 @@
 ## SuperPrefs To-Do
 
-Make English by default if no Localization. [DONE] ✅
+Make English by default if no Localization [DONE] ✅
 
-Remove obsolete code. [DONE] ✅
+Remove obsolete code [DONE] ✅
 
 Replace all IconView with **BButton** [DONE] ✅
 
@@ -10,12 +10,14 @@ Convert all paths to Signature and store in a vector [DONE] ✅
 
 Sort this map respective to the Name. [DONE] ✅
 
+Search on basis of Preflet name **subword** [DONE] ✅
+
+Search irrespective of Captialization [DONE] ✅
+
 Alter [preflets which do not have translation] catalog name
+
+During Search, hide all BButtons other than BButtons associated with query
 
 Segregate Preferences according to their categories with attribute in **.rdef**
 
-Search on basis of Preflet name **subword**
-
-Search irrespective of Captialization
-
-Implement second tier of Search with **keywords**
+Implement second tier of Search with **keywords**. Make use of *catkeys*.
