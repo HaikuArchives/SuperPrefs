@@ -53,7 +53,7 @@ MainWindow::MainWindow()
 	fIOBox->SetLabel("Input/Output Preferences:");
 	fSystemBox->SetLabel("System Preferences:");
 	fUncategorizedBox->SetLabel("Uncategorized");
-	fSampleBox->SetLabel("Sample Area - Search Text");
+	fSampleBox->SetLabel("Log");
 	
 	SampleLayout = BLayoutBuilder::Group<>
 		(fSampleBox, B_VERTICAL, 0)
@@ -244,26 +244,40 @@ MainWindow::QuitRequested() {
 void
 MainWindow::Search() {
 	
+	vTemp.clear();
 	sort(vName.begin(), vName.begin()+vName.size());	//Not necessary, done for better understanding
 	BString* Query = new BString(fSearch->Text());
-	BStringView* SearchQuery = new BStringView("Search","");
+	BStringView* SearchQuery = new BStringView("Search","");	
 	layout = SampleLayout->AddView(SearchQuery);
+	int occurences = 0, found = 0;
 	
-	for(int i = 0 ; i < vName.size() ; i++) {
-  		if(*Query==vName[i]) {
-			Query->Append(": Found");
-			SearchQuery->SetText(Query->String());
-			break;
-  		}
-  		else {
-  			if(i==vName.size()-1) {
-  				
-  				Query->Append(": Not Found");
-  				SearchQuery->SetText(Query->String());
-  				break;
-  			}
-  		}
+	for(int i = 0 ; i < vName.size() ; i++) 
+  		if(vName[i].IFindFirst(*Query) != B_ERROR) {
+			occurences++;		
+			found = 1;
+			vTemp.push_back(vName[i]);
+		}
+	
+	if(found)	Query->operator<<(": Found. Occurences: ");	
+	else 		Query->operator<<(": Not Found. Occurences: ");
+	Query->operator<<(occurences);
+	Query->operator<<('.');
+	
+	if(found) {
+		if(vTemp.size() > 1) {
+			Query->operator<<(" Associated Apps: ");
+			for(int i = 0 ; i < vTemp.size() ; i++) {
+				Query->operator<<(vTemp[i]);
+				if(i != vTemp.size() - 1)	Query->operator<<(", ");
+				else	Query->operator<<('.');
+			}
+		}
+		else {
+			Query->operator<<(" Associated App: ");
+			Query->operator<<(vTemp[0]);
+		}
 	}
+	SearchQuery->SetText(Query->String());
 }	
 	
 void

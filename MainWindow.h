@@ -10,6 +10,7 @@
 #define MAINWINDOW_H
 
 #include <new>
+#include <string>
 #include <Directory.h>
 #include <FindDirectory.h>
 #include <algorithm>
@@ -90,7 +91,8 @@ private:
          	BTextControl*       fSearch;
          	vector<BString> 	vSign;				
 			vector<BString> 	vPath;				
-			vector<BString> 	vName; 				
+			vector<BString> 	vName;
+			vector<BString> 	vTemp;  				
 			map<BString,BString>NameSign;	
          	char*				fAppSig;                      
 };
