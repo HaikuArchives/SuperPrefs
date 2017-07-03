@@ -55,10 +55,7 @@ MainWindow::MainWindow()
 	fUncategorizedBox->SetLabel("Uncategorized");
 	fSampleBox->SetLabel("Log");
 	
-	SampleLayout = BLayoutBuilder::Group<>
-		(fSampleBox, B_VERTICAL, 0)
-		.SetInsets(15)
-	.Layout();
+	// Appearance
 	
 	BString AppearanceSign[4] = {"application/x-vnd.Haiku-Appearance",
 	 "application/x-vnd.Haiku-Backgrounds", "application/x-vnd.Haiku-DeskbarPreferences", 
@@ -68,7 +65,7 @@ MainWindow::MainWindow()
 		(fAppearanceBox, B_HORIZONTAL, 0)
 		.SetInsets(15)
 	.Layout();
-	
+
 	for(int i=0; i<4; i++) {
 		mButton = new BMessage(MSG_SIGN);
 		mButton->AddString("mime_val", AppearanceSign[i]);
@@ -76,9 +73,12 @@ MainWindow::MainWindow()
 		bGetName(AppearanceSign[i], &fAppName);		
 		BButton* button = new BButton(fAppName, fAppName, mButton);
 		button->SetFlat(true);
+		NameButton[fAppName] = button;
 		bSetIcon(button, AppearanceSign[i]);	
 		layout = AppearanceLayout->AddView(button);
 	}
+	
+	//Connectivity
 	
 	BString ConnectivitySign[3] = {"application/x-vnd.Haiku-BluetoothPrefs",
 	 "application/x-vnd.Haiku-Network", "application/x-vnd.Haiku-Mail" };
@@ -86,7 +86,7 @@ MainWindow::MainWindow()
 	ConnectivityLayout = BLayoutBuilder::Group<>
 		(fConnectivityBox, B_HORIZONTAL, 0)
 		.SetInsets(15)
-	.Layout();
+	.Layout();	
 	
 	for(int i=0; i<3; i++) {
 		mButton = new BMessage(MSG_SIGN);
@@ -95,10 +95,13 @@ MainWindow::MainWindow()
 		bGetName(ConnectivitySign[i], &fAppName);		
 		BButton* button = new BButton(fAppName, fAppName, mButton);
 		button->SetFlat(true);
+		NameButton[fAppName] = button;
 		bSetIcon(button, ConnectivitySign[i]);	
 		layout = ConnectivityLayout->AddView(button);
 	}
-		
+	
+	//Input/Output
+	
 	BString IOSign[7] = {"application/x-vnd.Haiku-Screen",
 	 "application/x-vnd.Haiku-Touchpad", "application/x-vnd.Haiku-Keyboard",
 	 "application/x-vnd.Haiku-Keymap", "application/x-vnd.Be-PRNT", 
@@ -116,9 +119,12 @@ MainWindow::MainWindow()
 		bGetName(IOSign[i], &fAppName);		
 		BButton* button = new BButton(fAppName, fAppName, mButton);
 		button->SetFlat(true);
+		NameButton[fAppName] = button;
 		bSetIcon(button, IOSign[i]);	
 		layout = IOLayout->AddView(button);
 	}
+	
+	//System
 	
 	BString SystemSign[7] = {"application/x-vnd.Haiku-Shortcuts", 
 	"application/x-vnd.Haiku-Notifications", "application/x-vnd.Haiku-Time",
@@ -137,9 +143,12 @@ MainWindow::MainWindow()
 		bGetName(SystemSign[i], &fAppName);		
 		BButton* button = new BButton(fAppName, fAppName, mButton);
 		button->SetFlat(true);
+		NameButton[fAppName] = button;
 		bSetIcon(button, SystemSign[i]);	
 		layout = SystemLayout->AddView(button);
 	}
+	
+	//Uncategorized
 	
 	BString UncategorizedSign[3] = {"application/x-vnd.Haiku-DataTranslations", 
 	"application/x-vnd.Haiku-VirtualMemory", "application/x-vnd.Haiku-Repositories"};
@@ -157,11 +166,24 @@ MainWindow::MainWindow()
 		BButton* button = new BButton(fAppName, fAppName, mButton);
 		
 		button->SetFlat(true);
+		NameButton[fAppName] = button;
 		bSetIcon(button, UncategorizedSign[i]);	
 		layout = UncategorizedLayout->AddView(button);
 	}
+	
+	//Logger
+	
+	SampleLayout = BLayoutBuilder::Group<>
+		(fSampleBox, B_VERTICAL, 0)
+		.SetInsets(15)
+	.Layout();
 
-	//End of layout
+	//End of layout	
+
+	//Search Bar
+
+	fSearch = new BTextControl("Search:","", new BMessage(QUERY));
+	fSearch->MakeFocus(true);
 	
 	// Code to fetch Directory listings
 			
@@ -169,7 +191,7 @@ MainWindow::MainWindow()
 	find_directory(B_SYSTEM_PREFERENCES_DIRECTORY, &path, true);
 	BDirectory directory;
 	entry_ref ref;
-	BEntry entry;
+	BEntry entry;	
 	directory.SetTo(path.Path());
 
 	while(directory.GetNextRef(&ref)==B_OK) {
@@ -184,18 +206,14 @@ MainWindow::MainWindow()
 		bGetName(sign, &fAppName);
 		vName.push_back(fAppName);		//Pushing name
 		NameSign[fAppName]=sign;
-	}	
-	
-	//Search Bar
-
-	fSearch = new BTextControl("Search:","", new BMessage(QUERY));
-	fSearch->MakeFocus(true);
+	}			
 
 	MainLayout = BLayoutBuilder::Group<>(this, B_HORIZONTAL, 0)
 		.AddGroup(B_VERTICAL, 0)
 			.Add(fMenuBar)
+				.AddGlue(0.25)
 			.Add(fSearch)
-				.SetInsets(4)
+				.SetInsets(5)
 			.Add(fAppearanceBox)
 			.Add(fIOBox)
 			.Add(fSystemBox)
@@ -245,6 +263,13 @@ void
 MainWindow::Search() {
 	
 	vTemp.clear();
+	map<BString, BButton*>::iterator 
+		it = NameButton.begin();						//Iterator to NameSign
+	
+	for(int i = 0 ; i < 24 ; ++i) {
+		NameButton[vName[i]]->SetFlat(true);
+		if(i!=23) ++it;
+	}		
 	sort(vName.begin(), vName.begin()+vName.size());	//Not necessary, done for better understanding
 	BString* Query = new BString(fSearch->Text());
 	BStringView* SearchQuery = new BStringView("Search","");	
@@ -278,6 +303,8 @@ MainWindow::Search() {
 		}
 	}
 	SearchQuery->SetText(Query->String());
+	for(int i = 0 ; i < vTemp.size() ; i ++ )
+		NameButton[vTemp[i]]->SetFlat(false);
 }	
 	
 void
@@ -307,6 +334,7 @@ MainWindow::MessageReceived(BMessage* message)
                 break;
         }
 }
+
 
 //	map<BString,BString>::iterator 
 //		it = NameSign.begin();				//Iterator to NameSign
