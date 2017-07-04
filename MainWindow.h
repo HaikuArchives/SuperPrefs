@@ -66,7 +66,14 @@ public:
 			void	bSetIcon(BButton* button, BString AppSign);
 			void	bGetName(BString AppSign, BString* fAppName);
 	virtual bool    QuitRequested();
-    		void	Search();
+    		void	fSearch();
+    		void	buildMenubar();
+    		void	buildBox();
+    		void	buildLayout();
+    		void	fetchPreflets();
+    		void	populateLayout();
+    		void	mergeLayouts();
+
  
 private:
 			BMessage* 				mButton;
@@ -76,7 +83,7 @@ private:
 			BGroupLayout*			SystemLayout;
 			BGroupLayout*			UncategorizedLayout;
 			BGroupLayout*			MainLayout;
-			BGroupLayout*			SampleLayout;
+			BGroupLayout*			LogLayout;
 			BLayoutItem* 			layout;
 			BString					fAppName;
           	BMenuBar*           	fMenuBar;
@@ -85,10 +92,14 @@ private:
         	BBox*               	fAppearanceBox;  
          	BBox*              	 	fConnectivityBox;
          	BBox*               	fSystemBox;
-         	BBox*					fSampleBox;
+         	BBox*					fLogBox;
          	BBox*           		fUncategorizedBox;
          	BBox*               	fIOBox;
-         	BTextControl*       	fSearch;
+         	BPath					path;
+         	BDirectory				directory;
+         	entry_ref				ref;
+         	BEntry					entry;
+         	BTextControl*       	tSearch;
          	vector<BString> 		vSign;				
 			vector<BString> 		vPath;				
 			vector<BString> 		vName;
