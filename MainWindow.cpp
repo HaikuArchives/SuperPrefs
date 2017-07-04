@@ -15,7 +15,8 @@ MainWindow::MainWindow()
  	B_NORMAL_WINDOW_FEEL, B_ASYNCHRONOUS_CONTROLS | B_NOT_RESIZABLE)
 {
 
-	ResizeTo(820, 420);
+	ResizeTo(920, 480);
+
 	CenterOnScreen();
 	buildBox();
 	buildLayout();
@@ -158,23 +159,46 @@ MainWindow::buildMenubar() {
 }
 void
 MainWindow::mergeLayouts() {
+		
+	BGroupLayout *root = new BGroupLayout(B_VERTICAL, 0);
+	this->SetLayout(root);
+
+	BGroupView *vView = new BGroupView(B_VERTICAL);
+	BGroupLayout *vLayout = vView->GroupLayout();
+	this->AddChild(vView);
+	vLayout->AddView(fMenuBar);
+	vLayout->AddView(tSearch);
+	vLayout->SetInsets(2);
+	vLayout->AddView(fAppearanceBox);
+	vLayout->AddView(fIOBox);
+	vLayout->AddView(fSystemBox);
+
+	BSplitView* SplitGroup = new BSplitView(B_HORIZONTAL);
+	SplitGroup->SetName("Splitter");
+	BLayoutBuilder::Split<>(SplitGroup)
+		.Add(fConnectivityBox)
+		.Add(fUncategorizedBox);
+				
+	vLayout->AddView(SplitGroup);
+	vLayout->AddView(fLogBox);
 	
-	MainLayout = BLayoutBuilder::Group<>(this, B_HORIZONTAL, 0)
-		.AddGroup(B_VERTICAL, 0)
-			.Add(fMenuBar)
-				.AddGlue(0.25)
-			.Add(tSearch)
-				.SetInsets(5)
-			.Add(fAppearanceBox)
-			.Add(fIOBox)
-			.Add(fSystemBox)
-			.AddSplit(B_HORIZONTAL, 0, 0)
-				.Add(fConnectivityBox)	
-				.Add(fUncategorizedBox)
-			.End()
-			.Add(fLogBox)
-	.End()
-	.Layout();
+//	MainLayout = BLayoutBuilder::Group<>(this, B_HORIZONTAL, 0)
+//		.AddGroup(B_VERTICAL, 0)
+//			.Add(fMenuBar)
+//				.AddGlue(0.25)
+//			.Add(tSearch)
+//				.SetInsets(5)
+//			.Add(fAppearanceBox)
+//			.Add(fIOBox)
+//			.Add(fSystemBox)
+//			.AddSplit(B_HORIZONTAL, 0, 0)
+//				.Add(fConnectivityBox)	
+//				.Add(fUncategorizedBox)
+//			.End()
+//			.Add(fLogBox)
+//	.End()
+//	.Layout();
+
 }
 
 void
