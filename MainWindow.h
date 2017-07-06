@@ -73,8 +73,6 @@ public:
     		void	fetchPreflets();
     		void	populateLayout();
     		void	mergeLayouts();
-
- 
 private:
 			BMessage* 				mButton;
 			BGroupLayout*			AppearanceLayout;
@@ -84,7 +82,10 @@ private:
 			BGroupLayout*			UncategorizedLayout;
 			BGroupLayout*			MainLayout;
 			BGroupLayout*			LogLayout;
+			BGroupLayout*			root;
+			BGroupLayout*			vLayout;
 			BLayoutItem* 			layout;
+			BGroupView*				vView;
 			BString					fAppName;
           	BMenuBar*           	fMenuBar;
           	BMenuItem*          	fItem;
@@ -106,7 +107,7 @@ private:
 			vector<BString> 		vTemp;  				
 			map<BString, BString>	NameSign;	
 			map<BString, BButton*>	NameButton;
-         	char*					fAppSig;                      
+         	char*					fAppSig; 
 };
 
 #endif

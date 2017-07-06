@@ -8,7 +8,6 @@
 
 #include "MainWindow.h"
 
-
 MainWindow::MainWindow()
 	:
 	BWindow(BRect(),"SuperPrefs",B_TITLED_WINDOW_LOOK,
@@ -51,7 +50,7 @@ MainWindow::populateLayout() {
 	
 	/* TODO: Add an attribute to .rdef of every preflet to denote its cateogry or a similar
 			method to avoid hardcoded categories.	*/
-
+			
 	for(int i=0; i<4; i++) {
 		mButton = new BMessage(MSG_SIGN);
 		mButton->AddString("mime_val", AppearanceSign[i]);
@@ -86,7 +85,7 @@ MainWindow::populateLayout() {
 		NameButton[fAppName] = button;
 		bSetIcon(button, IOSign[i]);	
 		layout = IOLayout->AddView(button);
-	} // Input/Output
+	} 	// Input/Output
  
 	for(int i=0; i<7; i++) {
 		mButton = new BMessage(MSG_SIGN);
@@ -157,14 +156,15 @@ MainWindow::buildMenubar() {
 	fAppMenu->AddItem(item);
 	fMenuBar->AddItem(fAppMenu);
 }
+
 void
 MainWindow::mergeLayouts() {
 		
-	BGroupLayout *root = new BGroupLayout(B_VERTICAL, 0);
+	root = new BGroupLayout(B_VERTICAL, 0);
 	this->SetLayout(root);
 
-	BGroupView *vView = new BGroupView(B_VERTICAL);
-	BGroupLayout *vLayout = vView->GroupLayout();
+	vView = new BGroupView(B_VERTICAL);
+	vLayout = vView->GroupLayout();
 	this->AddChild(vView);
 	vLayout->AddView(fMenuBar);
 	vLayout->AddView(tSearch);
@@ -181,6 +181,7 @@ MainWindow::mergeLayouts() {
 				
 	vLayout->AddView(SplitGroup);
 	vLayout->AddView(fLogBox);
+	
 	
 //	MainLayout = BLayoutBuilder::Group<>(this, B_HORIZONTAL, 0)
 //		.AddGroup(B_VERTICAL, 0)
@@ -260,6 +261,7 @@ MainWindow::buildLayout() {
 
 void
 MainWindow::bGetName(BString AppSign, BString* fAppName) {
+	
 	entry_ref ref;	
 	be_roster->FindApp(AppSign, &ref);
 	BEntry entry(&ref);
@@ -300,6 +302,8 @@ MainWindow::fSearch() {
 	
 	for(int i = 0 ; i < 24 ; ++i) {
 		NameButton[vName[i]]->SetFlat(true);
+		NameButton[vName[i]]->SetViewColor(ui_color(B_PANEL_BACKGROUND_COLOR));
+		NameButton[vName[i]]->SetFont(be_plain_font);
 		if(i!=23) ++it;
 	}		
 	
@@ -334,11 +338,16 @@ MainWindow::fSearch() {
 			Query->operator<<(vTemp[0]);
 		}
 	}
+
 	SearchQuery->SetText(Query->String());
-	for(int i = 0 ; i < vTemp.size() ; i ++ )
-		NameButton[vTemp[i]]->SetFlat(false);
-}	
+	for(int i = 0 ; i < vTemp.size() ; i ++ ) {
+		NameButton[vTemp[i]]->SetFlat(false);		
+		NameButton[vTemp[i]]->SetViewColor((rgb_color) {255,64,64,255});
+		NameButton[vTemp[i]]->SetFont(be_bold_font);
+	}
 	
+}	
+
 void
 MainWindow::MessageReceived(BMessage* message)
 {
@@ -366,14 +375,3 @@ MainWindow::MessageReceived(BMessage* message)
                 break;
         }
 }
-
-//	map<BString,BString>::iterator 
-//		it = NameSign.begin();				//Iterator to NameSign
-//	
-//	for(int i = 0 ; i < 24 ; ++i) {
-//		BStringView* NameView = new BStringView("Name:", it->first);
-//		if(i!=23) ++it;
-//		layout = GroupLayout->AddView(NameView);
-//	}			
-//
-//	BStringView* SignView = new BStringView("Sign:", it->first);
