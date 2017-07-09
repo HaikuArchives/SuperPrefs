@@ -300,12 +300,14 @@ MainWindow::fSearch() {
 	BString* Query = new BString(tSearch->Text());
 	BStringView* SearchQuery = new BStringView("Search","");	
 	int tSearchLength = Query->Length();
-	if(tSearchLength > 1) {
 	
-	vTemp.clear();
 	map<BString, BButton*>::iterator 
 		it = NameButton.begin();						//Iterator to NameSign
 	
+	if(tSearchLength > 1) {
+	
+	vTemp.clear();
+
 	for(int i = 0 ; i < 24 ; ++i) {
 		NameButton[vName[i]]->SetFlat(true);
 		NameButton[vName[i]]->SetViewColor(ui_color(B_PANEL_BACKGROUND_COLOR));
@@ -314,7 +316,6 @@ MainWindow::fSearch() {
 	}		
 	
 	sort(vName.begin(), vName.begin()+vName.size());	//Not necessary, done for better understanding
-	
 	
 	layout = LogLayout->AddView(SearchQuery);
 	int occurences = 0, found = 0;
@@ -344,13 +345,22 @@ MainWindow::fSearch() {
 			Query->operator<<(vTemp[0]);
 		}
 	}
-
+	
 	SearchQuery->SetText(Query->String());
+	
 	for(int i = 0 ; i < vTemp.size() ; i ++ ) {
 		NameButton[vTemp[i]]->SetFlat(false);		
 		NameButton[vTemp[i]]->SetViewColor((rgb_color) {255,64,64,255});
 		NameButton[vTemp[i]]->SetFont(be_bold_font);
+		}
 	}
+	else {
+	for(int i = 0 ; i < 24 ; ++i) {
+		NameButton[vName[i]]->SetFlat(true);
+		NameButton[vName[i]]->SetViewColor(ui_color(B_PANEL_BACKGROUND_COLOR));
+		NameButton[vName[i]]->SetFont(be_plain_font);
+		if(i!=23) ++it;
+		}		
 	}
 	
 }	
