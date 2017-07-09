@@ -14,6 +14,8 @@ Search on basis of Preflet name **subword** [DONE] ✅
 
 Search irrespective of Captialization [DONE] ✅
 
+Implement Search updation based on text change [DONE] ✅
+
 Alter [preflets which do not have translation] catalog name
 
 During Search, hide all BButtons other than BButtons associated with query
