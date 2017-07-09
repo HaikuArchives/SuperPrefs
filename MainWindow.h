@@ -81,11 +81,12 @@ private:
 			BGroupLayout*			SystemLayout;
 			BGroupLayout*			UncategorizedLayout;
 			BGroupLayout*			MainLayout;
-			BGroupLayout*			LogLayout;
+			BGroupLayout*			SearchLayout;
 			BGroupLayout*			root;
 			BGroupLayout*			vLayout;
 			BLayoutItem* 			layout;
 			BGroupView*				vView;
+			BStringView* 			SearchQuery;
 			BString					fAppName;
           	BMenuBar*           	fMenuBar;
           	BMenuItem*          	fItem;
@@ -93,7 +94,7 @@ private:
         	BBox*               	fAppearanceBox;  
          	BBox*              	 	fConnectivityBox;
          	BBox*               	fSystemBox;
-         	BBox*					fLogBox;
+         	BBox*					fSearchBox;
          	BBox*           		fUncategorizedBox;
          	BBox*               	fIOBox;
          	BPath					path;

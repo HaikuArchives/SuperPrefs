@@ -13,7 +13,6 @@ MainWindow::MainWindow()
 	BWindow(BRect(),"SuperPrefs",B_TITLED_WINDOW_LOOK,
  	B_NORMAL_WINDOW_FEEL, B_ASYNCHRONOUS_CONTROLS | B_NOT_RESIZABLE)
 {
-
 	ResizeTo(920, 480);
 
 	CenterOnScreen();
@@ -162,44 +161,26 @@ MainWindow::mergeLayouts() {
 		
 	root = new BGroupLayout(B_VERTICAL, 0);
 	this->SetLayout(root);
-
 	vView = new BGroupView(B_VERTICAL);
 	vLayout = vView->GroupLayout();
 	this->AddChild(vView);
 	vLayout->AddView(fMenuBar);
-	vLayout->AddView(tSearch);
+	vLayout->AddView(fSearchBox);
 	vLayout->SetInsets(2);
 	vLayout->AddView(fAppearanceBox);
 	vLayout->AddView(fIOBox);
 	vLayout->AddView(fSystemBox);
 
+	SearchLayout->AddView(tSearch);
+	SearchQuery = new BStringView("Search Text","");	
+	SearchLayout->AddView(SearchQuery);
+	
 	BSplitView* SplitGroup = new BSplitView(B_HORIZONTAL);
 	SplitGroup->SetName("Splitter");
 	BLayoutBuilder::Split<>(SplitGroup)
 		.Add(fConnectivityBox)
-		.Add(fUncategorizedBox);
-				
+		.Add(fUncategorizedBox);				
 	vLayout->AddView(SplitGroup);
-	vLayout->AddView(fLogBox);
-	
-	
-//	MainLayout = BLayoutBuilder::Group<>(this, B_HORIZONTAL, 0)
-//		.AddGroup(B_VERTICAL, 0)
-//			.Add(fMenuBar)
-//				.AddGlue(0.25)
-//			.Add(tSearch)
-//				.SetInsets(5)
-//			.Add(fAppearanceBox)
-//			.Add(fIOBox)
-//			.Add(fSystemBox)
-//			.AddSplit(B_HORIZONTAL, 0, 0)
-//				.Add(fConnectivityBox)	
-//				.Add(fUncategorizedBox)
-//			.End()
-//			.Add(fLogBox)
-//	.End()
-//	.Layout();
-
 }
 
 void
@@ -210,14 +191,14 @@ MainWindow::buildBox() {
 	fConnectivityBox = new BBox((char*)NULL);
 	fSystemBox = new BBox((char*)NULL);
 	fUncategorizedBox = new BBox((char*)NULL);
-	fLogBox = new BBox((char*)NULL);
+	fSearchBox = new BBox((char*)NULL);
 	
 	fAppearanceBox->SetLabel("Appearance Preferences:");
 	fConnectivityBox->SetLabel("Connectivity Preferences:");
 	fIOBox->SetLabel("Input/Output Preferences:");
 	fSystemBox->SetLabel("System Preferences:");
-	fUncategorizedBox->SetLabel("Uncategorized");
-	fLogBox->SetLabel("Log");
+	fUncategorizedBox->SetLabel("Uncategorized:");
+	fSearchBox->SetLabel("Search:");
 }
 
 void
@@ -248,14 +229,12 @@ MainWindow::buildLayout() {
 		.SetInsets(15)
 	.Layout();
 	
-	LogLayout = BLayoutBuilder::Group<>
-		(fLogBox, B_VERTICAL, 0)
+	SearchLayout = BLayoutBuilder::Group<>
+		(fSearchBox, B_VERTICAL, 0)
 		.SetInsets(15)
 	.Layout();
 	
-	//Search Bar
-	
-	tSearch = new BTextControl("Search:", "Search: ", NULL, NULL);
+	tSearch = new BTextControl("Search:", "Enter query here: ", NULL, NULL);
 	tSearch->SetModificationMessage(new BMessage(QUERY));	
 	tSearch->MakeFocus(true);
 }
@@ -296,9 +275,8 @@ MainWindow::QuitRequested() {
 
 void
 MainWindow::fSearch() {
-	
+
 	BString* Query = new BString(tSearch->Text());
-	BStringView* SearchQuery = new BStringView("Search","");	
 	int tSearchLength = Query->Length();
 	
 	map<BString, BButton*>::iterator 
@@ -317,7 +295,6 @@ MainWindow::fSearch() {
 	
 	sort(vName.begin(), vName.begin()+vName.size());	//Not necessary, done for better understanding
 	
-	layout = LogLayout->AddView(SearchQuery);
 	int occurences = 0, found = 0;
 	for(int i = 0 ; i < vName.size() ; i++) 
   		if(vName[i].IFindFirst(*Query) != B_ERROR) {
@@ -343,6 +320,7 @@ MainWindow::fSearch() {
 		else {
 			Query->operator<<(" Associated App: ");
 			Query->operator<<(vTemp[0]);
+			Query->operator<<('.');
 		}
 	}
 	
@@ -360,7 +338,8 @@ MainWindow::fSearch() {
 		NameButton[vName[i]]->SetViewColor(ui_color(B_PANEL_BACKGROUND_COLOR));
 		NameButton[vName[i]]->SetFont(be_plain_font);
 		if(i!=23) ++it;
-		}		
+	}	
+	SearchQuery->SetText(Query->String());	
 	}
 	
 }	
