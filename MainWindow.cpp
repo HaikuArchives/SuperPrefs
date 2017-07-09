@@ -255,7 +255,8 @@ MainWindow::buildLayout() {
 	
 	//Search Bar
 	
-	tSearch = new BTextControl("Search:","", new BMessage(QUERY));
+	tSearch = new BTextControl("Search:", "Search: ", NULL, NULL);
+	tSearch->SetModificationMessage(new BMessage(QUERY));	
 	tSearch->MakeFocus(true);
 }
 
@@ -296,6 +297,11 @@ MainWindow::QuitRequested() {
 void
 MainWindow::fSearch() {
 	
+	BString* Query = new BString(tSearch->Text());
+	BStringView* SearchQuery = new BStringView("Search","");	
+	int tSearchLength = Query->Length();
+	if(tSearchLength > 1) {
+	
 	vTemp.clear();
 	map<BString, BButton*>::iterator 
 		it = NameButton.begin();						//Iterator to NameSign
@@ -308,8 +314,8 @@ MainWindow::fSearch() {
 	}		
 	
 	sort(vName.begin(), vName.begin()+vName.size());	//Not necessary, done for better understanding
-	BString* Query = new BString(tSearch->Text());
-	BStringView* SearchQuery = new BStringView("Search","");	
+	
+	
 	layout = LogLayout->AddView(SearchQuery);
 	int occurences = 0, found = 0;
 	for(int i = 0 ; i < vName.size() ; i++) 
@@ -323,7 +329,7 @@ MainWindow::fSearch() {
 	else 		Query->operator<<(": Not Found. Occurences: ");
 	Query->operator<<(occurences);
 	Query->operator<<('.');
-	
+
 	if(found) {
 		if(vTemp.size() > 1) {
 			Query->operator<<(" Associated Apps: ");
@@ -344,6 +350,7 @@ MainWindow::fSearch() {
 		NameButton[vTemp[i]]->SetFlat(false);		
 		NameButton[vTemp[i]]->SetViewColor((rgb_color) {255,64,64,255});
 		NameButton[vTemp[i]]->SetFont(be_bold_font);
+	}
 	}
 	
 }	
