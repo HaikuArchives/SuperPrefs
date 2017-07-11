@@ -73,7 +73,9 @@ public:
     		void	fetchPreflets();
     		void	populateLayout();
     		void	mergeLayouts();
+    		void 	mergeLayoutsCategory();
 private:
+			BMessage*				mMenu;
 			BMessage* 				mButton;
 			BGroupLayout*			AppearanceLayout;
 			BGroupLayout*			IOLayout;
@@ -89,6 +91,8 @@ private:
 			BStringView* 			SearchQuery;
 			BString					fAppName;
           	BMenuBar*           	fMenuBar;
+          	BMenuItem*          	mCategory;
+          	BMenuItem*          	mAlphabetical;
           	BMenuItem*          	fItem;
          	BMenu*              	fAppMenu;
         	BBox*               	fAppearanceBox;  

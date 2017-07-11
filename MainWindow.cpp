@@ -22,6 +22,7 @@ MainWindow::MainWindow()
 	populateLayout();
 	fetchPreflets();	
 	mergeLayouts();
+	mergeLayoutsCategory();
 }
 
 void
@@ -142,9 +143,11 @@ MainWindow::buildMenubar() {
 	'C', B_COMMAND_KEY));
 	fMenuBar->AddItem(fAppMenu);
     fAppMenu = new BMenu("Settings");
-    fItem = new BMenuItem("Sort Category wise",	new BMessage(kCategorywise));
-	fItem->SetMarked(true);
-    fAppMenu->AddItem(fItem);
+
+    mCategory = new BMenuItem("Sort Category wise", new BMessage(kCategorywise));	
+    fAppMenu->AddItem(mCategory);
+    mCategory->SetMarked(true); 	// Marked by Default
+    
     fItem = new BMenuItem("Sort Alphabetically", new BMessage(kAlphabeticalwise));
 	fItem->SetMarked(false);
     fAppMenu->AddItem(fItem);
@@ -165,22 +168,6 @@ MainWindow::mergeLayouts() {
 	vLayout = vView->GroupLayout();
 	this->AddChild(vView);
 	vLayout->AddView(fMenuBar);
-	vLayout->AddView(fSearchBox);
-	vLayout->SetInsets(2);
-	vLayout->AddView(fAppearanceBox);
-	vLayout->AddView(fIOBox);
-	vLayout->AddView(fSystemBox);
-
-	SearchLayout->AddView(tSearch);
-	SearchQuery = new BStringView("Search Text","");	
-	SearchLayout->AddView(SearchQuery);
-	
-	BSplitView* SplitGroup = new BSplitView(B_HORIZONTAL);
-	SplitGroup->SetName("Splitter");
-	BLayoutBuilder::Split<>(SplitGroup)
-		.Add(fConnectivityBox)
-		.Add(fUncategorizedBox);				
-	vLayout->AddView(SplitGroup);
 }
 
 void
@@ -345,6 +332,25 @@ MainWindow::fSearch() {
 }	
 
 void
+MainWindow::mergeLayoutsCategory() {
+			
+	 		vLayout->AddView(fSearchBox);
+			vLayout->SetInsets(2);
+            vLayout->AddView(fAppearanceBox);
+			vLayout->AddView(fIOBox);
+			SearchLayout->AddView(tSearch);
+			SearchQuery = new BStringView("Search Text","");	
+			SearchLayout->AddView(SearchQuery);
+			BSplitView* SplitGroup = new BSplitView(B_HORIZONTAL);
+			SplitGroup->SetName("Splitter");
+			BLayoutBuilder::Split<>(SplitGroup)
+				.Add(fConnectivityBox)
+				.Add(fUncategorizedBox);				
+			vLayout->AddView(SplitGroup);
+           	vLayout->AddView(fSystemBox);
+}
+
+void
 MainWindow::MessageReceived(BMessage* message)
 {
         switch(message->what) {
@@ -366,7 +372,16 @@ MainWindow::MessageReceived(BMessage* message)
                 break;
             }
             case kCategorywise:
-                break;
+            {
+            	if(!(mCategory->IsMarked())) {
+            		mCategory->SetMarked(true);
+            		mergeLayoutsCategory();
+            	} 
+            	else {
+            		mCategory->SetMarked(false);
+            	}   
+           		break;
+            }
             case kAlphabeticalwise:
                 break;
         }
