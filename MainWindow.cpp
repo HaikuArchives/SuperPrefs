@@ -19,8 +19,8 @@ MainWindow::MainWindow()
 	buildBox();
 	buildLayout();
 	buildMenubar();
-	populateLayout();
-	fetchPreflets();	
+	fetchPreflets();
+	populateLayout();	
 	mergeLayouts();
 	mergeLayoutsCategory();
 }
@@ -111,6 +111,30 @@ MainWindow::populateLayout() {
 		bSetIcon(button, UncategorizedSign[i]);	
 		layout = UncategorizedLayout->AddView(button);
 	}	// Uncategorized
+
+//	sort(vSign.begin(), vSign.begin()+vSign.size());
+	int i = 0;
+	for(map<BString, BString>::const_iterator it=NameSign.begin(); it != NameSign.end(); ++ it) {
+		
+		mButton = new BMessage(MSG_SIGN);
+		mButton->AddString("mime_val", it->second);
+
+		BButton* button = new BButton(it->first, it->first, mButton);		
+		button->SetFlat(true);
+		bSetIcon(button, it->second);
+		
+		if(i % 6 == 0 || i == 0)
+		{
+			vView = new BGroupView(B_HORIZONTAL);
+			vLayout = vView->GroupLayout();	
+			
+		}
+		vLayout->AddView(button);
+		if(i % 6 == 0 || i == 0)
+		AlphabeticalLayout->AddView(vView);
+		i++;
+	}	// Alphabetical
+	
 }	
 
 void
@@ -148,9 +172,10 @@ MainWindow::buildMenubar() {
     fAppMenu->AddItem(mCategory);
     mCategory->SetMarked(true); 	// Marked by Default
     
-    fItem = new BMenuItem("Sort Alphabetically", new BMessage(kAlphabeticalwise));
-	fItem->SetMarked(false);
-    fAppMenu->AddItem(fItem);
+    mAlphabetical = new BMenuItem("Sort Alphabetically", new BMessage(kAlphabeticalwise));
+    fAppMenu->AddItem(mAlphabetical);
+	mAlphabetical->SetMarked(false);
+
     fMenuBar->AddItem(fAppMenu);
     fAppMenu = new BMenu("Help..");
     BMenuItem* item = new BMenuItem("About..", new BMessage(B_ABOUT_REQUESTED));
@@ -168,11 +193,17 @@ MainWindow::mergeLayouts() {
 	vLayout = vView->GroupLayout();
 	this->AddChild(vView);
 	vLayout->AddView(fMenuBar);
+	vLayout->AddView(fSearchBox);
+	vLayout->SetInsets(2);
+	SearchLayout->AddView(tSearch);
+	SearchQuery = new BStringView("Search Text","");	
+	SearchLayout->AddView(SearchQuery);
 }
 
 void
 MainWindow::buildBox() {
-
+	
+	fAlphabeticalBox = new BBox((char*) NULL);
 	fAppearanceBox = new BBox((char*) NULL);
 	fIOBox = new BBox((char*)NULL);
 	fConnectivityBox = new BBox((char*)NULL);
@@ -180,6 +211,7 @@ MainWindow::buildBox() {
 	fUncategorizedBox = new BBox((char*)NULL);
 	fSearchBox = new BBox((char*)NULL);
 	
+	fAlphabeticalBox->SetLabel("All Preferences [A-Z]");
 	fAppearanceBox->SetLabel("Appearance Preferences:");
 	fConnectivityBox->SetLabel("Connectivity Preferences:");
 	fIOBox->SetLabel("Input/Output Preferences:");
@@ -190,6 +222,11 @@ MainWindow::buildBox() {
 
 void
 MainWindow::buildLayout() {
+	
+	AlphabeticalLayout = BLayoutBuilder::Group<>
+		(fAlphabeticalBox, B_VERTICAL, 0)
+		.SetInsets(15)
+	.Layout();
 		 
 	AppearanceLayout = BLayoutBuilder::Group<>
 		(fAppearanceBox, B_HORIZONTAL, 0)
@@ -267,7 +304,7 @@ MainWindow::fSearch() {
 	int tSearchLength = Query->Length();
 	
 	map<BString, BButton*>::iterator 
-		it = NameButton.begin();						//Iterator to NameSign
+		it = NameButton.begin();						
 	
 	if(tSearchLength > 1) {
 	
@@ -333,21 +370,35 @@ MainWindow::fSearch() {
 
 void
 MainWindow::mergeLayoutsCategory() {
-			
-	 		vLayout->AddView(fSearchBox);
-			vLayout->SetInsets(2);
-            vLayout->AddView(fAppearanceBox);
-			vLayout->AddView(fIOBox);
-			SearchLayout->AddView(tSearch);
-			SearchQuery = new BStringView("Search Text","");	
-			SearchLayout->AddView(SearchQuery);
-			BSplitView* SplitGroup = new BSplitView(B_HORIZONTAL);
-			SplitGroup->SetName("Splitter");
-			BLayoutBuilder::Split<>(SplitGroup)
-				.Add(fConnectivityBox)
-				.Add(fUncategorizedBox);				
-			vLayout->AddView(SplitGroup);
-           	vLayout->AddView(fSystemBox);
+
+  	if(mAlphabetical->IsMarked()) { 
+  		vLayout->RemoveView(fAlphabeticalBox); 
+  		mCategory->SetMarked(true);
+  		mAlphabetical->SetMarked(false);
+  	}
+  	else {
+  		SplitGroup = new BSplitView(B_HORIZONTAL);
+		SplitGroup->SetName("Splitter");
+		BLayoutBuilder::Split<>(SplitGroup)
+			.Add(fConnectivityBox)
+			.Add(fUncategorizedBox);
+  	}
+  	if(!mAlphabetical->IsMarked()) {
+		vLayout->AddView(fAppearanceBox);
+		vLayout->AddView(fIOBox);
+		vLayout->AddView(SplitGroup);
+  		vLayout->AddView(fSystemBox);
+  	}
+  	
+}
+void
+MainWindow::mergeLayoutsAlphabetical() {
+	
+	vLayout->RemoveView(fAppearanceBox);
+	vLayout->RemoveView(fIOBox);
+	vLayout->RemoveView(SplitGroup);
+	vLayout->RemoveView(fSystemBox);
+	vLayout->AddView(fAlphabeticalBox);
 }
 
 void
@@ -372,17 +423,17 @@ MainWindow::MessageReceived(BMessage* message)
                 break;
             }
             case kCategorywise:
-            {
-            	if(!(mCategory->IsMarked())) {
-            		mCategory->SetMarked(true);
-            		mergeLayoutsCategory();
-            	} 
-            	else {
-            		mCategory->SetMarked(false);
-            	}   
-           		break;
+            {		if(!mCategory->IsMarked())
+            		mergeLayoutsCategory(); 
+           	  		break;
             }
             case kAlphabeticalwise:
+            	
+            	if(!(mAlphabetical->IsMarked())) {
+            		mAlphabetical->SetMarked(true);
+            		mergeLayoutsAlphabetical();
+            		if(mCategory->IsMarked()) mCategory->SetMarked(false);
+            	}
                 break;
         }
 }

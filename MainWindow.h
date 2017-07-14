@@ -74,9 +74,11 @@ public:
     		void	populateLayout();
     		void	mergeLayouts();
     		void 	mergeLayoutsCategory();
+    		void	mergeLayoutsAlphabetical();
 private:
 			BMessage*				mMenu;
 			BMessage* 				mButton;
+			BGroupLayout*			AlphabeticalLayout;
 			BGroupLayout*			AppearanceLayout;
 			BGroupLayout*			IOLayout;
 			BGroupLayout*			ConnectivityLayout;
@@ -86,7 +88,9 @@ private:
 			BGroupLayout*			SearchLayout;
 			BGroupLayout*			root;
 			BGroupLayout*			vLayout;
-			BLayoutItem* 			layout;
+			BLayoutItem* 			layout;			
+			BSplitView* 			SplitGroup;
+			BSplitLayout*			SplitLayout;
 			BGroupView*				vView;
 			BStringView* 			SearchQuery;
 			BString					fAppName;
@@ -95,6 +99,7 @@ private:
           	BMenuItem*          	mAlphabetical;
           	BMenuItem*          	fItem;
          	BMenu*              	fAppMenu;
+         	BBox*					fAlphabeticalBox;
         	BBox*               	fAppearanceBox;  
          	BBox*              	 	fConnectivityBox;
          	BBox*               	fSystemBox;
