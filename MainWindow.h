@@ -75,6 +75,8 @@ public:
     		void	mergeLayouts();
     		void 	mergeLayoutsCategory();
     		void	mergeLayoutsAlphabetical();
+    		void	FlatTrue();
+    		void 	FlatFalse(vector<BString>& vTemp);
 private:
 			BMessage*				mMenu;
 			BMessage* 				mButton;
@@ -117,7 +119,9 @@ private:
 			vector<BString> 		vTemp;  				
 			map<BString, BString>	NameSign;	
 			map<BString, BButton*>	NameButton;
+			map<BString, BButton*>	NameButtonAlphabetical;
          	char*					fAppSig; 
+         	int						splitCount;
 };
 
 #endif

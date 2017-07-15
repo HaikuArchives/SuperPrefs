@@ -10,8 +10,8 @@
 
 MainWindow::MainWindow()
 	:
-	BWindow(BRect(),"SuperPrefs",B_TITLED_WINDOW_LOOK,
- 	B_NORMAL_WINDOW_FEEL, B_ASYNCHRONOUS_CONTROLS | B_NOT_RESIZABLE)
+	BWindow(BRect(),"SuperPrefs",B_TITLED_WINDOW,
+		B_AUTO_UPDATE_SIZE_LIMITS | B_NOT_RESIZABLE)
 {
 	ResizeTo(920, 480);
 
@@ -112,29 +112,26 @@ MainWindow::populateLayout() {
 		layout = UncategorizedLayout->AddView(button);
 	}	// Uncategorized
 
-//	sort(vSign.begin(), vSign.begin()+vSign.size());
-	int i = 0;
-	for(map<BString, BString>::const_iterator it=NameSign.begin(); it != NameSign.end(); ++ it) {
+	for(map<BString, BString>::const_iterator it=NameSign.begin(); it != NameSign.end(); ++ it, ++ splitCount) {
 		
 		mButton = new BMessage(MSG_SIGN);
 		mButton->AddString("mime_val", it->second);
-
+		
 		BButton* button = new BButton(it->first, it->first, mButton);		
 		button->SetFlat(true);
 		bSetIcon(button, it->second);
-		
-		if(i % 6 == 0 || i == 0)
+		NameButtonAlphabetical[it->first] = button;
+				
+		if(splitCount % 6 == 0 || splitCount == 0)
 		{
 			vView = new BGroupView(B_HORIZONTAL);
-			vLayout = vView->GroupLayout();	
-			
+			vLayout = vView->GroupLayout();			
 		}
+		
 		vLayout->AddView(button);
-		if(i % 6 == 0 || i == 0)
-		AlphabeticalLayout->AddView(vView);
-		i++;
-	}	// Alphabetical
-	
+		if(splitCount % 6 == 0 || splitCount == 0)
+			AlphabeticalLayout->AddView(vView);
+	}	// Alphabetical	
 }	
 
 void
@@ -306,18 +303,13 @@ MainWindow::fSearch() {
 	map<BString, BButton*>::iterator 
 		it = NameButton.begin();						
 	
+	FlatTrue();
+	
 	if(tSearchLength > 1) {
 	
 	vTemp.clear();
-
-	for(int i = 0 ; i < 24 ; ++i) {
-		NameButton[vName[i]]->SetFlat(true);
-		NameButton[vName[i]]->SetViewColor(ui_color(B_PANEL_BACKGROUND_COLOR));
-		NameButton[vName[i]]->SetFont(be_plain_font);
-		if(i!=23) ++it;
-	}		
-	
-	sort(vName.begin(), vName.begin()+vName.size());	//Not necessary, done for better understanding
+		
+	sort(vName.begin(), vName.begin()+vName.size());	//Optional
 	
 	int occurences = 0, found = 0;
 	for(int i = 0 ; i < vName.size() ; i++) 
@@ -329,6 +321,7 @@ MainWindow::fSearch() {
 	
 	if(found)	Query->operator<<(": Found. Occurences: ");	
 	else 		Query->operator<<(": Not Found. Occurences: ");
+	
 	Query->operator<<(occurences);
 	Query->operator<<('.');
 
@@ -350,23 +343,35 @@ MainWindow::fSearch() {
 	
 	SearchQuery->SetText(Query->String());
 	
+	FlatFalse(vTemp);
+
+	}
+}	
+
+void
+MainWindow::FlatFalse(vector<BString>& vTemp) {
 	for(int i = 0 ; i < vTemp.size() ; i ++ ) {
 		NameButton[vTemp[i]]->SetFlat(false);		
 		NameButton[vTemp[i]]->SetViewColor((rgb_color) {255,64,64,255});
 		NameButton[vTemp[i]]->SetFont(be_bold_font);
-		}
+		NameButtonAlphabetical[vTemp[i]]->SetFlat(false);		
+		NameButtonAlphabetical[vTemp[i]]->SetViewColor((rgb_color) {255,64,64,255});
+		NameButtonAlphabetical[vTemp[i]]->SetFont(be_bold_font);
 	}
-	else {
+}
+
+void
+MainWindow::FlatTrue() {	
+
 	for(int i = 0 ; i < 24 ; ++i) {
 		NameButton[vName[i]]->SetFlat(true);
 		NameButton[vName[i]]->SetViewColor(ui_color(B_PANEL_BACKGROUND_COLOR));
 		NameButton[vName[i]]->SetFont(be_plain_font);
-		if(i!=23) ++it;
+		NameButtonAlphabetical[vName[i]]->SetFlat(true);
+		NameButtonAlphabetical[vName[i]]->SetViewColor(ui_color(B_PANEL_BACKGROUND_COLOR));
+		NameButtonAlphabetical[vName[i]]->SetFont(be_plain_font);
 	}	
-	SearchQuery->SetText(Query->String());	
-	}
-	
-}	
+}
 
 void
 MainWindow::mergeLayoutsCategory() {
@@ -388,12 +393,14 @@ MainWindow::mergeLayoutsCategory() {
 		vLayout->AddView(fIOBox);
 		vLayout->AddView(SplitGroup);
   		vLayout->AddView(fSystemBox);
-  	}
-  	
+  	}  	
 }
+
 void
 MainWindow::mergeLayoutsAlphabetical() {
-	
+		
+	mCategory->SetMarked(false);
+	mAlphabetical->SetMarked(true);
 	vLayout->RemoveView(fAppearanceBox);
 	vLayout->RemoveView(fIOBox);
 	vLayout->RemoveView(SplitGroup);
@@ -423,17 +430,16 @@ MainWindow::MessageReceived(BMessage* message)
                 break;
             }
             case kCategorywise:
-            {		if(!mCategory->IsMarked())
+            {		
+            	if(!mCategory->IsMarked())
             		mergeLayoutsCategory(); 
            	  		break;
             }
             case kAlphabeticalwise:
-            	
-            	if(!(mAlphabetical->IsMarked())) {
-            		mAlphabetical->SetMarked(true);
+            {
+            	if(!mAlphabetical->IsMarked())
             		mergeLayoutsAlphabetical();
-            		if(mCategory->IsMarked()) mCategory->SetMarked(false);
-            	}
                 break;
-        }
+            }
+		}
 }
