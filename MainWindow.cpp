@@ -19,13 +19,11 @@ MainWindow::MainWindow()
 	buildBox();
 	buildLayout();
 	buildMenubar();
-	
 	fetchApps();
 	fetchPreflets();
-	populateLayout();	
-	mergeLayouts();
+	populateLayout();
+	mergeLayouts();	
 	mergeLayoutsCategory();
-	cPref->SetValue(B_CONTROL_ON);
 }
 
 void
@@ -230,8 +228,6 @@ void
 MainWindow::mergeLayouts() {
 	
 	cApps = new BCheckBox("Apps", new BMessage(B_APPS));
-	cPref = new BCheckBox("Preferences", new BMessage(B_PREFS));
-
 	root = new BGroupLayout(B_VERTICAL, 0);
 	this->SetLayout(root);
 	vView = new BGroupView(B_VERTICAL);
@@ -245,8 +241,7 @@ MainWindow::mergeLayouts() {
 	SearchSplitGroup->SetName("Splitter");
 	BLayoutBuilder::Split<>(SearchSplitGroup)
 			.Add(tSearch)
-			.Add(cApps)
-			.Add(cPref);
+			.Add(cApps);
 			
 	SearchQuery = new BStringView("Search Text","");	
 	SearchLayout->AddView(SearchQuery);
@@ -460,8 +455,9 @@ MainWindow::mergeLayoutsCategory() {
 		vLayout->AddView(fAppearanceBox);
 		vLayout->AddView(fIOBox);
 		vLayout->AddView(SplitGroup);
-  		vLayout->AddView(fSystemBox);
-  	}
+  		vLayout->AddView(fSystemBox);  	
+	}
+	
 }
 
 void
@@ -469,12 +465,13 @@ MainWindow::mergeLayoutsAlphabetical() {
 
 	mCategory->SetMarked(false);
 	mAlphabetical->SetMarked(true);
+
 	vLayout->RemoveView(fAppearanceBox);
 	vLayout->RemoveView(fIOBox);
 	vLayout->RemoveView(SplitGroup);
 	vLayout->RemoveView(fSystemBox);
 	vLayout->AddView(fAlphabeticalBox);
-	//FlatFalse();
+
 }
 
 void
@@ -495,7 +492,11 @@ MainWindow::mergeLayoutsApps() {
 	mAlphabetical->SetMarked(true);
 	mCategory->SetMarked(false);
 	
-	if(checked % 2 ==0) { vLayout->RemoveView(fAppsBox); cPref->SetValue(B_CONTROL_ON); }
+	if(checked % 2 ==0) { 
+		vLayout->RemoveView(fAppsBox);  
+		if(!mCategory->IsMarked())
+          	mergeLayoutsCategory();	
+		}
 }
 
 void
@@ -503,16 +504,13 @@ MainWindow::MessageReceived(BMessage* message)
 {
         switch(message->what) {
         	case B_APPS:
-        	{	checked++;
-        		cPref->SetValue(B_CONTROL_OFF);
-        		mergeLayoutsApps();
+        	{	
+        		cApps->SetEnabled(true);
+        		checked++;
+        		mergeLayoutsApps(); 
+        		
         		break;
         	}
-        	case B_PREFS:
-        	{
-        		checked = 0;
-        		break;
-        	}	
         	case QUERY:
         	{
         		fSearch();
@@ -532,14 +530,15 @@ MainWindow::MessageReceived(BMessage* message)
             }
             case kCategorywise:
             {		
-            	if(!mCategory->IsMarked())
+            	
+            	if(!mCategory->IsMarked() && checked % 2 == 0)
             		mergeLayoutsCategory();
             		 
            	  		break;
             }
             case kAlphabeticalwise:
             {
-            	if(!mAlphabetical->IsMarked())
+            	if(!mAlphabetical->IsMarked() && checked % 2 ==0)
             		mergeLayoutsAlphabetical();
                 break;
             }

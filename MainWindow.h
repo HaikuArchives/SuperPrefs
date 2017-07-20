@@ -136,7 +136,6 @@ private:
          	char*					fAppSig; 
          	int						splitCount;
          	BCheckBox* 				cApps;
-         	BCheckBox* 				cPref;
          	int						checked;
 };
 
