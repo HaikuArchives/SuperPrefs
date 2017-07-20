@@ -137,6 +137,7 @@ private:
          	int						splitCount;
          	BCheckBox* 				cApps;
          	BCheckBox* 				cPref;
+         	int						checked;
 };
 
 #endif

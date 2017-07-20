@@ -19,11 +19,13 @@ MainWindow::MainWindow()
 	buildBox();
 	buildLayout();
 	buildMenubar();
+	
 	fetchApps();
 	fetchPreflets();
 	populateLayout();	
 	mergeLayouts();
 	mergeLayoutsCategory();
+	cPref->SetValue(B_CONTROL_ON);
 }
 
 void
@@ -415,6 +417,7 @@ MainWindow::fSearch() {
 
 void
 MainWindow::FlatFalse(vector<BString>& vTemp) {
+	
 	for(int i = 0 ; i < vTemp.size() ; i ++ ) {
 		NameButton[vTemp[i]]->SetFlat(false);		
 		NameButton[vTemp[i]]->SetViewColor((rgb_color) {64,64,64,255});
@@ -458,12 +461,12 @@ MainWindow::mergeLayoutsCategory() {
 		vLayout->AddView(fIOBox);
 		vLayout->AddView(SplitGroup);
   		vLayout->AddView(fSystemBox);
-  	}  	
+  	}
 }
 
 void
 MainWindow::mergeLayoutsAlphabetical() {
-		
+
 	mCategory->SetMarked(false);
 	mAlphabetical->SetMarked(true);
 	vLayout->RemoveView(fAppearanceBox);
@@ -476,7 +479,7 @@ MainWindow::mergeLayoutsAlphabetical() {
 
 void
 MainWindow::mergeLayoutsApps() {
-			
+	
 	if(mCategory->IsMarked()) {
 		vLayout->RemoveView(fAppearanceBox);
 		vLayout->RemoveView(fIOBox);
@@ -489,6 +492,10 @@ MainWindow::mergeLayoutsApps() {
 		vLayout->RemoveView(SplitGroup);
 	}
 	vLayout->AddView(fAppsBox);
+	mAlphabetical->SetMarked(true);
+	mCategory->SetMarked(false);
+	
+	if(checked % 2 ==0) { vLayout->RemoveView(fAppsBox); cPref->SetValue(B_CONTROL_ON); }
 }
 
 void
@@ -496,12 +503,14 @@ MainWindow::MessageReceived(BMessage* message)
 {
         switch(message->what) {
         	case B_APPS:
-        	{
+        	{	checked++;
+        		cPref->SetValue(B_CONTROL_OFF);
         		mergeLayoutsApps();
         		break;
         	}
         	case B_PREFS:
         	{
+        		checked = 0;
         		break;
         	}	
         	case QUERY:
@@ -524,7 +533,8 @@ MainWindow::MessageReceived(BMessage* message)
             case kCategorywise:
             {		
             	if(!mCategory->IsMarked())
-            		mergeLayoutsCategory(); 
+            		mergeLayoutsCategory();
+            		 
            	  		break;
             }
             case kAlphabeticalwise:
