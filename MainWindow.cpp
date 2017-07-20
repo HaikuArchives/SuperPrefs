@@ -143,7 +143,8 @@ MainWindow::populateLayout() {
 		button->SetFlat(true);
 		bSetIcon(button, it->second);
 		NameButtonApps[it->first] = button;
-				
+		button->SetExplicitMinSize(BSize(140.0, 45.0));
+		button->SetExplicitMaxSize(BSize(140.0, 45.0));
 		if(splitCount % 6 == 0 || splitCount == 0)
 		{
 			vView = new BGroupView(B_HORIZONTAL);
