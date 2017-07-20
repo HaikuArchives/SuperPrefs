@@ -54,6 +54,8 @@
 enum {
 	MSG_SIGN					=  'axyz',
 	QUERY						=  'srch',
+	B_APPS						=  'apps',
+	B_PREFS						=	'pref',
 	kMenuAppQuit				=	0000,
 	kAlphabeticalwise			=	0001,
 	kCategorywise				=	0002,
@@ -71,15 +73,18 @@ public:
     		void	buildBox();
     		void	buildLayout();
     		void	fetchPreflets();
+    		void	fetchApps();
     		void	populateLayout();
     		void	mergeLayouts();
     		void 	mergeLayoutsCategory();
     		void	mergeLayoutsAlphabetical();
+    		void	mergeLayoutsApps();
     		void	FlatTrue();
     		void 	FlatFalse(vector<BString>& vTemp);
 private:
 			BMessage*				mMenu;
 			BMessage* 				mButton;
+			BGroupLayout*			AppsLayout;
 			BGroupLayout*			AlphabeticalLayout;
 			BGroupLayout*			AppearanceLayout;
 			BGroupLayout*			IOLayout;
@@ -93,6 +98,8 @@ private:
 			BLayoutItem* 			layout;			
 			BSplitView* 			SplitGroup;
 			BSplitLayout*			SplitLayout;
+			BSplitView* 			SearchSplitGroup;
+			BSplitLayout*			SearchSplitLayout;
 			BGroupView*				vView;
 			BStringView* 			SearchQuery;
 			BString					fAppName;
@@ -102,6 +109,7 @@ private:
           	BMenuItem*          	fItem;
          	BMenu*              	fAppMenu;
          	BBox*					fAlphabeticalBox;
+         	BBox*					fAppsBox;
         	BBox*               	fAppearanceBox;  
          	BBox*              	 	fConnectivityBox;
          	BBox*               	fSystemBox;
@@ -116,12 +124,19 @@ private:
          	vector<BString> 		vSign;				
 			vector<BString> 		vPath;				
 			vector<BString> 		vName;
+			vector<BString> 		vAppsSign;				
+			vector<BString> 		vAppsPath;				
+			vector<BString> 		vAppsName;
 			vector<BString> 		vTemp;  				
 			map<BString, BString>	NameSign;	
+			map<BString, BString>	AppsNameSign;
 			map<BString, BButton*>	NameButton;
 			map<BString, BButton*>	NameButtonAlphabetical;
+			map<BString, BButton*>	NameButtonApps;
          	char*					fAppSig; 
          	int						splitCount;
+         	BCheckBox* 				cApps;
+         	BCheckBox* 				cPref;
 };
 
 #endif

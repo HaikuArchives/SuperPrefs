@@ -19,6 +19,7 @@ MainWindow::MainWindow()
 	buildBox();
 	buildLayout();
 	buildMenubar();
+	fetchApps();
 	fetchPreflets();
 	populateLayout();	
 	mergeLayouts();
@@ -132,6 +133,27 @@ MainWindow::populateLayout() {
 		if(splitCount % 6 == 0 || splitCount == 0)
 			AlphabeticalLayout->AddView(vView);
 	}	// Alphabetical	
+	
+	for(map<BString, BString>::const_iterator it=AppsNameSign.begin(); it != AppsNameSign.end(); ++ it, ++ splitCount) {
+		
+		mButton = new BMessage(MSG_SIGN);
+		mButton->AddString("mime_val", it->second);
+		
+		BButton* button = new BButton(it->first, it->first, mButton);		
+		button->SetFlat(true);
+		bSetIcon(button, it->second);
+		NameButtonApps[it->first] = button;
+				
+		if(splitCount % 6 == 0 || splitCount == 0)
+		{
+			vView = new BGroupView(B_HORIZONTAL);
+			vLayout = vView->GroupLayout();			
+		}
+		
+		vLayout->AddView(button);
+		if(splitCount % 6 == 0 || splitCount == 0)
+			AppsLayout->AddView(vView);
+	}	// Alphabetical	
 }	
 
 void
@@ -152,7 +174,28 @@ MainWindow::fetchPreflets() {
 		bGetName(sign, &fAppName);
 		vName.push_back(fAppName);		//Pushing name
 		NameSign[fAppName]=sign;
-	}			
+	}
+}
+
+void
+MainWindow::fetchApps() {
+
+	find_directory(B_SYSTEM_APPS_DIRECTORY, &path, true);
+	directory.SetTo(path.Path());
+
+	while(directory.GetNextRef(&ref)==B_OK) {
+		char sign[B_MIME_TYPE_LENGTH];
+		entry.SetTo(&ref, false);		
+		entry.GetPath(&path);	
+		BFile file(&entry, B_READ_ONLY);
+		BAppFileInfo fileinfo(&file);
+		fileinfo.GetSignature(sign);
+		vAppsPath.push_back(path.Path());	//Pushing path
+		vAppsSign.push_back(sign);			//Pushing sign
+		bGetName(sign, &fAppName);
+		vAppsName.push_back(fAppName);		//Pushing name
+		AppsNameSign[fAppName]=sign;
+	}
 }
 
 void
@@ -183,7 +226,10 @@ MainWindow::buildMenubar() {
 
 void
 MainWindow::mergeLayouts() {
-		
+	
+	cApps = new BCheckBox("Apps", new BMessage(B_APPS));
+	cPref = new BCheckBox("Preferences", new BMessage(B_PREFS));
+
 	root = new BGroupLayout(B_VERTICAL, 0);
 	this->SetLayout(root);
 	vView = new BGroupView(B_VERTICAL);
@@ -191,25 +237,35 @@ MainWindow::mergeLayouts() {
 	this->AddChild(vView);
 	vLayout->AddView(fMenuBar);
 	vLayout->AddView(fSearchBox);
-	vLayout->SetInsets(2);
-	SearchLayout->AddView(tSearch);
+	vLayout->SetInsets(2);	
+		
+	SearchSplitGroup = new BSplitView(B_HORIZONTAL);
+	SearchSplitGroup->SetName("Splitter");
+	BLayoutBuilder::Split<>(SearchSplitGroup)
+			.Add(tSearch)
+			.Add(cApps)
+			.Add(cPref);
+			
 	SearchQuery = new BStringView("Search Text","");	
 	SearchLayout->AddView(SearchQuery);
+	SearchLayout->AddView(SearchSplitGroup);
 }
 
 void
 MainWindow::buildBox() {
 	
 	fAlphabeticalBox = new BBox((char*) NULL);
+	fAppsBox = new BBox((char*) NULL);
 	fAppearanceBox = new BBox((char*) NULL);
 	fIOBox = new BBox((char*)NULL);
 	fConnectivityBox = new BBox((char*)NULL);
 	fSystemBox = new BBox((char*)NULL);
 	fUncategorizedBox = new BBox((char*)NULL);
 	fSearchBox = new BBox((char*)NULL);
-	
+		
 	fAlphabeticalBox->SetLabel("All Preferences [A-Z]");
 	fAppearanceBox->SetLabel("Appearance Preferences:");
+	fAppsBox->SetLabel("All Apps [A-Z]");
 	fConnectivityBox->SetLabel("Connectivity Preferences:");
 	fIOBox->SetLabel("Input/Output Preferences:");
 	fSystemBox->SetLabel("System Preferences:");
@@ -219,6 +275,11 @@ MainWindow::buildBox() {
 
 void
 MainWindow::buildLayout() {
+	
+	AppsLayout = BLayoutBuilder::Group<>
+		(fAppsBox, B_VERTICAL, 0)
+		.SetInsets(15)
+	.Layout();
 	
 	AlphabeticalLayout = BLayoutBuilder::Group<>
 		(fAlphabeticalBox, B_VERTICAL, 0)
@@ -272,6 +333,7 @@ MainWindow::bGetName(BString AppSign, BString* fAppName) {
 	if(BLocaleRoster::Default()->GetLocalizedFileName(LOCALIZED_APP, ref)
 			==B_OK) {
 		*fAppName = LOCALIZED_APP;
+
 	}
 	else {				
 		*fAppName = EN_APP;
@@ -344,7 +406,10 @@ MainWindow::fSearch() {
 	SearchQuery->SetText(Query->String());
 	
 	FlatFalse(vTemp);
-
+	
+	}
+	else {
+		SearchQuery->SetText("");
 	}
 }	
 
@@ -352,10 +417,10 @@ void
 MainWindow::FlatFalse(vector<BString>& vTemp) {
 	for(int i = 0 ; i < vTemp.size() ; i ++ ) {
 		NameButton[vTemp[i]]->SetFlat(false);		
-		NameButton[vTemp[i]]->SetViewColor((rgb_color) {255,64,64,255});
+		NameButton[vTemp[i]]->SetViewColor((rgb_color) {64,64,64,255});
 		NameButton[vTemp[i]]->SetFont(be_bold_font);
 		NameButtonAlphabetical[vTemp[i]]->SetFlat(false);		
-		NameButtonAlphabetical[vTemp[i]]->SetViewColor((rgb_color) {255,64,64,255});
+		NameButtonAlphabetical[vTemp[i]]->SetViewColor((rgb_color) {64,64,64,255});
 		NameButtonAlphabetical[vTemp[i]]->SetFont(be_bold_font);
 	}
 }
@@ -406,12 +471,39 @@ MainWindow::mergeLayoutsAlphabetical() {
 	vLayout->RemoveView(SplitGroup);
 	vLayout->RemoveView(fSystemBox);
 	vLayout->AddView(fAlphabeticalBox);
+	//FlatFalse();
+}
+
+void
+MainWindow::mergeLayoutsApps() {
+			
+	if(mCategory->IsMarked()) {
+		vLayout->RemoveView(fAppearanceBox);
+		vLayout->RemoveView(fIOBox);
+		vLayout->RemoveView(SplitGroup);
+		vLayout->RemoveView(fSystemBox);
+		vLayout->RemoveView(SplitGroup);
+	}
+	if(mAlphabetical->IsMarked()) {
+		vLayout->RemoveView(fAlphabeticalBox);
+		vLayout->RemoveView(SplitGroup);
+	}
+	vLayout->AddView(fAppsBox);
 }
 
 void
 MainWindow::MessageReceived(BMessage* message)
 {
         switch(message->what) {
+        	case B_APPS:
+        	{
+        		mergeLayoutsApps();
+        		break;
+        	}
+        	case B_PREFS:
+        	{
+        		break;
+        	}	
         	case QUERY:
         	{
         		fSearch();
