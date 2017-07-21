@@ -362,7 +362,6 @@ MainWindow::fSearch() {
 	BString* Query = new BString(tSearch->Text());
 	int tSearchLength = Query->Length();
 	FlatTrue();
-	
 	if(checked % 2 == 0) {
 		
 	if(tSearchLength > 1) {
@@ -480,7 +479,7 @@ void
 MainWindow::FlatTrue() {	
 
 	if(checked % 2 == 0) {
-	for(int i = 0 ; i < 24 ; ++i) {
+	for(int i = 0 ; i < vName.size() ; ++i) {
 		NameButton[vName[i]]->SetFlat(true);
 		NameButton[vName[i]]->SetViewColor(ui_color(B_PANEL_BACKGROUND_COLOR));
 		NameButton[vName[i]]->SetFont(be_plain_font);
@@ -490,7 +489,7 @@ MainWindow::FlatTrue() {
 	}	
 	}
 	else {
-		for(int i = 0 ; i < 43 ; ++ i ) {
+		for(int i = 0 ; i < vAppsName.size() ; ++ i ) {
 		NameButtonApps[vAppsName[i]]->SetFlat(true);		
 		NameButtonApps[vAppsName[i]]->SetViewColor(ui_color(B_PANEL_BACKGROUND_COLOR));
 		NameButtonApps[vAppsName[i]]->SetFont(be_plain_font);
