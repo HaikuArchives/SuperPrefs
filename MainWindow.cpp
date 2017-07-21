@@ -112,7 +112,7 @@ MainWindow::populateLayout() {
 		bSetIcon(button, UncategorizedSign[i]);	
 		layout = UncategorizedLayout->AddView(button);
 	}	// Uncategorized
-
+	int splitCount = 0;
 	for(map<BString, BString>::const_iterator it=NameSign.begin(); it != NameSign.end(); ++ it, ++ splitCount) {
 		
 		mButton = new BMessage(MSG_SIGN);
@@ -134,6 +134,8 @@ MainWindow::populateLayout() {
 			AlphabeticalLayout->AddView(vView);
 	}	// Alphabetical	
 	
+	
+	splitCount = 0;	
 	for(map<BString, BString>::const_iterator it=AppsNameSign.begin(); it != AppsNameSign.end(); ++ it, ++ splitCount) {
 		
 		mButton = new BMessage(MSG_SIGN);
@@ -145,16 +147,16 @@ MainWindow::populateLayout() {
 		NameButtonApps[it->first] = button;
 		button->SetExplicitMinSize(BSize(140.0, 45.0));
 		button->SetExplicitMaxSize(BSize(140.0, 45.0));
-		if(splitCount % 6 == 0 || splitCount == 0)
+		if(splitCount == 0 || splitCount % 6 == 0)
 		{
 			vView = new BGroupView(B_HORIZONTAL);
-			vLayout = vView->GroupLayout();			
+			vLayout = vView->GroupLayout();		
 		}
 		
 		vLayout->AddView(button);
-		if(splitCount % 6 == 0 || splitCount == 0)
+		if(splitCount % 6 == 0)
 			AppsLayout->AddView(vView);
-	}	// Alphabetical	
+	}	//Apps		
 }	
 
 void
@@ -359,17 +361,13 @@ MainWindow::fSearch() {
 
 	BString* Query = new BString(tSearch->Text());
 	int tSearchLength = Query->Length();
-	
-	map<BString, BButton*>::iterator 
-		it = NameButton.begin();						
-	
 	FlatTrue();
 	
-	if(tSearchLength > 1) {
-	
-	vTemp.clear();
+	if(checked % 2 == 0) {
 		
-	sort(vName.begin(), vName.begin()+vName.size());	//Optional
+	if(tSearchLength > 1) {
+		
+	vTemp.clear();	
 	
 	int occurences = 0, found = 0;
 	for(int i = 0 ; i < vName.size() ; i++) 
@@ -406,14 +404,60 @@ MainWindow::fSearch() {
 	FlatFalse(vTemp);
 	
 	}
+		else {
+			SearchQuery->SetText("");
+		}
+	}
+	else {
+		
+	if(tSearchLength > 2) {
+	vTemp.clear();	
+	sort(vAppsName.begin(), vAppsName.begin()+vAppsName.size());
+	int occurences = 0, found = 0;
+	for(int i = 0 ; i < vAppsName.size() ; i++) 
+  		if(vAppsName[i].IFindFirst(*Query) != B_ERROR) {
+			occurences++;		
+			found = 1;
+			vTemp.push_back(vAppsName[i]);
+		}
+	
+	if(found)	Query->operator<<(": Found. Occurences: ");	
+	else 		Query->operator<<(": Not Found. Occurences: ");
+	
+	Query->operator<<(occurences);
+	Query->operator<<('.');
+
+	if(found) {
+		if(vTemp.size() > 1) {
+			Query->operator<<(" Associated Apps: ");
+			for(int i = 0 ; i < vTemp.size() ; i++) {
+				Query->operator<<(vTemp[i]);
+				if(i != vTemp.size() - 1)	Query->operator<<(", ");
+				else	Query->operator<<('.');
+			}
+		}
+		else {
+			Query->operator<<(" Associated App: ");
+			Query->operator<<(vTemp[0]);
+			Query->operator<<('.');
+		}
+	}
+	
+	SearchQuery->SetText(Query->String());
+	
+	FlatFalse(vTemp);
+	
+	}
 	else {
 		SearchQuery->SetText("");
 	}
+	}	
 }	
 
 void
 MainWindow::FlatFalse(vector<BString>& vTemp) {
 	
+	if(checked % 2 == 0) {
 	for(int i = 0 ; i < vTemp.size() ; i ++ ) {
 		NameButton[vTemp[i]]->SetFlat(false);		
 		NameButton[vTemp[i]]->SetViewColor((rgb_color) {64,64,64,255});
@@ -422,11 +466,20 @@ MainWindow::FlatFalse(vector<BString>& vTemp) {
 		NameButtonAlphabetical[vTemp[i]]->SetViewColor((rgb_color) {64,64,64,255});
 		NameButtonAlphabetical[vTemp[i]]->SetFont(be_bold_font);
 	}
+	}
+	else {
+		for(int i = 0 ; i < vTemp.size() ; i ++ ) {
+		NameButtonApps[vTemp[i]]->SetFlat(false);		
+		NameButtonApps[vTemp[i]]->SetViewColor((rgb_color) {64,64,64,255});
+		NameButtonApps[vTemp[i]]->SetFont(be_bold_font);
+	}
+	}			
 }
 
 void
 MainWindow::FlatTrue() {	
 
+	if(checked % 2 == 0) {
 	for(int i = 0 ; i < 24 ; ++i) {
 		NameButton[vName[i]]->SetFlat(true);
 		NameButton[vName[i]]->SetViewColor(ui_color(B_PANEL_BACKGROUND_COLOR));
@@ -435,6 +488,15 @@ MainWindow::FlatTrue() {
 		NameButtonAlphabetical[vName[i]]->SetViewColor(ui_color(B_PANEL_BACKGROUND_COLOR));
 		NameButtonAlphabetical[vName[i]]->SetFont(be_plain_font);
 	}	
+	}
+	else {
+		for(int i = 0 ; i < 43 ; ++ i ) {
+		NameButtonApps[vAppsName[i]]->SetFlat(true);		
+		NameButtonApps[vAppsName[i]]->SetViewColor(ui_color(B_PANEL_BACKGROUND_COLOR));
+		NameButtonApps[vAppsName[i]]->SetFont(be_plain_font);
+	}
+	}
+
 }
 
 void

@@ -133,8 +133,7 @@ private:
 			map<BString, BButton*>	NameButton;
 			map<BString, BButton*>	NameButtonAlphabetical;
 			map<BString, BButton*>	NameButtonApps;
-         	char*					fAppSig; 
-         	int						splitCount;
+         	char*					fAppSig;
          	BCheckBox* 				cApps;
          	int						checked;
 };
