@@ -247,7 +247,7 @@ MainWindow::mergeLayouts() {
 			.Add(cApps);
 			
 	SearchQuery = new BStringView("Search Text","");	
-	SearchLayout->AddView(SearchQuery);
+	// SearchLayout->AddView(SearchQuery);
 	SearchLayout->AddView(SearchSplitGroup);
 }
 
@@ -533,7 +533,6 @@ MainWindow::mergeLayoutsAlphabetical() {
 	vLayout->RemoveView(SplitGroup);
 	vLayout->RemoveView(fSystemBox);
 	vLayout->AddView(fAlphabeticalBox);
-
 }
 
 void
@@ -569,8 +568,7 @@ MainWindow::MessageReceived(BMessage* message)
         	{	
         		cApps->SetEnabled(true);
         		checked++;
-        		mergeLayoutsApps(); 
-        		
+        		mergeLayoutsApps();         		
         		break;
         	}
         	case QUERY:

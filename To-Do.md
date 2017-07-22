@@ -16,9 +16,9 @@ Search irrespective of Captialization [DONE] ✅
 
 Implement Search updation based on text change [DONE] ✅
 
-Alter [preflets which do not have translation] catalog name
+Implement Apps view [DONE] ✅
 
-During Search, hide all BButtons other than BButtons associated with query
+Add seperate category for 3rd party prefs [DONE]
 
 Segregate Preferences according to their categories with attribute in **.rdef**
 
