@@ -124,10 +124,11 @@ private:
          	entry_ref				ref;
          	BEntry					entry;
          	BTextControl*       	tSearch;
+         	BCheckBox* 				cApps;
          	vector<BString> 		vSign;				
 			vector<BString> 		vPath;				
 			vector<BString> 		vName;
-			vector<BString>			vSystemAppsSign;
+			vector<BString>			vSystemApps;
 			vector<BString> 		vAppsSign;				
 			vector<BString> 		vAppsPath;				
 			vector<BString> 		vAppsName;
@@ -138,9 +139,7 @@ private:
 			map<BString, BButton*>	NameButtonAlphabetical;
 			map<BString, BButton*>	NameButtonApps;
          	char*					fAppSig;
-         	BCheckBox* 				cApps;
          	int						checked;
-         	int						flag;
 };
 
 #endif

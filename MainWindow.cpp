@@ -62,7 +62,7 @@ MainWindow::populateLayout() {
 		NameButton[fAppName] = button;
 		bSetIcon(button, AppearanceSign[i]);	
 		layout = AppearanceLayout->AddView(button);
-		vSystemAppsSign.push_back(fAppName);
+		vSystemApps.push_back(fAppName);
 	}	// Appearance
 	
 	for(int i=0; i<3; i++) {
@@ -75,7 +75,7 @@ MainWindow::populateLayout() {
 		NameButton[fAppName] = button;
 		bSetIcon(button, ConnectivitySign[i]);	
 		layout = ConnectivityLayout->AddView(button);
-		vSystemAppsSign.push_back(fAppName);
+		vSystemApps.push_back(fAppName);
 	}	// Connectivity
 	
 	for(int i=0; i<7; i++) {
@@ -88,7 +88,7 @@ MainWindow::populateLayout() {
 		NameButton[fAppName] = button;
 		bSetIcon(button, IOSign[i]);	
 		layout = IOLayout->AddView(button);
-		vSystemAppsSign.push_back(fAppName);
+		vSystemApps.push_back(fAppName);
 	} 	// Input/Output
  
 	for(int i=0; i<7; i++) {
@@ -101,7 +101,7 @@ MainWindow::populateLayout() {
 		NameButton[fAppName] = button;
 		bSetIcon(button, SystemSign[i]);	
 		layout = SystemLayout->AddView(button);
-		vSystemAppsSign.push_back(fAppName);
+		vSystemApps.push_back(fAppName);
 	}	// System
 
 	for(int i=0; i<3; i++) {
@@ -115,17 +115,18 @@ MainWindow::populateLayout() {
 		NameButton[fAppName] = button;
 		bSetIcon(button, UncategorizedSign[i]);	
 		layout = UncategorizedLayout->AddView(button);
-		vSystemAppsSign.push_back(fAppName);
+		vSystemApps.push_back(fAppName);
 	}	// Uncategorized
 
 	for(int i=0; i<vSign.size(); i++) {
-		bGetName(vSign[i], &fAppName);	
-		if (!(std::find(vSystemAppsSign.begin(), vSystemAppsSign.end(), fAppName) != vSystemAppsSign.end()))
+		bGetName(vSign[i], &fAppName);			
+		if (!(std::find(vSystemApps.begin(), vSystemApps.end(), fAppName) != vSystemApps.end()))
 		{ 
    			mButton = new BMessage(MSG_SIGN);
 			mButton->AddString("mime_val", vSign[i]);
 			BButton* button = new BButton(fAppName, fAppName, mButton);
 			button->SetFlat(true);
+			NameButton[fAppName] = button;
 			bSetIcon(button, vSign[i]);	
 			layout = CustomLayout->AddView(button);
 		}
@@ -568,9 +569,9 @@ MainWindow::mergeLayoutsApps() {
 	if(mCategory->IsMarked()) {
 		vLayout->RemoveView(fAppearanceBox);
 		vLayout->RemoveView(fIOBox);
-		vLayout->RemoveView(SplitGroup);
+		vLayout->RemoveView(fCustomBox);
 		vLayout->RemoveView(fSystemBox);
-		vLayout->RemoveView(SplitGroup);
+		vLayout->RemoveView(SplitGroup);		
 	}
 	if(mAlphabetical->IsMarked()) {
 		vLayout->RemoveView(fAlphabeticalBox);
