@@ -62,6 +62,7 @@ MainWindow::populateLayout() {
 		NameButton[fAppName] = button;
 		bSetIcon(button, AppearanceSign[i]);	
 		layout = AppearanceLayout->AddView(button);
+		vSystemAppsSign.push_back(fAppName);
 	}	// Appearance
 	
 	for(int i=0; i<3; i++) {
@@ -74,6 +75,7 @@ MainWindow::populateLayout() {
 		NameButton[fAppName] = button;
 		bSetIcon(button, ConnectivitySign[i]);	
 		layout = ConnectivityLayout->AddView(button);
+		vSystemAppsSign.push_back(fAppName);
 	}	// Connectivity
 	
 	for(int i=0; i<7; i++) {
@@ -86,6 +88,7 @@ MainWindow::populateLayout() {
 		NameButton[fAppName] = button;
 		bSetIcon(button, IOSign[i]);	
 		layout = IOLayout->AddView(button);
+		vSystemAppsSign.push_back(fAppName);
 	} 	// Input/Output
  
 	for(int i=0; i<7; i++) {
@@ -98,6 +101,7 @@ MainWindow::populateLayout() {
 		NameButton[fAppName] = button;
 		bSetIcon(button, SystemSign[i]);	
 		layout = SystemLayout->AddView(button);
+		vSystemAppsSign.push_back(fAppName);
 	}	// System
 
 	for(int i=0; i<3; i++) {
@@ -111,7 +115,22 @@ MainWindow::populateLayout() {
 		NameButton[fAppName] = button;
 		bSetIcon(button, UncategorizedSign[i]);	
 		layout = UncategorizedLayout->AddView(button);
+		vSystemAppsSign.push_back(fAppName);
 	}	// Uncategorized
+
+	for(int i=0; i<vSign.size(); i++) {
+		bGetName(vSign[i], &fAppName);	
+		if (!(std::find(vSystemAppsSign.begin(), vSystemAppsSign.end(), fAppName) != vSystemAppsSign.end()))
+		{ 
+   			mButton = new BMessage(MSG_SIGN);
+			mButton->AddString("mime_val", vSign[i]);
+			BButton* button = new BButton(fAppName, fAppName, mButton);
+			button->SetFlat(true);
+			bSetIcon(button, vSign[i]);	
+			layout = CustomLayout->AddView(button);
+		}
+	}	// Custom
+	
 	int splitCount = 0;
 	for(map<BString, BString>::const_iterator it=NameSign.begin(); it != NameSign.end(); ++ it, ++ splitCount) {
 		
@@ -261,6 +280,7 @@ MainWindow::buildBox() {
 	fConnectivityBox = new BBox((char*)NULL);
 	fSystemBox = new BBox((char*)NULL);
 	fUncategorizedBox = new BBox((char*)NULL);
+	fCustomBox = new BBox((char*)NULL);
 	fSearchBox = new BBox((char*)NULL);
 		
 	fAlphabeticalBox->SetLabel("All Preferences [A-Z]");
@@ -270,6 +290,7 @@ MainWindow::buildBox() {
 	fIOBox->SetLabel("Input/Output Preferences:");
 	fSystemBox->SetLabel("System Preferences:");
 	fUncategorizedBox->SetLabel("Uncategorized:");
+	fCustomBox->SetLabel("Custom Preferences:");
 	fSearchBox->SetLabel("Search:");
 }
 
@@ -308,6 +329,11 @@ MainWindow::buildLayout() {
 	
 	UncategorizedLayout = BLayoutBuilder::Group<>
 		(fUncategorizedBox, B_HORIZONTAL, 0)
+		.SetInsets(15)
+	.Layout();
+	
+	CustomLayout = BLayoutBuilder::Group<>
+		(fCustomBox, B_HORIZONTAL, 0)
 		.SetInsets(15)
 	.Layout();
 	
@@ -518,8 +544,8 @@ MainWindow::mergeLayoutsCategory() {
 		vLayout->AddView(fIOBox);
 		vLayout->AddView(SplitGroup);
   		vLayout->AddView(fSystemBox);  	
-	}
-	
+  		vLayout->AddView(fCustomBox);
+	}	
 }
 
 void
@@ -532,6 +558,7 @@ MainWindow::mergeLayoutsAlphabetical() {
 	vLayout->RemoveView(fIOBox);
 	vLayout->RemoveView(SplitGroup);
 	vLayout->RemoveView(fSystemBox);
+	vLayout->RemoveView(fCustomBox);
 	vLayout->AddView(fAlphabeticalBox);
 }
 

@@ -91,6 +91,7 @@ private:
 			BGroupLayout*			ConnectivityLayout;
 			BGroupLayout*			SystemLayout;
 			BGroupLayout*			UncategorizedLayout;
+			BGroupLayout*			CustomLayout;
 			BGroupLayout*			MainLayout;
 			BGroupLayout*			SearchLayout;
 			BGroupLayout*			root;
@@ -103,6 +104,7 @@ private:
 			BGroupView*				vView;
 			BStringView* 			SearchQuery;
 			BString					fAppName;
+			BString					fSystemAppName;
           	BMenuBar*           	fMenuBar;
           	BMenuItem*          	mCategory;
           	BMenuItem*          	mAlphabetical;
@@ -116,6 +118,7 @@ private:
          	BBox*					fSearchBox;
          	BBox*           		fUncategorizedBox;
          	BBox*               	fIOBox;
+         	BBox*					fCustomBox;
          	BPath					path;
          	BDirectory				directory;
          	entry_ref				ref;
@@ -124,6 +127,7 @@ private:
          	vector<BString> 		vSign;				
 			vector<BString> 		vPath;				
 			vector<BString> 		vName;
+			vector<BString>			vSystemAppsSign;
 			vector<BString> 		vAppsSign;				
 			vector<BString> 		vAppsPath;				
 			vector<BString> 		vAppsName;
@@ -136,6 +140,7 @@ private:
          	char*					fAppSig;
          	BCheckBox* 				cApps;
          	int						checked;
+         	int						flag;
 };
 
 #endif
