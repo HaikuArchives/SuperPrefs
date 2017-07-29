@@ -10,6 +10,7 @@
 #define MAINWINDOW_H
 
 #include <new>
+#include <Alert.h>
 #include <string>
 #include <Directory.h>
 #include <FindDirectory.h>

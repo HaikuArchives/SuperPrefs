@@ -385,7 +385,7 @@ MainWindow::QuitRequested() {
 
 void
 MainWindow::fSearch() {
-
+	
 	BString* Query = new BString(tSearch->Text());
 	int tSearchLength = Query->Length();
 	FlatTrue();
@@ -522,7 +522,6 @@ MainWindow::FlatTrue() {
 		NameButtonApps[vAppsName[i]]->SetFont(be_plain_font);
 	}
 	}
-
 }
 
 void
@@ -618,7 +617,12 @@ MainWindow::MessageReceived(BMessage* message)
             }
             case kCategorywise:
             {		
-            	
+            	if(checked % 2 != 0)
+            	{
+            		BAlert* alert = new BAlert("AppsCategory", 
+            		"No Categorization available for Apps", "OK");
+            		alert->Go();
+            	}
             	if(!mCategory->IsMarked() && checked % 2 == 0)
             		mergeLayoutsCategory();
             		 
