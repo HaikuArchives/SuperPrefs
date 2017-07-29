@@ -52,73 +52,77 @@ MainWindow::populateLayout() {
 	/* TODO: Add an attribute to .rdef of every preflet to denote its cateogry or a similar
 			method to avoid hardcoded categories.	*/
 			
-	for(int i=0; i<4; i++) {
+	for(int i=0; i < sizeof(AppearanceSign)/sizeof(AppearanceSign[0]) ; i++) {
 		mButton = new BMessage(MSG_SIGN);
 		mButton->AddString("mime_val", AppearanceSign[i]);
-	
+		
 		bGetName(AppearanceSign[i], &fAppName);		
 		BButton* button = new BButton(fAppName, fAppName, mButton);
 		button->SetFlat(true);
+		button->SetExplicitAlignment(BAlignment(B_ALIGN_LEFT, B_ALIGN_TOP));
 		NameButton[fAppName] = button;
 		bSetIcon(button, AppearanceSign[i]);	
 		layout = AppearanceLayout->AddView(button);
 		vSystemApps.push_back(fAppName);
 	}	// Appearance
 	
-	for(int i=0; i<3; i++) {
+	for(int i=0; i < sizeof(ConnectivitySign)/sizeof(ConnectivitySign[0]) ; i++) {
 		mButton = new BMessage(MSG_SIGN);
 		mButton->AddString("mime_val", ConnectivitySign[i]);
 	
 		bGetName(ConnectivitySign[i], &fAppName);		
 		BButton* button = new BButton(fAppName, fAppName, mButton);
 		button->SetFlat(true);
+		button->SetExplicitAlignment(BAlignment(B_ALIGN_LEFT, B_ALIGN_TOP));
 		NameButton[fAppName] = button;
 		bSetIcon(button, ConnectivitySign[i]);	
 		layout = ConnectivityLayout->AddView(button);
 		vSystemApps.push_back(fAppName);
 	}	// Connectivity
 	
-	for(int i=0; i<7; i++) {
+	for(int i=0; i < sizeof(IOSign)/sizeof(IOSign[0]) ; i++) {
 		mButton = new BMessage(MSG_SIGN);
 		mButton->AddString("mime_val", IOSign[i]);
 	
 		bGetName(IOSign[i], &fAppName);		
 		BButton* button = new BButton(fAppName, fAppName, mButton);
 		button->SetFlat(true);
+		button->SetExplicitAlignment(BAlignment(B_ALIGN_LEFT, B_ALIGN_TOP));
 		NameButton[fAppName] = button;
 		bSetIcon(button, IOSign[i]);	
 		layout = IOLayout->AddView(button);
 		vSystemApps.push_back(fAppName);
 	} 	// Input/Output
  
-	for(int i=0; i<7; i++) {
+	for(int i=0; i < sizeof(SystemSign)/sizeof(SystemSign[0]) ; i++) {
 		mButton = new BMessage(MSG_SIGN);
 		mButton->AddString("mime_val", SystemSign[i]);
 	
 		bGetName(SystemSign[i], &fAppName);		
 		BButton* button = new BButton(fAppName, fAppName, mButton);
 		button->SetFlat(true);
+		button->SetExplicitAlignment(BAlignment(B_ALIGN_LEFT, B_ALIGN_TOP));
 		NameButton[fAppName] = button;
 		bSetIcon(button, SystemSign[i]);	
 		layout = SystemLayout->AddView(button);
 		vSystemApps.push_back(fAppName);
 	}	// System
 
-	for(int i=0; i<3; i++) {
+	for(int i=0; i < sizeof(UncategorizedSign)/sizeof(UncategorizedSign[0]); i++) {
 		mButton = new BMessage(MSG_SIGN);
 		mButton->AddString("mime_val", UncategorizedSign[i]);
 	
 		bGetName(UncategorizedSign[i], &fAppName);		
-		BButton* button = new BButton(fAppName, fAppName, mButton);
-		
+		BButton* button = new BButton(fAppName, fAppName, mButton);		
 		button->SetFlat(true);
+		button->SetExplicitAlignment(BAlignment(B_ALIGN_LEFT, B_ALIGN_TOP));
 		NameButton[fAppName] = button;
 		bSetIcon(button, UncategorizedSign[i]);	
 		layout = UncategorizedLayout->AddView(button);
 		vSystemApps.push_back(fAppName);
 	}	// Uncategorized
 
-	for(int i=0; i<vSign.size(); i++) {
+	for(int i=0; i < vSign.size(); i++) {
 		bGetName(vSign[i], &fAppName);			
 		if (!(std::find(vSystemApps.begin(), vSystemApps.end(), fAppName) != vSystemApps.end()))
 		{ 
@@ -126,6 +130,7 @@ MainWindow::populateLayout() {
 			mButton->AddString("mime_val", vSign[i]);
 			BButton* button = new BButton(fAppName, fAppName, mButton);
 			button->SetFlat(true);
+			button->SetExplicitAlignment(BAlignment(B_ALIGN_LEFT, B_ALIGN_TOP));
 			NameButton[fAppName] = button;
 			bSetIcon(button, vSign[i]);	
 			layout = CustomLayout->AddView(button);
@@ -142,7 +147,8 @@ MainWindow::populateLayout() {
 		button->SetFlat(true);
 		bSetIcon(button, it->second);
 		NameButtonAlphabetical[it->first] = button;
-				
+		button->SetExplicitMinSize(BSize(120.0, 45.0));
+		button->SetExplicitAlignment(BAlignment(B_ALIGN_LEFT, B_ALIGN_TOP));
 		if(splitCount % 6 == 0 || splitCount == 0)
 		{
 			vView = new BGroupView(B_HORIZONTAL);
@@ -165,8 +171,8 @@ MainWindow::populateLayout() {
 		button->SetFlat(true);
 		bSetIcon(button, it->second);
 		NameButtonApps[it->first] = button;
-		button->SetExplicitMinSize(BSize(140.0, 45.0));
-		button->SetExplicitMaxSize(BSize(140.0, 45.0));
+		button->SetExplicitMinSize(BSize(120.0, 45.0));
+		button->SetExplicitAlignment(BAlignment(B_ALIGN_LEFT, B_ALIGN_TOP));
 		if(splitCount == 0 || splitCount % 6 == 0)
 		{
 			vView = new BGroupView(B_HORIZONTAL);
@@ -371,7 +377,7 @@ void
 MainWindow::bSetIcon(BButton* button, BString AppSign) {
 	
 	BMimeType mime(AppSign); 
-	BRect bRect(0, 0.0, B_LARGE_ICON - 1, B_LARGE_ICON -1);
+	BRect bRect(0, 0.0, B_LARGE_ICON - 1, B_LARGE_ICON - 1);
 	BBitmap *icon = new BBitmap(bRect, B_CMAP8);	
 	
 	mime.GetIcon(icon, B_LARGE_ICON);
