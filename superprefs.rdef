@@ -1,6 +1,6 @@
 
 resource app_signature "application/x-vnd.SuperPrefs";
-
+resource app_flags B_EXCLUSIVE_LAUNCH;
 resource app_name_catalog_entry "x-vnd.SuperPrefs:System name:SuperPrefs";
 
 resource app_version {
