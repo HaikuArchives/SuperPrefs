@@ -14,7 +14,6 @@ MainWindow::MainWindow()
 		B_AUTO_UPDATE_SIZE_LIMITS | B_NOT_RESIZABLE)
 {
 	ResizeTo(920, 480);
-
 	CenterOnScreen();
 	buildBox();
 	buildLayout();
@@ -232,8 +231,8 @@ MainWindow::buildMenubar() {
 	
 	fMenuBar = new BMenuBar("MenuBar");
 	fAppMenu = new BMenu("File");
-	fAppMenu->AddItem(new BMenuItem("Close", new BMessage(kMenuAppQuit), 
-	'C', B_COMMAND_KEY));
+	fAppMenu->AddItem(new BMenuItem("Quit", new BMessage(kMenuAppQuit), 
+	'Q', B_COMMAND_KEY));
 	fMenuBar->AddItem(fAppMenu);
     fAppMenu = new BMenu("Settings");
 
