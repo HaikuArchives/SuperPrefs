@@ -1,7 +1,11 @@
 /*
- * Copyright 2015 Your Name <your@email.address>
- * All rights reserved. Distributed under the terms of the MIT license.
+ * Author:
+ *		Anirudh M, m.anirudh18@gmail.com
+ *
+ * Copyright 2017. All rights reserved.
+ * Distributed under the terms of the MIT license.
  */
+ 
 #ifndef CATEGORYSETTINGWINDOW_H
 #define CATEGORYSETTINGWINDOW_H
 
