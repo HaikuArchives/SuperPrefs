@@ -18,6 +18,7 @@ App::App()
 {
 	fMainWindow = new MainWindow();
 	fMainWindow->Show();
+	fMainWindow->Activate();
 }
 
 void

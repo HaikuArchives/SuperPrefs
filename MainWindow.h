@@ -51,6 +51,9 @@
 #include <GroupView.h>
 #include <Roster.h>
 #include <IconButton.h>
+#include "CategorySettingWindow.h"
+
+class CategorySettingWindow;
 
 enum {
 	MSG_SIGN					=  'axyz',
@@ -60,6 +63,7 @@ enum {
 	kMenuAppQuit				=	0000,
 	kAlphabeticalwise			=	0001,
 	kCategorywise				=	0002,
+	kCategoryLaunch				=	0003,
 };
 
 class MainWindow : public BWindow {
@@ -82,6 +86,7 @@ public:
     		void	mergeLayoutsApps();
     		void	FlatTrue();
     		void 	FlatFalse(vector<BString>& vTemp);
+			vector<BString>			vCustomApps;	
 private:
 			BMessage*				mMenu;
 			BMessage* 				mButton;
@@ -141,6 +146,7 @@ private:
 			map<BString, BButton*>	NameButtonApps;
          	char*					fAppSig;
          	int						checked;
+         	CategorySettingWindow*	fCategorySettingWindow;
 };
 
 #endif

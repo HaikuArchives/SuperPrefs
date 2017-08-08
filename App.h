@@ -21,9 +21,8 @@ class App: public BApplication
 public:
                         App();
 		void			AboutRequested();
-
 private:
-            MainWindow* fMainWindow;
+		MainWindow*		fMainWindow;
 };
 
 #endif

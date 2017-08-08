@@ -22,7 +22,8 @@ MainWindow::MainWindow()
 	fetchPreflets();
 	populateLayout();
 	mergeLayouts();	
-	mergeLayoutsCategory();
+	mergeLayoutsCategory();	
+	tSearch->MakeFocus(true);
 }
 
 void
@@ -130,6 +131,7 @@ MainWindow::populateLayout() {
 			BButton* button = new BButton(fAppName, fAppName, mButton);
 			button->SetFlat(true);
 			button->SetExplicitAlignment(BAlignment(B_ALIGN_LEFT, B_ALIGN_TOP));
+			vCustomApps.push_back(fAppName);
 			NameButton[fAppName] = button;
 			bSetIcon(button, vSign[i]);	
 			layout = CustomLayout->AddView(button);
@@ -243,7 +245,10 @@ MainWindow::buildMenubar() {
     mAlphabetical = new BMenuItem("Sort Alphabetically", new BMessage(kAlphabeticalwise));
     fAppMenu->AddItem(mAlphabetical);
 	mAlphabetical->SetMarked(false);
-
+	
+	mAlphabetical = new BMenuItem("Set Categories..", new BMessage(kCategoryLaunch));
+	fAppMenu->AddItem(mAlphabetical);
+	
     fMenuBar->AddItem(fAppMenu);
     fAppMenu = new BMenu("Help..");
     BMenuItem* item = new BMenuItem("About..", new BMessage(B_ABOUT_REQUESTED));
@@ -349,8 +354,7 @@ MainWindow::buildLayout() {
 	.Layout();
 	
 	tSearch = new BTextControl("Search:", "Enter query here: ", NULL, NULL);
-	tSearch->SetModificationMessage(new BMessage(QUERY));	
-	tSearch->MakeFocus(true);
+	tSearch->SetModificationMessage(new BMessage(QUERY));
 }
 
 void
@@ -638,6 +642,11 @@ MainWindow::MessageReceived(BMessage* message)
             	if(!mAlphabetical->IsMarked() && checked % 2 ==0)
             		mergeLayoutsAlphabetical();
                 break;
+            }
+            case kCategoryLaunch:
+            {	
+            	fCategorySettingWindow = new CategorySettingWindow(vCustomApps);
+				fCategorySettingWindow->Show();
             }
 		}
 }
