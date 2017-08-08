@@ -20,6 +20,8 @@ Implement Apps view [DONE] ✅
 
 Add seperate category for 3rd party prefs [DONE]
 
+Add option to set Custom Category for 3rd party prefs [DONE]
+
 Segregate Preferences according to their categories with attribute in **.rdef**
 
 Implement second tier of Search with **keywords**. Make use of *catkeys*.

@@ -24,4 +24,8 @@ Blog Posts and Discussion regarding the project go at: https://www.haiku-os.org/
 
 ![Preview.png](img/Preview7.gif)
 
-Last updated on: July 31, 2017.
+**Custom Categories Panel - Preview [WIP]**
+
+![Categories.png](img/Categories.png)
+
+Last updated on: Aug 9, 2017.
