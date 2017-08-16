@@ -9,16 +9,16 @@
 
 #include "CategorySettingWindow.h"
 
-CategorySettingWindow::CategorySettingWindow(vector<BString> vCustomApps) 
+CategorySettingWindow::CategorySettingWindow() 
 	: BWindow(BRect(),"Category Settings" 
 		,B_TITLED_WINDOW, B_AUTO_UPDATE_SIZE_LIMITS ) {
 			
 			ResizeTo(400,400);
 			CenterOnScreen();
-			buildLayout(vCustomApps);	
+			buildLayout();	
 }
 void 
-CategorySettingWindow::buildLayout(vector<BString> vCustomApps) {
+CategorySettingWindow::buildLayout() {
 
 	fCategoryMenu = new BPopUpMenu("Select Category..");
 	
@@ -33,14 +33,14 @@ CategorySettingWindow::buildLayout(vector<BString> vCustomApps) {
 	fCategoryMenu->AddItem(new BMenuItem("Uncategorized",
 		new BMessage(kSetCategory)));	
 	
-	for(int i = 0; i<vCustomApps.size(); i++) {
-		
-		string* str = new string(vCustomApps[i]);
-		*str += string(": ");
-		CategoryField = new BMenuField("Category",
-		str->c_str(), fCategoryMenu);
-		CategoryField->SetAlignment(B_ALIGN_RIGHT);
-	}
+//	for(int i = 0; i<vCustomApps.size(); i++) {
+//		
+//		string* str = new string(vCustomApps[i]);
+//		*str += string(": ");
+//		CategoryField = new BMenuField("Category",
+//		str->c_str(), fCategoryMenu);
+//		CategoryField->SetAlignment(B_ALIGN_RIGHT);
+//	}
 	
 	BButton* bUpdate = new BButton("Apply Changes");
 	
@@ -48,9 +48,8 @@ CategorySettingWindow::buildLayout(vector<BString> vCustomApps) {
 	BLayoutBuilder::Group<>(fWindowView, B_VERTICAL)
 		.SetInsets(B_USE_DEFAULT_SPACING)
 		.AddGroup(B_HORIZONTAL, B_USE_DEFAULT_SPACING)
-			.Add(CategoryField)
+			.Add(bUpdate)
 		.End()
-		.Add(bUpdate)
 	.End();
 	
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0)

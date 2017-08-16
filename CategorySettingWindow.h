@@ -18,8 +18,8 @@ class CategorySettingWindow: public BWindow {
 static const uint32 kSetCategory = 'mnpl';
 
 public:
-							CategorySettingWindow(vector<BString> vCustomApps);
-		void				buildLayout(vector<BString> vCustomApps);							
+							CategorySettingWindow();
+		void				buildLayout();							
 private:
 		BView*				fWindowView;
 		BPopUpMenu*			fCategoryMenu;

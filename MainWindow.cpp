@@ -131,7 +131,6 @@ MainWindow::populateLayout() {
 			BButton* button = new BButton(fAppName, fAppName, mButton);
 			button->SetFlat(true);
 			button->SetExplicitAlignment(BAlignment(B_ALIGN_LEFT, B_ALIGN_TOP));
-			vCustomApps.push_back(fAppName);
 			NameButton[fAppName] = button;
 			bSetIcon(button, vSign[i]);	
 			layout = CustomLayout->AddView(button);
@@ -645,7 +644,7 @@ MainWindow::MessageReceived(BMessage* message)
             }
             case kCategoryLaunch:
             {	
-            	fCategorySettingWindow = new CategorySettingWindow(vCustomApps);
+            	fCategorySettingWindow = new CategorySettingWindow();
 				fCategorySettingWindow->Show();
             }
 		}

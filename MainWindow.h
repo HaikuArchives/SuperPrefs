@@ -68,6 +68,8 @@ enum {
 
 class MainWindow : public BWindow {
 public:
+
+         	CategorySettingWindow*	fCategorySettingWindow;
                     MainWindow();
 	virtual	void    MessageReceived(BMessage* message);
 			void	bSetIcon(BButton* button, BString AppSign);
@@ -86,7 +88,6 @@ public:
     		void	mergeLayoutsApps();
     		void	FlatTrue();
     		void 	FlatFalse(vector<BString>& vTemp);
-			vector<BString>			vCustomApps;	
 private:
 			BMessage*				mMenu;
 			BMessage* 				mButton;
@@ -146,7 +147,6 @@ private:
 			map<BString, BButton*>	NameButtonApps;
          	char*					fAppSig;
          	int						checked;
-         	CategorySettingWindow*	fCategorySettingWindow;
 };
 
 #endif
