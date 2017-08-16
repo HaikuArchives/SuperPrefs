@@ -15,8 +15,47 @@ CategorySettingWindow::CategorySettingWindow()
 			
 			ResizeTo(400,400);
 			CenterOnScreen();
-			buildLayout();	
+			buildLayout();
+			accessCat();	
 }
+
+void
+CategorySettingWindow::accessCat() {
+	
+	pair <string, string> AppCategory;
+	vector < pair<string,string> > vAppCategory;
+	string str; int flag = 0;
+	fstream file;
+	file.open("config/settings/Category.txt", fstream::in | fstream::out);
+
+	for(int i = 0 ; i < vCustomApps.size(); i++) {
+			file << "- ";
+			file << vCustomApps[i];
+			file << " : ";
+			file << "Custom";
+	}
+	file.close();
+	file.open("config/settings/Category.txt", fstream::in | fstream::out);
+  
+    while(file >> str) {
+  		//BStringView* strview = new BStringView("","");
+  		//const char *cstr = str.c_str();
+  		if(flag == 1) {
+  			AppCategory.first = str;
+  			flag = 0;
+    	}	
+  		if(flag == 2) {
+  			AppCategory.second = str;
+  			flag = 0;
+  		}
+  		vAppCategory.push_back(AppCategory);
+  		if(str == "-")	flag = 1;
+  		if(str == ":")	flag = 2;  		
+    }
+	file.close();
+	//postProcess(vAppCategory);
+}
+
 void 
 CategorySettingWindow::buildLayout() {
 

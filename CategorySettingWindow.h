@@ -11,6 +11,8 @@
 
 
 #include <Window.h>
+#include <fstream>
+#include <vector>
 #include "MainWindow.h"
 
 class CategorySettingWindow: public BWindow {
@@ -19,11 +21,14 @@ static const uint32 kSetCategory = 'mnpl';
 
 public:
 							CategorySettingWindow();
-		void				buildLayout();							
+		void				buildLayout();
+		void				accessCat();
+		void				postProcess(vector < pair<string, string> >& vAppCategory);							
 private:
 		BView*				fWindowView;
 		BPopUpMenu*			fCategoryMenu;
 		BMenuField* 		CategoryField;
+		vector<BString>		vCustomApps;
 		
 
 };
