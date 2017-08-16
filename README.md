@@ -24,4 +24,8 @@ Blog Posts and Discussion regarding the project go at: https://www.haiku-os.org/
 
 ![Preview.png](img/Preview7.gif)
 
-Last updated on: July 31, 2017.
+**Custom Categories Panel - Preview [WIP]**
+
+Carried out in: https://github.com/AnirudhMurali/SuperPrefs/tree/WIP-CustomCategorization 
+
+Last updated on: Aug 16, 2017.

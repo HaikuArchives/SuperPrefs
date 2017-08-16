@@ -11,7 +11,7 @@
 MainWindow::MainWindow()
 	:
 	BWindow(BRect(),"SuperPrefs",B_TITLED_WINDOW,
-		B_AUTO_UPDATE_SIZE_LIMITS | B_NOT_RESIZABLE)
+		B_AUTO_UPDATE_SIZE_LIMITS | B_NOT_RESIZABLE | B_QUIT_ON_WINDOW_CLOSE)
 {
 	ResizeTo(920, 480);
 	CenterOnScreen();
@@ -48,9 +48,6 @@ MainWindow::populateLayout() {
 		
 	BString UncategorizedSign[3] = {"application/x-vnd.Haiku-DataTranslations", 
 	"application/x-vnd.Haiku-VirtualMemory", "application/x-vnd.Haiku-Repositories"};	
-	
-	/* TODO: Add an attribute to .rdef of every preflet to denote its cateogry or a similar
-			method to avoid hardcoded categories.	*/
 			
 	for(int i=0; i < sizeof(AppearanceSign)/sizeof(AppearanceSign[0]) ; i++) {
 		mButton = new BMessage(MSG_SIGN);
@@ -131,7 +128,6 @@ MainWindow::populateLayout() {
 			BButton* button = new BButton(fAppName, fAppName, mButton);
 			button->SetFlat(true);
 			button->SetExplicitAlignment(BAlignment(B_ALIGN_LEFT, B_ALIGN_TOP));
-			vCustomApps.push_back(fAppName);
 			NameButton[fAppName] = button;
 			bSetIcon(button, vSign[i]);	
 			layout = CustomLayout->AddView(button);
@@ -245,9 +241,6 @@ MainWindow::buildMenubar() {
     mAlphabetical = new BMenuItem("Sort Alphabetically", new BMessage(kAlphabeticalwise));
     fAppMenu->AddItem(mAlphabetical);
 	mAlphabetical->SetMarked(false);
-	
-	mAlphabetical = new BMenuItem("Set Categories..", new BMessage(kCategoryLaunch));
-	fAppMenu->AddItem(mAlphabetical);
 	
     fMenuBar->AddItem(fAppMenu);
     fAppMenu = new BMenu("Help..");
@@ -642,11 +635,6 @@ MainWindow::MessageReceived(BMessage* message)
             	if(!mAlphabetical->IsMarked() && checked % 2 ==0)
             		mergeLayoutsAlphabetical();
                 break;
-            }
-            case kCategoryLaunch:
-            {	
-            	fCategorySettingWindow = new CategorySettingWindow(vCustomApps);
-				fCategorySettingWindow->Show();
             }
 		}
 }
