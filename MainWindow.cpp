@@ -404,40 +404,12 @@ MainWindow::fSearch() {
 			found = 1;
 			vTemp.push_back(vName[i]);
 		}
-	
-	if(found)	Query->operator<<(": Found. Occurences: ");	
-	else 		Query->operator<<(": Not Found. Occurences: ");
-	
-	Query->operator<<(occurences);
-	Query->operator<<('.');
-
-	if(found) {
-		if(vTemp.size() > 1) {
-			Query->operator<<(" Associated Apps: ");
-			for(int i = 0 ; i < vTemp.size() ; i++) {
-				Query->operator<<(vTemp[i]);
-				if(i != vTemp.size() - 1)	Query->operator<<(", ");
-				else	Query->operator<<('.');
-			}
-		}
-		else {
-			Query->operator<<(" Associated App: ");
-			Query->operator<<(vTemp[0]);
-			Query->operator<<('.');
-		}
+		
+	FlatFalse(vTemp);	
 	}
-	
-	SearchQuery->SetText(Query->String());
-	
-	FlatFalse(vTemp);
-	
-	}
-		else {
-			SearchQuery->SetText("");
-		}
 	}
 	else {
-		
+				
 	if(tSearchLength > 2) {
 	vTemp.clear();	
 	sort(vAppsName.begin(), vAppsName.begin()+vAppsName.size());
@@ -447,37 +419,8 @@ MainWindow::fSearch() {
 			occurences++;		
 			found = 1;
 			vTemp.push_back(vAppsName[i]);
-		}
-	
-	if(found)	Query->operator<<(": Found. Occurences: ");	
-	else 		Query->operator<<(": Not Found. Occurences: ");
-	
-	Query->operator<<(occurences);
-	Query->operator<<('.');
-
-	if(found) {
-		if(vTemp.size() > 1) {
-			Query->operator<<(" Associated Apps: ");
-			for(int i = 0 ; i < vTemp.size() ; i++) {
-				Query->operator<<(vTemp[i]);
-				if(i != vTemp.size() - 1)	Query->operator<<(", ");
-				else	Query->operator<<('.');
-			}
-		}
-		else {
-			Query->operator<<(" Associated App: ");
-			Query->operator<<(vTemp[0]);
-			Query->operator<<('.');
-		}
-	}
-	
-	SearchQuery->SetText(Query->String());
-	
-	FlatFalse(vTemp);
-	
-	}
-	else {
-		SearchQuery->SetText("");
+		}	
+	FlatFalse(vTemp);	
 	}
 	}	
 }	

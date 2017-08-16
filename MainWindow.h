@@ -103,7 +103,6 @@ private:
 			BSplitView* 			SearchSplitGroup;
 			BSplitLayout*			SearchSplitLayout;
 			BGroupView*				vView;
-			BStringView* 			SearchQuery;
 			BString					fAppName;
 			BString					fSystemAppName;
           	BMenuBar*           	fMenuBar;
