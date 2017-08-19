@@ -19,10 +19,10 @@ MainWindow::MainWindow()
 	buildLayout();
 	buildMenubar();
 	fetchApps();
-	fetchPreflets();
+	PrefSource();		
 	populateLayout();
-	mergeLayouts();	
-	mergeLayoutsCategory();	
+	mergeLayouts();
+	mergeLayoutsCategory();
 	tSearch->MakeFocus(true);
 }
 
@@ -120,9 +120,10 @@ MainWindow::populateLayout() {
 	}	// Uncategorized
 
 	for(int i=0; i < vSign.size(); i++) {
-		bGetName(vSign[i], &fAppName);			
+		bGetName(vSign[i], &fAppName);	
+		int flag_check = 0;
 		if (!(std::find(vSystemApps.begin(), vSystemApps.end(), fAppName) != vSystemApps.end()))
-		{ 
+		{ 	flag_check = 1;
    			mButton = new BMessage(MSG_SIGN);
 			mButton->AddString("mime_val", vSign[i]);
 			BButton* button = new BButton(fAppName, fAppName, mButton);
@@ -132,6 +133,8 @@ MainWindow::populateLayout() {
 			bSetIcon(button, vSign[i]);	
 			layout = CustomLayout->AddView(button);
 		}
+		if(flag_check == 1)			 	
+  			customStatus = 1;
 	}	// Custom
 	
 	int splitCount = 0;
@@ -183,11 +186,21 @@ MainWindow::populateLayout() {
 }	
 
 void
-MainWindow::fetchPreflets() {
+MainWindow::PrefSource() {
+	
+	fetchPreflets(B_USER_PREFERENCES_DIRECTORY);
+	fetchPreflets(B_SYSTEM_PREFERENCES_DIRECTORY);
+	fetchPreflets(B_PREFERENCES_DIRECTORY);
+}
 
-	find_directory(B_SYSTEM_PREFERENCES_DIRECTORY, &path, true);
+void
+MainWindow::fetchPreflets(directory_which path_pref) {
+
+	BPath path;	BDirectory	directory;
+	find_directory(path_pref, &path, true);
+		
 	directory.SetTo(path.Path());
-
+		
 	while(directory.GetNextRef(&ref)==B_OK) {
 		char sign[B_MIME_TYPE_LENGTH];
 		entry.SetTo(&ref, false);		
@@ -196,11 +209,12 @@ MainWindow::fetchPreflets() {
 		BAppFileInfo fileinfo(&file);
 		fileinfo.GetSignature(sign);
 		vPath.push_back(path.Path());	//Pushing path
+		if (std::find(vSign.begin(), vSign.end(), sign) == vSign.end())
 		vSign.push_back(sign);			//Pushing sign
 		bGetName(sign, &fAppName);
 		vName.push_back(fAppName);		//Pushing name
 		NameSign[fAppName]=sign;
-	}
+	}	
 }
 
 void
@@ -488,8 +502,8 @@ MainWindow::mergeLayoutsCategory() {
 		vLayout->AddView(fAppearanceBox);
 		vLayout->AddView(fIOBox);
 		vLayout->AddView(SplitGroup);
-  		vLayout->AddView(fSystemBox);  	
-  		vLayout->AddView(fCustomBox);
+  		vLayout->AddView(fSystemBox); 
+  		if(customStatus==1) vLayout->AddView(fCustomBox);
 	}	
 }
 

@@ -73,7 +73,7 @@ public:
     		void	buildMenubar();
     		void	buildBox();
     		void	buildLayout();
-    		void	fetchPreflets();
+    		void	fetchPreflets(directory_which path_pref);
     		void	fetchApps();
     		void	populateLayout();
     		void	mergeLayouts();
@@ -81,6 +81,7 @@ public:
     		void	mergeLayoutsAlphabetical();
     		void	mergeLayoutsApps();
     		void	FlatTrue();
+    		void	PrefSource();
     		void 	FlatFalse(vector<BString>& vTemp);
 private:
 			BMessage*				mMenu;
@@ -105,6 +106,7 @@ private:
 			BGroupView*				vView;
 			BString					fAppName;
 			BString					fSystemAppName;
+			BStringView*			SearchQuery;
           	BMenuBar*           	fMenuBar;
           	BMenuItem*          	mCategory;
           	BMenuItem*          	mAlphabetical;
@@ -140,6 +142,7 @@ private:
 			map<BString, BButton*>	NameButtonApps;
          	char*					fAppSig;
          	int						checked;
+         	int						customStatus;
 };
 
 #endif
