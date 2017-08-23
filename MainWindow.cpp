@@ -18,8 +18,8 @@ MainWindow::MainWindow()
 	buildBox();
 	buildLayout();
 	buildMenubar();
-	fetchApps();
-	PrefSource();		
+	PrefSource();	
+	AppSource();	
 	populateLayout();
 	mergeLayouts();
 	mergeLayoutsCategory();
@@ -192,7 +192,13 @@ MainWindow::PrefSource() {
 	fetchPreflets(B_SYSTEM_PREFERENCES_DIRECTORY);
 	fetchPreflets(B_PREFERENCES_DIRECTORY);
 }
-
+void
+MainWindow::AppSource() {
+	
+	fetchApps(B_USER_APPS_DIRECTORY);
+	fetchApps(B_SYSTEM_APPS_DIRECTORY);
+	fetchApps(B_APPS_DIRECTORY);
+}
 void
 MainWindow::fetchPreflets(directory_which path_pref) {
 
@@ -218,9 +224,12 @@ MainWindow::fetchPreflets(directory_which path_pref) {
 }
 
 void
-MainWindow::fetchApps() {
+MainWindow::fetchApps(directory_which path_pref) {
 
-	find_directory(B_SYSTEM_APPS_DIRECTORY, &path, true);
+	
+	BPath path;	BDirectory	directory;
+	find_directory(path_pref, &path, true);
+		
 	directory.SetTo(path.Path());
 
 	while(directory.GetNextRef(&ref)==B_OK) {

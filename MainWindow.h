@@ -74,7 +74,7 @@ public:
     		void	buildBox();
     		void	buildLayout();
     		void	fetchPreflets(directory_which path_pref);
-    		void	fetchApps();
+    		void	fetchApps(directory_which path_pref);
     		void	populateLayout();
     		void	mergeLayouts();
     		void 	mergeLayoutsCategory();
@@ -82,6 +82,7 @@ public:
     		void	mergeLayoutsApps();
     		void	FlatTrue();
     		void	PrefSource();
+    		void	AppSource();
     		void 	FlatFalse(vector<BString>& vTemp);
 private:
 			BMessage*				mMenu;
