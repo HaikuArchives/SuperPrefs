@@ -18,7 +18,8 @@ MainWindow::MainWindow()
 	buildBox();
 	buildLayout();
 	buildMenubar();
-	PrefSource();	
+	PrefSource();
+	Keywords();	
 	AppSource();	
 	populateLayout();
 	mergeLayouts();
@@ -26,6 +27,45 @@ MainWindow::MainWindow()
 	tSearch->MakeFocus(true);
 }
 
+void MainWindow::Keywords() {
+	
+	string s;
+	string entry_map;
+	string str ("application");
+	fstream file("config/settings/Keywords.txt", fstream::in | fstream::out | fstream::app);
+	set<BString>::iterator it;
+	
+	for (it = sAllPreflets.begin(); it != sAllPreflets.end(); ++it)
+	{
+		    file<<*it;
+		    file<<endl;
+	}
+	int i=0;
+	while (file>>s) {
+		
+		if(s.find(str) != string::npos) {
+			file<<i;
+			entry_map = s;i++;
+    	}
+    	else {
+    		file<<i;i++;
+    		PrefsKeyword.insert( pair<string, string> (entry_map,s));
+    	}
+    	
+    }
+   	
+	file<<endl;
+	
+//	for(map<string,string>::iterator it = PrefsKeyword.begin(); it != PrefsKeyword.end(); ++it)
+//	{
+//    file<<it->first;
+//    file<<" ";
+//    file<<it->second;
+//	}
+    
+   	file.close();
+    
+}
 void
 MainWindow::populateLayout() {
 	
@@ -214,9 +254,10 @@ MainWindow::fetchPreflets(directory_which path_pref) {
 		BFile file(&entry, B_READ_ONLY);
 		BAppFileInfo fileinfo(&file);
 		fileinfo.GetSignature(sign);
-		vPath.push_back(path.Path());	//Pushing path
+		vPath.push_back(path.Path());	//Pushing path		
 		if (std::find(vSign.begin(), vSign.end(), sign) == vSign.end())
 		vSign.push_back(sign);			//Pushing sign
+		sAllPreflets.insert(sign);
 		bGetName(sign, &fAppName);
 		vName.push_back(fAppName);		//Pushing name
 		NameSign[fAppName]=sign;
@@ -279,13 +320,14 @@ MainWindow::mergeLayouts() {
 	cApps = new BCheckBox("Apps", new BMessage(B_APPS));
 	root = new BGroupLayout(B_VERTICAL, 0);
 	this->SetLayout(root);
+	
+	root->AddView(fMenuBar);
 	vView = new BGroupView(B_VERTICAL);
 	vLayout = vView->GroupLayout();
 	this->AddChild(vView);
-	vLayout->AddView(fMenuBar);
 	vLayout->AddView(fSearchBox);
 	vLayout->SetInsets(2);	
-		
+
 	SearchSplitGroup = new BSplitView(B_HORIZONTAL);
 	SearchSplitGroup->SetName("Splitter");
 	BLayoutBuilder::Split<>(SearchSplitGroup)
@@ -397,7 +439,7 @@ MainWindow::bSetIcon(BButton* button, BString AppSign) {
 	
 	BMimeType mime(AppSign); 
 	BRect bRect(0, 0.0, B_LARGE_ICON - 1, B_LARGE_ICON - 1);
-	BBitmap *icon = new BBitmap(bRect, B_CMAP8);	
+	BBitmap *icon = new BBitmap(bRect, B_RGBA32);	
 	
 	mime.GetIcon(icon, B_LARGE_ICON);
 	button->SetIcon(icon);	

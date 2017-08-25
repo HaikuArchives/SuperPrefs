@@ -35,6 +35,7 @@
 #include <AppFileInfo.h>
 #include <ListView.h>
 #include <Application.h>
+#include <fstream>
 #include <GroupLayoutBuilder.h>
 #include <LayoutBuilder.h>
 #include <LayoutItem.h>
@@ -46,6 +47,7 @@
 #include <TextControl.h>
 #include <ScrollView.h>
 #include <StringView.h>
+#include <set>
 #include <MenuItem.h>
 #include <ControlLook.h>
 #include <GroupView.h>
@@ -82,6 +84,7 @@ public:
     		void	mergeLayoutsApps();
     		void	FlatTrue();
     		void	PrefSource();
+    		void	Keywords();
     		void	AppSource();
     		void 	FlatFalse(vector<BString>& vTemp);
 private:
@@ -128,6 +131,7 @@ private:
          	BEntry					entry;
          	BTextControl*       	tSearch;
          	BCheckBox* 				cApps;
+         	set<BString>			sAllPreflets;
          	vector<BString> 		vSign;				
 			vector<BString> 		vPath;				
 			vector<BString> 		vName;
@@ -135,7 +139,8 @@ private:
 			vector<BString> 		vAppsSign;				
 			vector<BString> 		vAppsPath;				
 			vector<BString> 		vAppsName;
-			vector<BString> 		vTemp;  				
+			vector<BString> 		vTemp;  	
+			map<string, string>		PrefsKeyword;			
 			map<BString, BString>	NameSign;	
 			map<BString, BString>	AppsNameSign;
 			map<BString, BButton*>	NameButton;
