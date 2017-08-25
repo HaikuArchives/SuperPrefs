@@ -139,6 +139,7 @@ private:
 			vector<BString> 		vAppsSign;				
 			vector<BString> 		vAppsPath;				
 			vector<BString> 		vAppsName;
+			vector< pair<BString, BString> > RelatedKeywords;
 			vector<BString> 		vTemp;  	
 			map<string, string>		PrefsKeyword;			
 			map<BString, BString>	NameSign;	

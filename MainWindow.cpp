@@ -27,45 +27,36 @@ MainWindow::MainWindow()
 	tSearch->MakeFocus(true);
 }
 
-void MainWindow::Keywords() {
-	
-	string s;
-	string entry_map;
-	string str ("application");
-	fstream file("config/settings/Keywords.txt", fstream::in | fstream::out | fstream::app);
-	set<BString>::iterator it;
-	
-	for (it = sAllPreflets.begin(); it != sAllPreflets.end(); ++it)
-	{
-		    file<<*it;
-		    file<<endl;
-	}
-	int i=0;
-	while (file>>s) {
-		
-		if(s.find(str) != string::npos) {
-			file<<i;
-			entry_map = s;i++;
-    	}
-    	else {
-    		file<<i;i++;
-    		PrefsKeyword.insert( pair<string, string> (entry_map,s));
-    	}
-    	
-    }
-   	
-	file<<endl;
-	
-//	for(map<string,string>::iterator it = PrefsKeyword.begin(); it != PrefsKeyword.end(); ++it)
-//	{
-//    file<<it->first;
-//    file<<" ";
-//    file<<it->second;
-//	}
-    
-   	file.close();
-    
+void
+MainWindow::Keywords() {
+
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-TrackerPreferences"),BString("File Explorer Settings")));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Mouse"),BString("Scroll Click")));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Time"),BString("Clock Timezone")));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Network"),BString("Internet DNS Mac")));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Touchpad"),BString("Trackpad")));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-VirtualMemory"),BString("Virtual Memory")));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Sounds"),BString("None")));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-ScreenSaver"),BString("None")));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Media"),BString("None")));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Shortcuts"),BString("Hotkey")));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-DataTranslations"),BString("None")));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-DeskbarPreferences"),BString("None")));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Be-PRNT"),BString("None")));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Appearance"),BString("Font Size Color")));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Backgrounds"),BString("Wallpaper Workspaces")));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-BluetoothPrefs"),BString("Connection Bluetooth")));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-FileTypes"),BString("Info")));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Keyboard"),BString("Keys")));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Keymap"),BString("Layout")));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Locale"),BString("Language Translation Regional")));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Mail"),BString("Inbox")));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Notifications"),BString("Push Alert")));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Repositories"),BString("Source Packages")));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Screen"),BString("Resolution Dimensions")));
+
 }
+
 void
 MainWindow::populateLayout() {
 	
@@ -427,7 +418,6 @@ MainWindow::bGetName(BString AppSign, BString* fAppName) {
 	if(BLocaleRoster::Default()->GetLocalizedFileName(LOCALIZED_APP, ref)
 			==B_OK) {
 		*fAppName = LOCALIZED_APP;
-
 	}
 	else {				
 		*fAppName = EN_APP;
@@ -460,29 +450,28 @@ MainWindow::fSearch() {
 		
 	if(tSearchLength > 1) {
 		
-	vTemp.clear();	
-	
-	int occurences = 0, found = 0;
+	vTemp.clear();
 	for(int i = 0 ; i < vName.size() ; i++) 
   		if(vName[i].IFindFirst(*Query) != B_ERROR) {
-			occurences++;		
-			found = 1;
 			vTemp.push_back(vName[i]);
 		}
-		
+	
+	for(int i=0;i<RelatedKeywords.size();i++) {
+		if(RelatedKeywords[i].second.IFindFirst(*Query) != B_ERROR
+			&& RelatedKeywords[i].second != "None") {			
+				bGetName(RelatedKeywords[i].first, &fAppName);
+				vTemp.push_back(fAppName);
+		}
+	}
 	FlatFalse(vTemp);	
 	}
 	}
 	else {
 				
 	if(tSearchLength > 2) {
-	vTemp.clear();	
-	sort(vAppsName.begin(), vAppsName.begin()+vAppsName.size());
-	int occurences = 0, found = 0;
+	vTemp.clear();
 	for(int i = 0 ; i < vAppsName.size() ; i++) 
   		if(vAppsName[i].IFindFirst(*Query) != B_ERROR) {
-			occurences++;		
-			found = 1;
 			vTemp.push_back(vAppsName[i]);
 		}	
 	FlatFalse(vTemp);	
