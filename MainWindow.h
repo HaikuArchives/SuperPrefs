@@ -55,18 +55,18 @@
 #include <IconButton.h>
 
 enum {
-	MSG_SIGN					=  'axyz',
-	QUERY						=  'srch',
-	B_APPS						=  'apps',
-	B_PREFS						=	'pref',
-	kMenuAppQuit				=	0000,
-	kAlphabeticalwise			=	0001,
-	kCategorywise				=	0002,
+	MSG_SIGN					= 'axyz',
+	QUERY						= 'srch',
+	B_APPS						= 'apps',
+	B_PREFS						= 'pref',
+	kMenuAppQuit					= 0000,
+	kAlphabeticalwise				= 0001,
+	kCategorywise					= 0002,
 };
 
 class MainWindow : public BWindow {
 public:
-                    MainWindow();
+                    	MainWindow();
 	virtual	void    MessageReceived(BMessage* message);
 			void	bSetIcon(BButton* button, BString AppSign);
 			void	bGetName(BString AppSign, BString* fAppName);
@@ -88,8 +88,8 @@ public:
     		void	AppSource();
     		void 	FlatFalse(vector<BString>& vTemp);
 private:
-			BMessage*				mMenu;
-			BMessage* 				mButton;
+			BMessage*			mMenu;
+			BMessage* 			mButton;
 			BGroupLayout*			AppsLayout;
 			BGroupLayout*			AlphabeticalLayout;
 			BGroupLayout*			AppearanceLayout;
@@ -107,32 +107,32 @@ private:
 			BSplitLayout*			SplitLayout;
 			BSplitView* 			SearchSplitGroup;
 			BSplitLayout*			SearchSplitLayout;
-			BGroupView*				vView;
-			BString					fAppName;
-			BString					fSystemAppName;
+			BGroupView*			vView;
+			BString				fAppName;
+			BString				fSystemAppName;
 			BStringView*			SearchQuery;
-          	BMenuBar*           	fMenuBar;
-          	BMenuItem*          	mCategory;
-          	BMenuItem*          	mAlphabetical;
-          	BMenuItem*          	fItem;
-         	BMenu*              	fAppMenu;
-         	BBox*					fAlphabeticalBox;
-         	BBox*					fAppsBox;
-        	BBox*               	fAppearanceBox;  
-         	BBox*              	 	fConnectivityBox;
-         	BBox*               	fSystemBox;
-         	BBox*					fSearchBox;
-         	BBox*           		fUncategorizedBox;
-         	BBox*               	fIOBox;
-         	BBox*					fCustomBox;
-         	BPath					path;
-         	BDirectory				directory;
-         	entry_ref				ref;
-         	BEntry					entry;
-         	BTextControl*       	tSearch;
-         	BCheckBox* 				cApps;
-         	set<BString>			sAllPreflets;
-         	vector<BString> 		vSign;				
+			BMenuBar*           		fMenuBar;
+			BMenuItem*          		mCategory;
+			BMenuItem*          		mAlphabetical;
+			BMenuItem*          		fItem;
+			BMenu*              		fAppMenu;
+			BBox*				fAlphabeticalBox;
+			BBox*				fAppsBox;
+			BBox*               		fAppearanceBox;  
+			BBox*              	 	fConnectivityBox;
+			BBox*               		fSystemBox;
+			BBox*				fSearchBox;
+			BBox*           		fUncategorizedBox;
+			BBox*               		fIOBox;
+			BBox*				fCustomBox;
+			BPath				path;
+			BDirectory			directory;
+			entry_ref			ref;
+			BEntry				entry;
+			BTextControl*       		tSearch;
+			BCheckBox* 			cApps;
+			set<BString>			sAllPreflets;
+			vector<BString> 		vSign;				
 			vector<BString> 		vPath;				
 			vector<BString> 		vName;
 			vector<BString>			vSystemApps;
@@ -142,14 +142,14 @@ private:
 			vector< pair<BString, BString> > RelatedKeywords;
 			vector<BString> 		vTemp;  	
 			map<string, string>		PrefsKeyword;			
-			map<BString, BString>	NameSign;	
-			map<BString, BString>	AppsNameSign;
-			map<BString, BButton*>	NameButton;
-			map<BString, BButton*>	NameButtonAlphabetical;
-			map<BString, BButton*>	NameButtonApps;
-         	char*					fAppSig;
-         	int						checked;
-         	int						customStatus;
+			map<BString, BString>		NameSign;	
+			map<BString, BString>		AppsNameSign;
+			map<BString, BButton*>		NameButton;
+			map<BString, BButton*>		NameButtonAlphabetical;
+			map<BString, BButton*>		NameButtonApps;
+         		char*				fAppSig;
+         		int				checked;
+         		int				customStatus;
 };
 
 #endif
