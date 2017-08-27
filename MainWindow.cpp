@@ -7,7 +7,7 @@
  */
 
 #include "MainWindow.h"
-
+using namespace std;
 MainWindow::MainWindow()
 	:
 	BWindow(BRect(),"SuperPrefs",B_TITLED_WINDOW,

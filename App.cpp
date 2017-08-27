@@ -8,7 +8,7 @@
 
 #include "App.h"
 #include <private/interface/AboutWindow.h>
-
+using namespace std;
 const char* kAppName = "SuperPrefs";
 const char* kSignature = "application/x-vnd.SuperPrefs";
 
