@@ -18,8 +18,10 @@ Implement Search updation based on text change [DONE] ✅
 
 Implement Apps view [DONE] ✅
 
-Add seperate category for 3rd party prefs [DONE]
+Add seperate category for 3rd party prefs [DONE] ✅
+
+Implement second tier of Search with **keywords**. [DONE] ✅
 
 Add option to set Custom Category for 3rd party prefs [WIP - Carried in seperate branch]
 
-Implement second tier of Search with **keywords**. Make use of *catkeys*.
+Improvise Search by making use of *catkeys*.
