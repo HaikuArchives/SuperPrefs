@@ -54,6 +54,8 @@
 #include <Roster.h>
 #include <IconButton.h>
 
+using namespace std;
+
 enum {
 	MSG_SIGN					= 'axyz',
 	QUERY						= 'srch',
