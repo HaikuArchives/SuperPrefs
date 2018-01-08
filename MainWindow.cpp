@@ -481,24 +481,47 @@ MainWindow::fSearch() {
 
 void
 MainWindow::FlatFalse(vector<BString>& vTemp) {
-	
+
+	bool unique = true;
+
 	if(checked % 2 == 0) {
-	for(int i = 0 ; i < vTemp.size() ; i ++ ) {
-		NameButton[vTemp[i]]->SetFlat(false);		
-		NameButton[vTemp[i]]->SetViewColor((rgb_color) {64,64,64,255});
-		NameButton[vTemp[i]]->SetFont(be_bold_font);
-		NameButtonAlphabetical[vTemp[i]]->SetFlat(false);		
-		NameButtonAlphabetical[vTemp[i]]->SetViewColor((rgb_color) {64,64,64,255});
-		NameButtonAlphabetical[vTemp[i]]->SetFont(be_bold_font);
-	}
+		for(int i = 0 ; i < vTemp.size() ; i ++ ) {
+			NameButton[vTemp[i]]->SetFlat(false);
+			NameButton[vTemp[i]]->SetViewColor((rgb_color) {64,64,64,255});
+			NameButton[vTemp[i]]->SetFont(be_bold_font);
+			NameButtonAlphabetical[vTemp[i]]->SetFlat(false);
+			NameButtonAlphabetical[vTemp[i]]->SetViewColor((rgb_color) {64,64,64,255});
+			NameButtonAlphabetical[vTemp[i]]->SetFont(be_bold_font);
+
+			if (unique && i > 0 && vTemp[i] != vTemp[i - 1])
+				unique = false;
+		}
+
+		if (unique && !vTemp.empty()) {
+			if (mAlphabetical->IsMarked())
+				SetDefaultButton(NameButtonAlphabetical[vTemp.front()]);
+			else
+				SetDefaultButton(NameButton[vTemp.front()]);
+		} else {
+			SetDefaultButton(NULL);
+		}
 	}
 	else {
 		for(int i = 0 ; i < vTemp.size() ; i ++ ) {
-		NameButtonApps[vTemp[i]]->SetFlat(false);		
-		NameButtonApps[vTemp[i]]->SetViewColor((rgb_color) {64,64,64,255});
-		NameButtonApps[vTemp[i]]->SetFont(be_bold_font);
+			NameButtonApps[vTemp[i]]->SetFlat(false);
+			NameButtonApps[vTemp[i]]->SetViewColor((rgb_color) {64,64,64,255});
+			NameButtonApps[vTemp[i]]->SetFont(be_bold_font);
+
+			if (unique && i > 0 && vTemp[i] != vTemp[i - 1])
+				unique = false;
+		}
+
+		if (unique && !vTemp.empty()) {
+			SetDefaultButton(NameButtonApps[vTemp.front()]);
+		} else {
+			SetDefaultButton(NULL);
+		}
 	}
-	}			
 }
 
 void
@@ -622,15 +645,20 @@ MainWindow::MessageReceived(BMessage* message)
             		"No Categorization available for Apps", "OK");
             		alert->Go();
             	}
-            	if(!mCategory->IsMarked() && checked % 2 == 0)
+            	if(!mCategory->IsMarked() && checked % 2 == 0) {
             		mergeLayoutsCategory();
+            		fSearch();
+            	}
             		 
-           	  		break;
+            	break;
             }
             case kAlphabeticalwise:
             {
-            	if(!mAlphabetical->IsMarked() && checked % 2 ==0)
+            	if(!mAlphabetical->IsMarked() && checked % 2 ==0) {
             		mergeLayoutsAlphabetical();
+            		fSearch();
+            	}
+
                 break;
             }
 		}
