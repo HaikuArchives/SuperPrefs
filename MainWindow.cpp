@@ -45,7 +45,6 @@ MainWindow::Keywords() {
 	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Be-PRNT"),BString("None")));
 	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Appearance"),BString("Font Size Color")));
 	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Backgrounds"),BString("Wallpaper Workspaces")));
-	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-BluetoothPrefs"),BString("Connection Bluetooth")));
 	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-FileTypes"),BString("Info")));
 	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Keyboard"),BString("Keys")));
 	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Keymap"),BString("Layout")));
@@ -64,8 +63,7 @@ MainWindow::populateLayout() {
 	 "application/x-vnd.Haiku-Backgrounds", "application/x-vnd.Haiku-DeskbarPreferences", 
 	 "application/x-vnd.Haiku-ScreenSaver" };
 	 
-	BString ConnectivitySign[3] = {"application/x-vnd.Haiku-BluetoothPrefs",
-	 "application/x-vnd.Haiku-Network", "application/x-vnd.Haiku-Mail" };	 
+	BString ConnectivitySign[2] = {"application/x-vnd.Haiku-Network", "application/x-vnd.Haiku-Mail" };	 
 	 	
 	BString IOSign[7] = {"application/x-vnd.Haiku-Screen",
 	 "application/x-vnd.Haiku-Touchpad", "application/x-vnd.Haiku-Keyboard",
