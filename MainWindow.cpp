@@ -5,12 +5,16 @@
  * Copyright 2017. All rights reserved.
  * Distributed under the terms of the MIT license.
  */
-
+#include "Catalog.h"
 #include "MainWindow.h"
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "MainWindow"
+
 using namespace std;
 MainWindow::MainWindow()
 	:
-	BWindow(BRect(),"SuperPrefs",B_TITLED_WINDOW,
+	BWindow(BRect(),B_TRANSLATE_SYSTEM_NAME("SuperPrefs"),B_TITLED_WINDOW,
 		B_AUTO_UPDATE_SIZE_LIMITS | B_NOT_RESIZABLE | B_QUIT_ON_WINDOW_CLOSE)
 {
 	ResizeTo(920, 480);
@@ -27,32 +31,36 @@ MainWindow::MainWindow()
 	tSearch->MakeFocus(true);
 }
 
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "Search keywords"
+#define B_TRANSLATION_COMMENT_KEYWORDS "These seem to be each one independent keywords separated by a space, so translation should be done per word or semantic unit basis."
+
 void
 MainWindow::Keywords() {
 
-	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-TrackerPreferences"),BString("File Explorer Settings")));
-	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Mouse"),BString("Scroll Click")));
-	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Time"),BString("Clock Timezone")));
-	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Network"),BString("Internet DNS Mac")));
-	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Touchpad"),BString("Trackpad")));
-	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-VirtualMemory"),BString("Virtual Memory")));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-TrackerPreferences"),BString(B_TRANSLATE_COMMENT("File Explorer Settings", B_TRANSLATION_COMMENT_KEYWORDS))));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Mouse"),BString(B_TRANSLATE_COMMENT("Scroll Click", B_TRANSLATION_COMMENT_KEYWORDS))));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Time"),BString(B_TRANSLATE_COMMENT("Clock Timezone", B_TRANSLATION_COMMENT_KEYWORDS))));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Network"),BString(B_TRANSLATE_COMMENT("Internet DNS Mac", B_TRANSLATION_COMMENT_KEYWORDS))));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Touchpad"),BString(B_TRANSLATE_COMMENT("Trackpad", B_TRANSLATION_COMMENT_KEYWORDS))));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-VirtualMemory"),BString(B_TRANSLATE_COMMENT("Virtual Memory", B_TRANSLATION_COMMENT_KEYWORDS))));
 	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Sounds"),BString("None")));
 	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-ScreenSaver"),BString("None")));
 	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Media"),BString("None")));
-	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Shortcuts"),BString("Hotkey")));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Shortcuts"),BString(B_TRANSLATE_COMMENT("Hotkey", B_TRANSLATION_COMMENT_KEYWORDS))));
 	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-DataTranslations"),BString("None")));
 	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-DeskbarPreferences"),BString("None")));
 	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Be-PRNT"),BString("None")));
-	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Appearance"),BString("Font Size Color")));
-	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Backgrounds"),BString("Wallpaper Workspaces")));
-	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-FileTypes"),BString("Info")));
-	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Keyboard"),BString("Keys")));
-	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Keymap"),BString("Layout")));
-	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Locale"),BString("Language Translation Regional")));
-	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Mail"),BString("Inbox")));
-	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Notifications"),BString("Push Alert")));
-	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Repositories"),BString("Source Packages")));
-	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Screen"),BString("Resolution Dimensions")));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Appearance"),BString(B_TRANSLATE_COMMENT("Font Size Color", B_TRANSLATION_COMMENT_KEYWORDS))));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Backgrounds"),BString(B_TRANSLATE_COMMENT("Wallpaper Workspaces", B_TRANSLATION_COMMENT_KEYWORDS))));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-FileTypes"),BString(B_TRANSLATE_COMMENT("Info", B_TRANSLATION_COMMENT_KEYWORDS))));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Keyboard"),BString(B_TRANSLATE_COMMENT("Keys", B_TRANSLATION_COMMENT_KEYWORDS))));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Keymap"),BString(B_TRANSLATE_COMMENT("Layout", B_TRANSLATION_COMMENT_KEYWORDS))));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Locale"),BString(B_TRANSLATE_COMMENT("Language Translation Regional", B_TRANSLATION_COMMENT_KEYWORDS))));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Mail"),BString(B_TRANSLATE_COMMENT("Inbox", B_TRANSLATION_COMMENT_KEYWORDS))));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Notifications"),BString(B_TRANSLATE_COMMENT("Push Alert", B_TRANSLATION_COMMENT_KEYWORDS))));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Repositories"),BString(B_TRANSLATE_COMMENT("Source Packages", B_TRANSLATION_COMMENT_KEYWORDS))));
+	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Screen"),BString(B_TRANSLATE_COMMENT("Resolution Dimensions", B_TRANSLATION_COMMENT_KEYWORDS))));
 
 }
 
@@ -277,36 +285,42 @@ MainWindow::fetchApps(directory_which path_pref) {
 	}
 }
 
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "Menu bar"
+
 void
 MainWindow::buildMenubar() {
 	
-	fMenuBar = new BMenuBar("MenuBar");
-	fAppMenu = new BMenu("File");
-	fAppMenu->AddItem(new BMenuItem("Quit", new BMessage(kMenuAppQuit), 
+	fMenuBar = new BMenuBar(B_TRANSLATE("MenuBar"));
+	fAppMenu = new BMenu(B_TRANSLATE("File"));
+	fAppMenu->AddItem(new BMenuItem(B_TRANSLATE("Quit"), new BMessage(kMenuAppQuit), 
 	'Q', B_COMMAND_KEY));
 	fMenuBar->AddItem(fAppMenu);
-    fAppMenu = new BMenu("Settings");
+    fAppMenu = new BMenu(B_TRANSLATE("Settings"));
 
-    mCategory = new BMenuItem("Sort Category wise", new BMessage(kCategorywise));	
+    mCategory = new BMenuItem(B_TRANSLATE("Sort Category wise"), new BMessage(kCategorywise));	
     fAppMenu->AddItem(mCategory);
     mCategory->SetMarked(true); 	// Marked by Default
     
-    mAlphabetical = new BMenuItem("Sort Alphabetically", new BMessage(kAlphabeticalwise));
+    mAlphabetical = new BMenuItem(B_TRANSLATE("Sort Alphabetically"), new BMessage(kAlphabeticalwise));
     fAppMenu->AddItem(mAlphabetical);
 	mAlphabetical->SetMarked(false);
 	
     fMenuBar->AddItem(fAppMenu);
-    fAppMenu = new BMenu("Help..");
-    BMenuItem* item = new BMenuItem("About..", new BMessage(B_ABOUT_REQUESTED));
+    fAppMenu = new BMenu(B_TRANSLATE("Help"));
+    BMenuItem* item = new BMenuItem(B_TRANSLATE_COMMENT("About…", "Please use <…> (ellipsis character) instead of <...> (three dots)."), new BMessage(B_ABOUT_REQUESTED));
 	item->SetTarget(be_app);
 	fAppMenu->AddItem(item);
 	fMenuBar->AddItem(fAppMenu);
 }
 
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "Client area"
+
 void
 MainWindow::mergeLayouts() {
 	
-	cApps = new BCheckBox("Apps", new BMessage(B_APPS));
+	cApps = new BCheckBox(B_TRANSLATE("Apps"), new BMessage(B_APPS));
 	root = new BGroupLayout(B_VERTICAL, 0);
 	this->SetLayout(root);
 	
@@ -341,15 +355,15 @@ MainWindow::buildBox() {
 	fCustomBox = new BBox((char*)NULL);
 	fSearchBox = new BBox((char*)NULL);
 		
-	fAlphabeticalBox->SetLabel("All Preferences [A-Z]");
-	fAppearanceBox->SetLabel("Appearance Preferences:");
-	fAppsBox->SetLabel("All Apps [A-Z]");
-	fConnectivityBox->SetLabel("Connectivity Preferences:");
-	fIOBox->SetLabel("Input/Output Preferences:");
-	fSystemBox->SetLabel("System Preferences:");
-	fUncategorizedBox->SetLabel("Uncategorized:");
-	fCustomBox->SetLabel("Custom Preferences:");
-	fSearchBox->SetLabel("Search:");
+	fAlphabeticalBox->SetLabel(B_TRANSLATE("All Preferences [A-Z]"));
+	fAppearanceBox->SetLabel(B_TRANSLATE("Appearance Preferences:"));
+	fAppsBox->SetLabel(B_TRANSLATE("All Apps [A-Z]"));
+	fConnectivityBox->SetLabel(B_TRANSLATE("Connectivity Preferences:"));
+	fIOBox->SetLabel(B_TRANSLATE("Input/Output Preferences:"));
+	fSystemBox->SetLabel(B_TRANSLATE("System Preferences:"));
+	fUncategorizedBox->SetLabel(B_TRANSLATE("Uncategorized:"));
+	fCustomBox->SetLabel(B_TRANSLATE("Custom Preferences:"));
+	fSearchBox->SetLabel(B_TRANSLATE("Search:"));
 }
 
 void
@@ -400,7 +414,7 @@ MainWindow::buildLayout() {
 		.SetInsets(15)
 	.Layout();
 	
-	tSearch = new BTextControl("Search:", "Enter query here: ", NULL, NULL);
+	tSearch = new BTextControl(B_TRANSLATE("Search:"), B_TRANSLATE("Enter query here: "), NULL, NULL);
 	tSearch->SetModificationMessage(new BMessage(QUERY));
 }
 
@@ -640,7 +654,7 @@ MainWindow::MessageReceived(BMessage* message)
             	if(checked % 2 != 0)
             	{
             		BAlert* alert = new BAlert("AppsCategory", 
-            		"No Categorization available for Apps", "OK");
+            		B_TRANSLATE("No Categorization available for Apps view"), B_TRANSLATE("OK"));
             		alert->Go();
             	}
             	if(!mCategory->IsMarked() && checked % 2 == 0) {
