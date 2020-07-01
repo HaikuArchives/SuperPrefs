@@ -39,10 +39,8 @@ void
 MainWindow::Keywords() {
 
 	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-TrackerPreferences"),BString(B_TRANSLATE_COMMENT("File Explorer Settings", B_TRANSLATION_COMMENT_KEYWORDS))));
-	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Mouse"),BString(B_TRANSLATE_COMMENT("Scroll Click", B_TRANSLATION_COMMENT_KEYWORDS))));
 	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Time"),BString(B_TRANSLATE_COMMENT("Clock Timezone", B_TRANSLATION_COMMENT_KEYWORDS))));
 	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Network"),BString(B_TRANSLATE_COMMENT("Internet DNS Mac", B_TRANSLATION_COMMENT_KEYWORDS))));
-	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Touchpad"),BString(B_TRANSLATE_COMMENT("Trackpad", B_TRANSLATION_COMMENT_KEYWORDS))));
 	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-VirtualMemory"),BString(B_TRANSLATE_COMMENT("Virtual Memory", B_TRANSLATION_COMMENT_KEYWORDS))));
 	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Sounds"),BString("None")));
 	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-ScreenSaver"),BString("None")));
@@ -54,13 +52,14 @@ MainWindow::Keywords() {
 	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Appearance"),BString(B_TRANSLATE_COMMENT("Font Size Color", B_TRANSLATION_COMMENT_KEYWORDS))));
 	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Backgrounds"),BString(B_TRANSLATE_COMMENT("Wallpaper Workspaces", B_TRANSLATION_COMMENT_KEYWORDS))));
 	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-FileTypes"),BString(B_TRANSLATE_COMMENT("Info", B_TRANSLATION_COMMENT_KEYWORDS))));
-	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Keyboard"),BString(B_TRANSLATE_COMMENT("Keys", B_TRANSLATION_COMMENT_KEYWORDS))));
 	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Keymap"),BString(B_TRANSLATE_COMMENT("Layout", B_TRANSLATION_COMMENT_KEYWORDS))));
 	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Locale"),BString(B_TRANSLATE_COMMENT("Language Translation Regional", B_TRANSLATION_COMMENT_KEYWORDS))));
 	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Mail"),BString(B_TRANSLATE_COMMENT("Inbox", B_TRANSLATION_COMMENT_KEYWORDS))));
 	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Notifications"),BString(B_TRANSLATE_COMMENT("Push Alert", B_TRANSLATION_COMMENT_KEYWORDS))));
 	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Repositories"),BString(B_TRANSLATE_COMMENT("Source Packages", B_TRANSLATION_COMMENT_KEYWORDS))));
 	RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Screen"),BString(B_TRANSLATE_COMMENT("Resolution Dimensions", B_TRANSLATION_COMMENT_KEYWORDS))));
+        RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-Input"),BString(B_TRANSLATE_COMMENT("Scroll Click Trackpad Keys Wacom Tablet Pen", B_TRANSLATION_COMMENT_KEYWORDS))));
+        RelatedKeywords.push_back(make_pair(BString("application/x-vnd.Haiku-BluetoothPrefs"),BString(B_TRANSLATE_COMMENT("Connection Bluetooth Mobile Share", B_TRANSLATION_COMMENT_KEYWORDS))));
 
 }
 
@@ -71,12 +70,12 @@ MainWindow::populateLayout() {
 	 "application/x-vnd.Haiku-Backgrounds", "application/x-vnd.Haiku-DeskbarPreferences", 
 	 "application/x-vnd.Haiku-ScreenSaver" };
 	 
-	BString ConnectivitySign[2] = {"application/x-vnd.Haiku-Network", "application/x-vnd.Haiku-Mail" };	 
+	BString ConnectivitySign[3] = {"application/x-vnd.Haiku-Network", "application/x-vnd.Haiku-BluetoothPrefs", "application/x-vnd.Haiku-Mail" };	 
 	 	
-	BString IOSign[7] = {"application/x-vnd.Haiku-Screen",
-	 "application/x-vnd.Haiku-Touchpad", "application/x-vnd.Haiku-Keyboard",
+	BString IOSign[5] = {"application/x-vnd.Haiku-Screen",
+	 "application/x-vnd.Haiku-Input",
 	 "application/x-vnd.Haiku-Keymap", "application/x-vnd.Be-PRNT", 
-	 "application/x-vnd.Haiku-Mouse", "application/x-vnd.Haiku-Media" };	 
+         "application/x-vnd.Haiku-Media" };
 	 	
 	BString SystemSign[7] = {"application/x-vnd.Haiku-Shortcuts", 
 	"application/x-vnd.Haiku-Notifications", "application/x-vnd.Haiku-Time",
