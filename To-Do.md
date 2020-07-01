@@ -24,4 +24,4 @@ Implement second tier of Search with **keywords**. [DONE] ✅
 
 Add option to set Custom Category for 3rd party prefs [WIP - Carried in seperate branch]
 
-Improvise Search by making use of *catkeys*.
+Improvise Search by making use of *catkeys*. [ONGOING]
